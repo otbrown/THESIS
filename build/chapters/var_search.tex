@@ -1,0 +1,47 @@
+\documentclass[a4paper,twoside,11pt]{article}
+
+%PATHDEFS
+\newcommand*{\figpath}{../../include/figures}
+\newcommand*{\chappath}{../../include/chapters}
+\newcommand*{\refpath}{../../include/refs}
+
+\usepackage[margin=1.75cm]{geometry}		
+\usepackage[square,numbers]{natbib}		
+\usepackage{amsmath}						
+\usepackage{amssymb}						
+\usepackage{graphicx}					% Required to include graphics.
+\usepackage{hyperref}					% Adds hyperlinks to the table of contents, references, cross-references, and urls given the \url{} tag, when output is a pdf. MUST BE LOADED BEFORE cleveref! 
+\usepackage{cleveref}					% Introduces the \cref{} command for cross referencing -- automatically adds the right label to a reference. Otherwise prepare for lots of 'Figure~\ref{}'.
+\usepackage[section]{placeins}	
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+\author{Oliver Thomson Brown}
+\title{Variational Search}
+
+\lstset{
+	basicstyle=\ttfamily,
+	language=Matlab,
+	upquote=true,
+	keepspaces=true,
+	showstringspaces=false,
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\tiny\color{Gray},
+	keywordstyle=\color{Blue},
+	stringstyle=\color{Orchid},
+	commentstyle=\color{ForestGreen}
+}
+
+\begin{document}
+
+\maketitle
+
+\input{\chappath/var_search}
+
+\bibliographystyle{apsrev4-1-title}
+\bibliography{\refpath/literature,\refpath/web}
+
+\end{document}
+
