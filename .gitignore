@@ -1,0 +1,14 @@
+# built documents
+*.pdf
+
+# LaTeX cruft
+*.aux
+*.log
+*.out
+*.blg
+*.synctex.gz
+*.bbl
+
+# images
+*.png
+*.jpg
