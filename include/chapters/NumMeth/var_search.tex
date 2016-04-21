@@ -1,8 +1,13 @@
- \section{Introduction}
- In this chapter we consider variational searches using Matrix Product States. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe details pertaining to my own implementations of these techniques. There is no suggestion that these implementation details represent best practise, or are in any sense \emph{the right way} to perform these calculations. They are merely how \emph{I} approached the problem. All these implementations were written in and for MATLAB, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
+In this section we consider variational searches using Matrix Product States. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe details pertaining to my own implementations of these techniques. There is no suggestion that these implementation details represent best practise, or are in any sense \emph{the right way} to perform these calculations. They are merely how \emph{I} approached the problem. All these implementations were written in and for MATLAB, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
- \section{In Theory}
+ \subsection{Theory}
+It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
+\begin{equation}
+\frac{\langle \psi (\bar{x}^{*}) | \hat{H} | \psi (\bar{x}) \rangle}{\langle \psi (\bar{x}^{*}) | \psi (\bar{x}) \rangle},
+\label{eq:vs1-1}
+\end{equation}
+where \(\hat{H}\) is a Hamiltonian, \(\psi\) is an approximation to the ground state, and \( \bar{x} \) is some system of \emph{variational parameters}.
  
- \section{Ground State Implementation}
+ \subsection{Ground State Implementation}
  
- \section{Stationary State Implementation}
+ \subsection{Stationary State Implementation}
