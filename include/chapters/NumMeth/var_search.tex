@@ -1,12 +1,19 @@
 In this section we consider variational searches using Matrix Product States. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe details pertaining to my own implementations of these techniques. There is no suggestion that these implementation details represent best practise, or are in any sense \emph{the right way} to perform these calculations. They are merely how \emph{I} approached the problem. All these implementations were written in and for MATLAB, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
  \subsection{Theory}
-It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
+It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator. Given a set of variational parameters upon which the eigenfunctions depend, one can move always to a lower eigenvalue, by minimising over one parameter at a time \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
 \begin{equation}
-\frac{\langle \psi (\bar{x}^{*}) | \hat{H} | \psi (\bar{x}) \rangle}{\langle \psi (\bar{x}^{*}) | \psi (\bar{x}) \rangle},
+E = \frac{\langle \psi (\bar{x}^{*}) | \hat{H} | \psi (\bar{x}) \rangle}{\langle \psi (\bar{x}^{*}) | \psi (\bar{x}) \rangle},
 \label{eq:vs1-1}
 \end{equation}
-where \(\hat{H}\) is a Hamiltonian, \(\psi\) is an approximation to the ground state, and \( \bar{x} \) is some system of \emph{variational parameters}.
+where E is the energy of the system, \(\hat{H}\) is a Hamiltonian, \(\psi\) is an approximation to the ground state, and \( \bar{x} \) is some set of \emph{variational parameters}. Equally, we can find an approximation to the stationary state of an open quantum system by minimising the expression,
+\begin{equation}
+\frac{\mathrm{d}\rho}{\mathrm{d}t} = \langle \rho(\bar{x}^{*}) | \hat{\mathcal{L}} | \rho(\bar{x}) \rangle,
+\label{eq:vs1-2}
+\end{equation}
+where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\bar{x}\) is again some set of variational parameters. For the purposes of this theoretical discussion we will focus on the ground state case as the two cases are very similar, but there are additional complexities in the stationary state search. 
+
+When using Matrix Product States the set of variational parameters we employ are the individual site tensors. We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}.
  
  \subsection{Ground State Implementation}
  
