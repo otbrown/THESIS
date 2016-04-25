@@ -1,3 +1,10 @@
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\linewidth]{\figpath/mps_diagram}
+\caption{This would appear in an earlier section.}
+\label{fig:mps-diagram}
+\end{figure}
+
 In this section we consider variational searches using Matrix Product States. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe details pertaining to my own implementations of these techniques. There is no suggestion that these implementation details represent best practise, or are in any sense \emph{the right way} to perform these calculations. They are merely how \emph{I} approached the problem. All these implementations were written in and for MATLAB, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
  \subsection{Theory}
@@ -11,16 +18,18 @@ where E is the energy of the system, \(\hat{H}\) is a Hamiltonian, \(\psi\) is a
 \frac{\mathrm{d}\rho}{\mathrm{d}t} = \langle \rho(\bar{x}^{*}) | \hat{\mathcal{L}} | \rho(\bar{x}) \rangle,
 \label{eq:vs1-2}
 \end{equation}
-where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\bar{x}\) is again some set of variational parameters. For the purposes of this theoretical discussion we will focus on the ground state case as the two cases are very similar, but there are additional complexities in the stationary state search. 
+where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\bar{x}\) is again some set of variational parameters. For the purposes of this theoretical discussion we will focus on the ground state case as the two cases are very similar, but there are additional complexities in the stationary state search. A visual representaion of the variational search procedure is provided in \cref{fig:vs1-1}.
 
-When using Matrix Product States the set of variational parameters we employ are the individual site tensors. We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}.
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.8\linewidth]{\figpath/var_space}
 \caption{A visual representation of a variational search using matrix product states. The purple background represents the total state space of the system, and the green oval is the part of that state space that can be represented by a matrix product state of some finite dimension. The orange star represents our desired solution state, and it is inaccessible to the matrix product state space. The black circle is the initial matrix product state, the black star is the nearest matrix product state approximation to the solution state, and the black squares are states through which the matrix product state transitions on its way to the solution state. The black dashed line represents a variational step -- optimisation over one or more of the variational parameters. The transitional states may or may not have some physical meaning in the context of the variational search depending on the specifics of the system being investigated. In general, however, if one wishes to know \emph{how} a system reaches the solution state a time evolution method should be used, not a variational search.}
 \label{fig:vs1-1}
 \end{figure}
+
+When using Matrix Product States the set of variational parameters we employ are the individual site tensors. We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}. I begin my explanation by assuming that we have already some initial matrix product state, \(\Psi_{\mathrm{Init}}\) which is normalised and in right-canonical form, and has dimensions \(N \times \chi \times \chi \times d\), where \(N\) is the number of sites in the system, \(\chi\) is the maximal allowed matrix dimension, and \(d\) is the local state space dimension. Additionally I assume we have some observable we wish to minimise the expectation value of, with an operator \(\hat{O}\), which we may represent as a matrix product operator. First, we construct left and right `blocks' for each site in the system. The left block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from the first site up to the site \(n-1\). The right block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from last site through to the site \(n+1\). This is shown diagramatically in
+
+
  
  \subsection{Ground State Implementation}
  
