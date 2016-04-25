@@ -8,6 +8,7 @@
 *.blg
 *.synctex.gz
 *.bbl
+*.toc
 
 # images
 *.png
