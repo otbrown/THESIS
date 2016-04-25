@@ -14,6 +14,13 @@ where E is the energy of the system, \(\hat{H}\) is a Hamiltonian, \(\psi\) is a
 where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\bar{x}\) is again some set of variational parameters. For the purposes of this theoretical discussion we will focus on the ground state case as the two cases are very similar, but there are additional complexities in the stationary state search. 
 
 When using Matrix Product States the set of variational parameters we employ are the individual site tensors. We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{\figpath/var_space}
+\caption{A visual representation of a variational search using matrix product states. The purple background represents the total state space of the system, and the green oval is the part of that state space that can be represented by a matrix product state of some finite dimension. The orange star represents our desired solution state, and it is inaccessible to the matrix product state space. The black circle is the initial matrix product state, the black star is the nearest matrix product state approximation to the solution state, and the black squares are states through which the matrix product state transitions on its way to the solution state. The black dashed line represents a variational step -- optimisation over one or more of the variational parameters. The transitional states may or may not have some physical meaning in the context of the variational search depending on the specifics of the system being investigated. In general, however, if one wishes to know \emph{how} a system reaches the solution state a time evolution method should be used, not a variational search.}
+\label{fig:vs1-1}
+\end{figure}
  
  \subsection{Ground State Implementation}
  
