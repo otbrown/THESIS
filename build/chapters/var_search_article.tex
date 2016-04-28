@@ -17,17 +17,22 @@
 \usepackage{textcomp}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[labelfont=bf]{caption}
+\usepackage{longtable}
+\usepackage{tabu}
 
 \author{Oliver Thomson Brown}
 \title{Variational Search}
 
+\tabulinesep=2mm
+
 \lstset{
 	basicstyle=\ttfamily,
 	language=Matlab,
+	breaklines=true,
 	upquote=true,
 	keepspaces=true,
 	showstringspaces=false,
-	numbers=left,
+	numbers=none,
 	numbersep=5pt,
 	numberstyle=\tiny\color{Gray},
 	keywordstyle=\color{Blue},
@@ -38,6 +43,9 @@
 \begin{document}
 
 \maketitle
+
+\tableofcontents
+\vspace{5mm}
 
 \input{\chappath/NumMeth/var_search}
 
