@@ -365,6 +365,8 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \item \lstinline$CanTest$ relies on the debug function \lstinline$Rebuild$ to check state does not change -- this is not ideal. Instead of rebuilding the entire state vector, elements from it could be sampled.
  \end{itemize}
 
+
+
  \subsubsection{RCan}
  \paragraph{Docstring} This is a low-level function interfaced by \lstinline$Can$. It is responsible for renormalising a site tensor, or continuous set of site tensors so that they are right-canonical. The site tensor \(A^{[n]}\) is reshaped into the matrix \(M\) which is decomposed as \(M = USV^{\dagger}\). The unitary matrix \(V^{\dagger}\) is reshaped to form the new site tensor \(A^{[n]}\), and \(US\) is multiplied in to the next site tensor along, \(A^{[n-1]}\).
  \begin{lstlisting}
@@ -405,3 +407,44 @@ We do this on the first site in our system, and then re-normalise using an SVD o
 \FloatBarrier 
  
  \subsection{Stationary State Implementation}
+ We will now discuss my specific implementation of the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. [ADD STATIONARY STATE SEARCH REFERENCES]
+ 
+ \subsubsection{Top-Level Function}
+ Not yet written. Will control the stationary state search.
+ 
+ \subsubsection{DMPO}
+ 
+ \subsubsection{DMPOHerm}
+ 
+ \subsubsection{MDMPO}
+ 
+ \subsubsection{ProdDMPO}
+ 
+ \subsubsection{TrNorm}
+ 
+ \subsubsection{DMPOCompress}
+ 
+ \subsubsection{DMPOConj}
+ 
+ \subsubsection{DMPOExp}
+ 
+ \subsubsection{DMPOScalarDiv}
+ 
+ \subsubsection{DMPOSum}
+ 
+ \subsubsection{DMPOTrace}
+ 
+ \subsubsection{EffL}
+ Not yet written. Will form the effective Liouvillian operator for a particular site.
+ 
+ \subsubsection{FWBase}
+ 
+ \subsubsection{GrowLeft}
+ 
+ \subsubsection{GrowRight}
+ 
+ \subsubsection{LCan}
+ 
+ \subsubsection{RCan}
+ 
+ \subsubsection{SVDNorm}
