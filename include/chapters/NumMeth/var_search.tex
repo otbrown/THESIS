@@ -126,7 +126,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \subsubsection{CompMPS} 
  \paragraph{Docstring}
  This is a constructor function for a random matrix product state. Its only dependency is \lstinline$MPSNorm$. It accepts some basic parameters of the physical system, and returns a normalised matrix product state of the correct size and shape in the standard format. The standard format is an \(N \times 1\) cell array, where each cell contains a three-dimensional complex double array. The third index is the physical index for that particular site, and so should run from \(1\) to \(d\). The first two indices are the first and second virtual indices for a particular site. The virtual indices should grow as we move through the system, so that the first site should be a \(1 \times d \times d\) array, and the second a \(d \times d^{2} \times d\) array, and so on until the limit set by \lstinline$COMPRESS$ is reached. At a certain point the virtual indices should begin shrinking again, such that the last site is a \(d \times 1 \times d\) array. This function and the other constructor, \lstinline$ProdMPS$ ensure this is the case.  
- \begin{lstlisting}egins with a single element, the energy of the initial state evaluated as \(\langle \Psi_{\mathrm{init}}^{\mathrm{MPS}} | \hat{H} | \Psi_{\mathrm{init}}^{\mathrm{MPS}} \rangle \). The energy of the system is evaluated after each full sweep, and the result is stored as \lstinline$energyTracker(end + 1)$ enlarging the array up to a maximum size of \lstinline$RUNMAX$\(+ 1\), in the case where the energy does not converge.
+ \begin{lstlisting}
  function [complexMPS] = CompMPS(HILBY, L, COMPRESS) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
@@ -410,7 +410,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
 \FloatBarrier 
  
  \subsection{Stationary State Implementation}
- We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}.
+ We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2}[FIGURE WILL BE CREATED ONCE CODE IS FINISHED] shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}.
  
  \subsubsection{Top-Level Function}
  Not yet written. Will control the stationary state search.
@@ -507,22 +507,116 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$normDMPO$ & A trace normalised density matrix product operator, in the standard format. \\ \hline
+ \lstinline$normDMPO$ & \emph{\(N \times 1\) cell array}. A trace normalised density matrix product operator, in the standard format. \\ \hline
  Input & \\ \hline
- \lstinline$dmpo$ & A density matrix product operator which is to be trace normalised, in the standard format. \\
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator which is to be trace normalised, in the standard format. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$TrNormTest$. Checks that \lstinline$normDMPO$ has the same class, size, and shape as \lstinline$dmpo$, and checks that the trace is one.
  
  \subsubsection{DMPOCompress}
- 
+ \paragraph{Docstring} This function compresses the virtual dimensions of a density matrix product operator, so that they do not exceed the limit \(\chi_{\mathrm{max}}\), set by \lstinline$COMPRESS$. A QR decomposition is performed at each site, and only the first \lstinline$COMPRESS$ rows and columns of the matrix \(Q\) are kept. 
+ \begin{lstlisting}
+ function [compDMPO] = DMPOCompress(dmpo, COMPRESS) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$compDMPO$ & \emph{\(N \times 1\) cell array}. A density matrix product operator whose virtual dimensions do not exceed the limit set by \lstinline$COMPRESS$, in the standard format. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
+ \lstinline$COMPRESS$ & \emph{Double}. The maximum size, \(\chi_{\mathrm{max}}\) of the virtual dimensions of the density matrix product state site tensors, \(A^{[n]}\). Should be a positive integer greater than or equal to \(d^{2}\). If it is less than \(d^{2}\), an error will be thrown. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOCompressTest$. Checks that the type and size of \lstinline$compDMPO$ are correct, and checks that it is still possible to multiply through the chain of site tensors, and that the virtual dimensions do not exceed \lstinline$COMPRESS$. Checks that the trace is unity, and real. Additionally, it is checked that the trace is not changed by compression, however, for strong compression it will be.
+ \paragraph{Improvements}
+ \begin{itemize}
+ \item Testing that the trace doesn't drift after compression isn't very helpful, as in general, it will.
+ \item Should test specifically that no virtual dimension exceeds \lstinline$COMPRESS$ since that is the point of the function.
+ \end{itemize}
+  
  \subsubsection{DMPOConj}
+ \paragraph{Docstring} This function calculates the Hermitian conjugate density matrix product operator, by conjugating the matrices \(A^{[n]}_{i,j}\), and swapping their physical indices.
+ \begin{lstlisting}
+ function [conjDMPO] = DMPOConj(dmpo) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$conjDMPO$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. Represents the density matrix \(\rho^{\dagger}\), where \(\rho\) is the density matrix represented by the density matrix product operator, \lstinline$dmpo$. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. Represents the density matrix, \(\rho\). \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOConjTest$. Checks the type, size, and shape of the returned density matrix product operator. Checks that its trace is unity, and by sampling elements, that it is the Hermitian conjugate of the input density matrix product operator.
  
  \subsubsection{DMPOExp}
+ \paragraph{Docstring} This function calculates the expectation value of some set of locally acting operator \(\hat{O}\), by calculating \(\mathrm{Tr}[\hat{O}\rho]\). The format of the operator here is that it should be a three dimensional complex double array, with the first two indices referencing the local physical state, and the third indexing the site. 
+ \begin{lstlisting}
+ function [expect] = DMPOExp(dmpo, op) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$expect$ & \emph{Complex double}. The expectation value corresponding to \(\mathrm{Tr}[\hat{O}\rho]\).  \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. Some density matrix product operator, in the standard format. \\
+ \lstinline$op$ & \emph{3 dimensional complex double array}. Some set of locally acting operators, in the format \(\langle\)\lstinline$braState$\(| \hat{O}^{[n]} |\)\lstinline$ketState$\(\rangle =\) \lstinline$op(braState, ketState, site)$. For example, if one wanted to calculate the expectation of the spin-flip operator acting on the first site in a spin chain, then \lstinline$op(:, :, 1)$, would be the spin-flip operator 
+\(\left(
+ \begin{smallmatrix} 
+ 0 & 1 \\ 1 & 0
+ \end{smallmatrix}
+\right),\) while every other matrix in the array, \lstinline$op(:, :, 2:end)$, would be the \(2 \times 2\) identity matrix.\\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOExpTest$. Checks the type of \lstinline$expect$, the trace of a set of density matrix product operators, and the expectation value of \(\hat{n}\) on some product states.
+ \paragraph{Improvements}
+ \begin{itemize}
+ \item Although this code is quick and easy to use for the expectation value of simple observables, it would probably be best to make sure it uses the standard matrix product operator format, or create an alternative which does.
+ \end{itemize}
  
  \subsubsection{DMPOScalarDiv}
+ \paragraph{Docstring} This function divides a density matrix product operator by a scalar value. Currently it does so simply by dividing the first site tensor \(A^{[1]}\) by the scalar.
+ \begin{lstlisting}
+ function [divDMPO] = DMPOScalarDiv(dmpo, scalar) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$divDMPO$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format which represents the density matrix, \(\tilde{\rho} = \rho / a\), where \(\rho\) is the density matrix represented by \lstinline$dmpo$, and \(a\) is the scalar value supplied as \lstinline$scalar$. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. Some density matrix product operator, in the standard format. \\
+ \lstinline$scalar$ & \emph{Complex double}. Some complex (or real) number. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOScalarDivTest$. Checks that type, size, and shape of the returned density matrix product operator. Checks that \(\mathrm{Tr}[\tilde{\rho}] = \mathrm{Tr}[\rho] / a\), and by sampling elements from the density matrix, that the division has been carried out correctly.
+ \paragraph{Improvements}
+ \begin{itemize}
+ \item Currently the division is always performed on the first site, however if the first site is already near zero, this may cause numerical problems. Suggest adding an optional third argument which selects a site to be divided (since it doesn't matter which site is used).
+ \end{itemize}
  
  \subsubsection{DMPOSum}
+ \paragraph{Docstring} This function adds two density matrix product operators, which represent the same system, together. Given two density matrix product operators, 
+ \begin{align}
+ |\bar{\rho}_{A} \rangle &= \sum_{i_{1}\ldots i_{N}} \sum_{j_{1} \ldots j_{N}} A^{[1]}_{i,j} A^{[2]}_{i,j} \ldots A^{[N]}_{i,j} |j_{1} j_{2} \ldots j_{N} \rangle \otimes |i_{1} i_{2} \ldots i_{N} \rangle, \label{eq:vs3-5} \\
+ |\bar{\rho}_{B} \rangle &= \sum_{l_{1} \ldots l_{N}} \sum_{m_{1} \ldots m_{N}} B^{[1]}_{l,m} B^{[2]}_{l,m} \ldots B^{[N]}_{l,m} |m_{1} m_{2} \ldots m_{N} \rangle \otimes |l_{1} l_{2} \ldots l_{N} \rangle, \label{eq:vs3-6} 
+ \end{align}
+ we perform the summation, \(|\bar{\rho}_{C} \rangle = |\bar{\rho}_{A} \rangle + |\bar{\rho}_{B} \rangle\) with the following procedure. We form \(C^{[1]}\) by concatenating \(A^{[1]}\) and \(B^{[1]}\) along the second virtual dimension, and we form \(C^{[N]}\) by concatenating \(A^{[N]}\) and \(B^{[N]}\) along the first virtual dimension. For all the other sites, we create the block diagonal matrices,
+ \begin{equation}
+ C^{[n]} = \begin{pmatrix}
+ A^{[n]} & 0 \\ 
+ 0 & B^{[n]} \end{pmatrix}, 
+ \label{eq:vs3-7}
+ \end{equation}
+ which we can see leads to \(|\bar{\rho}_{C} \rangle \) having virtual dimensions which are the sum of those in \(|\bar{\rho}_{A}\rangle\) and \(\bar{\rho}_{B}\rangle\). It is also not trace normalised. For this reason it is recommended that any use of \lstinline$DMPOSum$ is followed by \lstinline$DMPOCompress$ and \lstinline$TrNorm$. 
+ \begin{lstlisting}
+ function [sumDMPO] = DMPOSum(rhoA, rhoB) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$sumDMPO$ & \emph{\(N \times 1\) cell array}. An un-normalised density matrix product operator, in the standard format. Represents a density matrix which is the sum of those represented by the input density matrix product operators. \\ \hline
+ Input & \\ \hline
+ \lstinline$rhoA$ & A density matrix product operator, in the standard format. If its size and physical dimensions do not match those of \lstinline$rhoB$, an error will be thrown. \\ 
+ \lstinline$rhoB$ & A density matrix product operator, in the standard format. If its size and physical dimensions do not match those of \lstinline$rhoA$, an error will be thrown. \\ 
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOSumTest$. Checks the type, size, and shape of \lstinline$sumDMPO$. Checks that an error is thrown if the two input systems do not match. Checks that the trace of \lstinline$sumDMPO$ is the sum of the trace of \lstinline$rhoA$ and \lstinline$rhoB$, and samples the density matrix to check the summation has been performed correctly. 
  
  \subsubsection{DMPOTrace}
  
