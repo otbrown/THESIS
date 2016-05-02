@@ -619,6 +619,18 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$DMPOSumTest$. Checks the type, size, and shape of \lstinline$sumDMPO$. Checks that an error is thrown if the two input systems do not match. Checks that the trace of \lstinline$sumDMPO$ is the sum of the trace of \lstinline$rhoA$ and \lstinline$rhoB$, and samples the density matrix to check the summation has been performed correctly. 
  
  \subsubsection{DMPOTrace}
+ \paragraph{Docstring} This function calculates the trace of a density matrix product operator. It uses the same contraction as \lstinline$DMPOExp$, only it ignores non-diagonal terms. 
+ \begin{lstlisting}
+ function [trace] = DMPOTrace(dmpo) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
+ \hline
+ Return & \\ \hline
+ \lstinline$trace$ & \emph{Complex double}. The trace of the supplied density matrix product operator. Should always be exactly equal to one, with no imaginary component, but this will often not be the case. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} Creates a `density matrix' of all ones for various sizes of system, and then confirms that the trace is real, and equal to \(d^{N}\). 
  
  \subsubsection{EffL}
  Not yet written. Will form the effective Liouvillian operator for a particular site.
