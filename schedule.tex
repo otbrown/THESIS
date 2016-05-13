@@ -1,0 +1,43 @@
+\documentclass[a4paper,twoside,11pt]{article}
+
+\usepackage[margin=1.75cm]{geometry}		
+\usepackage[square,numbers]{natbib}		
+\usepackage{amsmath}						
+\usepackage{amssymb}						
+\usepackage{graphicx}					% Required to include graphics.
+\usepackage{hyperref}					% Adds hyperlinks to the table of contents, references, cross-references, and urls given the \url{} tag, when output is a pdf. MUST BE LOADED BEFORE cleveref! 
+\usepackage{cleveref}					% Introduces the \cref{} command for cross referencing -- automatically adds the right label to a reference. Otherwise prepare for lots of 'Figure~\ref{}'.
+\usepackage[section]{placeins}	
+\usepackage{longtable}
+\usepackage{tabu}
+
+\author{Oliver Thomson Brown}
+\title{Schedule to Completion}
+
+\begin{document}
+
+\maketitle
+
+Below is a draft, and approximate schedule to completion for my thesis. It is my hope and intention to write the theory sections while I continue to perform the `experimental' part of my research, since I am often waiting some time for calculations to finish, this seems not unreasonable. To that end, I have already begun writing part of a tentatively titled `Numerical Methods' chapter. The approximate structure I had in mind was:
+\begin{itemize}
+\item Introduction
+\item Literature Review -- three sections, covering open quantum systems, tensor network theory, and tensor network theory as applied to open quantum systems.
+\item Numerical Methods -- two sections, one covering the theoretical aspects of DMRG and Matrix Product States, and one covering the theory of variational searches using MPS, and the details of my own implementations of this technique including code documentation. Possibly a third section discussing time evolution methods using MPS if we use results from such a method.
+\item Research chapters -- discussion of research (hopefully!) published during my PhD.
+\item Conclusion
+\end{itemize}
+
+This is all highly subject to change, especially since I haven't properly discussed it with Michael yet.
+
+\begin{longtabu}{X[1,c]X[4,l]}
+\hline
+Date & Event \\ \hline
+April 2016 & Thesis template created, variational search section drafted. \\
+December 2016 & Numerical Methods chapter drafted. \\
+March 2017 & Literature Review chapter drafted. \\
+August 2017 & End of research phase, enter full on `writing up' phase. \\
+December 2017 & Submit thesis. Funding ends. \\
+\hline
+\end{longtabu}
+
+\end{document}
