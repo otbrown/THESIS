@@ -117,6 +117,8 @@ We do this on the first site in our system, and then re-normalise using an SVD o
 
 \FloatBarrier
  \subsection{Ground State Implementation}
+ \textcolor{OTB}{Is this section worth including, given how little use we've made of the ground state code?}  
+ 
  We will now discuss my implementation of the variational ground state search. The implementation is written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVGSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\). \Cref{fig:vs2-1} shows the structure of the code diagramatically.
  
  \begin{figure}[ht!]
@@ -441,15 +443,27 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \begin{figure}[ht!]
  \centering
  \includegraphics[width=0.8\linewidth]{\figpath/mpostat}
- \caption{}
+ \caption{A diagram showing the structure of the variational stationary state search code. Each rectangle is a function, with it's size indicating position in the program hierarchy. The largest are \emph{top level} functions which are intended to be called by the user, the medium sized are \emph{core} functions which are interface functions to the smallest squares, the \emph{utility} functions. The arrows represent calls and returns, with the return direction indicated by the arrow head i.e. \lstinline$Stationary$ calls \lstinline$GrowBlock$ and \lstinline$GrowBlock$ returns values to \lstinline$Stationary$. }
  \label{fig:vs2-2}
  \end{figure} 
  
- We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}.
+ We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}. Finally, we note that this code makes use of an external library, the PRIMME eigensolver \cite{SM10,WRS16}.
  
- \subsubsection{Top-Level Function}
- Not yet written. Will control the stationary state search.
+ \subsubsection{PhasedSearch}
+ \paragraph{Docstring} This is a top-level function for the variational ground state search. Dependencies are \lstinline$MixDMPO$, \lstinline$Stationary$, and \lstinline$DMPOResize$. It takes basic information about the system which is to be solved, including the matrix product operator, an accuracy threshold for the eigenvalue, a maximum allowed matrix dimension, and which variant of the calculation is to be performed. The function has two return values -- a DMPO which approximates the stationary state of the system, and a vector containing the eigenvalue recorded at the end of each \emph{phase} of the calculation. This terminology is borrowed from sports (a phase of play), and here describes the process of finding the stationary state of the system using a DMPO of some particular dimension. At the end of the calculation the eigenvalue is evaluated against the desired accuracy threshold and if it is not close enough to zero the current state is copied to a DMPO representation with a larger matrix dimension (as long as this can be done without breaching a limit set by the user). The available variants are \lstinline$direct$ which solves the Liouvillian, \(\hat{\mathcal{L}}\) and \lstinline$hermitian$ which solves the Hermitian product of the Liouvillian, \(\hat{\mathcal{L}}^{\dagger}\hat{\mathcal{L}}\). The user is expected to provide the appropriate MPO for the variant they specify, but an error will be thrown if you try to run a Hermitian calculation with the MPO for \(\hat{\mathcal{L}}\). The reverse is not checked on the basis that finding the MPO of the Hermitian product of the Liouvillian involves an additional computational step which the end user is unlikely to invoke accidentally.
+
+ \begin{lstlisting}
+ function [dmpoStat, phaseTrack] = PhasedSearch(HILBY, LENGTH, mpo, ULTIMATE_THRESHOLD, MAX_COMPRESS, VARIANT)
+ \end{lstlisting} 
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$dmpoStat$ & \emph{\(N \times 1\) cell array}. Contains a density matrix product operator representing the approximate stationary state of the system. DMPO is in the standard format used in this implementation. \\
+ \lstinline$phaseTrack$ & \emph{Complex double array}. Contains the eigenvalue recorded at the end of each phase of the calculation. If the last entry is less than the threshold set by the user then the calculation is regarded as having been successful.
+ \end{longtabu}
  
+ \paragraph{Testing}
+
  \subsubsection{DMPO}
  \paragraph{Docstring} This is a constructor function for a density matrix product operator,
  \begin{equation}
