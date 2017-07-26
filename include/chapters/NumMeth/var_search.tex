@@ -1,4 +1,4 @@
-\textcolor{OTB}{COMMENTS WRITTEN IN BROWN} 
+\otb{Comments written in brown.} 
 
 In this section we consider variational searches using matrix product states. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe how to use my own implementations of this technique -- one to perform a ground state search, and one to perform a stationary state search. There is no suggestion that my implementation represents best practise, or is in any sense \emph{the right way} to perform these calculations. It is merely how \emph{I} approached the problem. Both implementations were written in and for MATLAB \cite{MATLAB}, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
@@ -117,7 +117,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
 
 \FloatBarrier
  \subsection{Ground State Implementation}
- \textcolor{OTB}{Is this section worth including, given how little use we've made of the ground state code?}  
+ \otb{Is this section worth including, given how little use we've made of the ground state code?}  
  
  We will now discuss my implementation of the variational ground state search. The implementation is written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVGSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\). \Cref{fig:vs2-1} shows the structure of the code diagramatically.
  
