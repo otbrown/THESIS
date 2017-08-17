@@ -488,7 +488,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \lstinline$dmpoInit$ & \emph{\(N \times 1\) cell array}. Contains some initial density matrix product operator. The closer this is to the stationary state, the faster the calculation will converge. The matrix dimensions of this input DMPO determine the matrix dimensions of the output DMPO, \lstinline$dmpoStat$.  \\
  \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. It is important that the supplied Liouvillian matches the requested calculation variant. If the user requests the Hermitian calculation variant is requested, then the mpo should represent the hermitian product Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\), or the \lstinline$EigenSolver$ function will throw an error.\\
  \lstinline$THRESHOLD$ & \emph{Double}. The desired final accuracy, as determined by the residual \(|\mathcal{L}\rho - 0|\), or \(|\mathcal{L}^{\dagger}\mathcal{L}\rho - 0|\) in the Hermitian case. The calculation will end and the return the results once it crosses this threshold (if it crosses this threshold). \\
- \lstinline$variant$ & emph{String}. Specifies the form and method of the calculation. There are three options: `\lstinline$direct$', `\lstinline$hermitian$', and `\lstinline$primme$'. If `\lstinline$direct$' is supplied, the non-Hermitian Liouvillian \(\mathcal{L}\) is solved using MATLAB's sparse eigensolver, \lstinline$eigs$. If `\lstinline$hermitian$' or `\lstinline$primme$' is supplied, the Hermitian product of the Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\) is solved using the \lstinline$eigs$ and PRIMME eigensolvers respectively. Additionally, if `\lstinline$hermitian$' is supplied, but \lstinline$eigs$ fails to find a solution on some site, a second attempt will be made using the PRIMME eigensolver. \\
+ \lstinline$variant$ & \emph{String}. Specifies the form and method of the calculation. There are three options: `\lstinline$direct$', `\lstinline$hermitian$', and `\lstinline$primme$'. If `\lstinline$direct$' is supplied, the non-Hermitian Liouvillian \(\mathcal{L}\) is solved using MATLAB's sparse eigensolver, \lstinline$eigs$. If `\lstinline$hermitian$' or `\lstinline$primme$' is supplied, the Hermitian product of the Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\) is solved using the \lstinline$eigs$ and PRIMME eigensolvers respectively. Additionally, if `\lstinline$hermitian$' is supplied, but \lstinline$eigs$ fails to find a solution on some site, a second attempt will be made using the PRIMME eigensolver. \\
  \hline
  \end{longtabu}
  
@@ -558,14 +558,91 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$ProdDMPOTest$. Checks the type, size, and shape of the density matrix product operator. It checks that compression is properly applied, and that the error \lstinline$ProdDMPO:BadCOMPRESS$ is thrown if a bad value of \lstinline$COMPRESS$ is supplied. It checks that the trace is one, and that the specific density matrix element corresponding to the specified state is one.
  
  \subsubsection{Can}
+ \paragraph{Docstring} This is an interface function for the two DMPO normalisation functions, \lstinline$LCan$ and \lstinline$RCan$. Normalisation of a matrix product state is performed by taking the singular value decomposition of a (reshaped) site tensor, \(A^{[n]} = USV^{\dagger}\). The new renormalised site tensor \(\tilde{A}^{[n]}\) is formed from the product \(US\), while \(V^{\dagger}\) is multiplied into the following site -- this is referred to as `left-canonical' normalisation. Alternatively, the new site tensor is formed from \(V^{\dagger}\) and \(US\) is multiplied into the following site -- this is referred to as `right-canonical' normalisation. The two procedures are sufficiently different to warrant entirely separate implementations, and the correct one must be called depending on which direction the code is presently `sweeping' through the system. This function's purpose is to simplify the call syntax, and control logic in the top-level functions. This function is dependent on \lstinline$LCan$, and \lstinline$RCan$.
+ \begin{lstlisting}
+ 	function [cdmpo] = Can(dmpo, route, direction) \end{lstlisting}
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$cdmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator which represents the same state as the input DMPO, \lstinline$dmpo$, but with the site(s) specified by \lstinline$route$ left or right canonically normalised. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. \\
+ \lstinline$route$ & \emph{1 dimensional double array}. Specifies the site or site which should be normalised. An error will be thrown if the last site in the system (site \(N\) for left-canonical, site \(1\) for right-canonical) is included in the route. An error will also be thrown if the supplied route does not match the supplied direction -- meaning the indices must be increasing for left-canonical normalisation, and decreasing for right-canonical normalisation. \\
+ \lstinline$direction$ & \emph{Character}. This should be `L' for left-canonical normalisation, or `R' for right-canonical normalisation. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$CanTest$. Checks that the trace of the DMPO is preserved, and that the appropriate error messages are thrown.
  
  \subsubsection{GrowBlock}
+ \paragraph{Docstring} This is an interface function for the two tensor network contraction functions, \lstinline$GrowLeft$, and \lstinline$GrowRight$. After each site update in a sweep the contraction of the network up to and including that site must be updated. Obviously this is dependent on the direction through the system the sweep is moving, so this function exists to simplify the call syntax, and control logic of the top-level functions. This function is dependent on \lstinline$GrowLeft$, and \lstinline$GrowRight$.
+ \begin{lstlisting}
+ 	function [updateBlock] = GrowBlock(dmpo, mpo, left, right, site, direction) \end{lstlisting}
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$updateBlock$ & \emph{3 dimensional double array}. Contains the contraction through the network, which comprises of the dmpo, its vector conjugate, and the mpo, up to and including the site specified by \lstinline$site$. If \lstinline$direction$ is `L' the contraction is from site \(1\), if it is `R' the contraction is from site \(N\). \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. \\
+ \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. \\
+ \lstinline$left$ & \emph{\(N \times 1\) cell array}. Each cell \(n\) contains the contraction of the tensor network from site 1 to site \(n-1\) (the contraction from the `left'). The first cell simply contains a 1. \\
+ \lstinline$right$ & \emph{\(N \times 1\) cell array}. Each cell \(n\) contains the contraction of the tensor network from site \(N\) to site \(n+1\) (the contraction from the `right'). The last cell simply contains a 1. \\
+ \lstinline$site$ & \emph{Double}. The site which is to be included in a contraction either from the left or right end of the system.  \\
+ \lstinline$direction$ & \emph{Character}. Either `L' or `R'. Specifies whether the site should be included in a contraction from the left (from site 1), or the right (site \(N\)). \\ 
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$GrowBlockTest$. Checks that the return arrays are the correct class and are not empty, and that an error is thrown if a bad \lstinline$direction$ is supplied.
  
  \subsubsection{EffL}
+ \paragraph{Docstring} This is an interface function for the low-level function which forms the effective Liouvillian matrix using the contraction procedure given in \cref{eq:vs1-9} and \cref{fig:vs1-3}. It does not perform the contraction itself, but provides a simplified call syntax for top-level functions, and allows for easier replacement of the low-level function. This function is dependent on \lstinline$EffLSparse$.
+ \begin{lstlisting}
+ 	function [effectiveLiouv] = EffL(TARGET, dmpo, mpo, left, right) \end{lstlisting}
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$effectiveLiouv$ & \emph{2 dimensional sparse double array}. This very large, sparse, matrix is an effective Liouvillian for that particular site in the system. It is eigensolved, and the eigenvector reshaped to replace the site tensor. The exact dimensions are dependent on the particular matrix dimensions, but it will be largest in the middle of the system where the matrix dimensions approach the maximum allowed, \(\chi\). There the dimensions will be \(\chi^{2}d^{2} \times \chi^{2}d^{2}\). For that reason it is this point in the calculation that places the greatest burden on the available memory. This function is dependent on \lstinline$EffLSparse$. \\ \hline
+ Input & \\ \hline
+ \lstinline$TARGET$ & \emph{Double}. The site on which the effective Liouvillian is to be formed, should be a positive integer. \\
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. \\
+ \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. The Liouvillian for the system in matrix product operator form. \\
+ \lstinline$left$ & \emph{\(N \times 1\) cell array}. Contractions from site 1 up to each site in the system. \\
+ \lstinline$right$ & \emph{\(N \times 1\) cell array}. Contractions from site \(N\) up to each site in the system. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$EffLTest$. Checks that \lstinline$effectiveLiouv$ is a double array, is sparse, and is the right size. 
  
  \subsubsection{EigenSolver}
+ \paragraph{Docstring} This is an interface function for the eigensolving routines. Depending on the calculation variant chosen by the user MATLAB's built-in \lstinline$eigs$ function, or \lstinline$primme_eigs$ from the PRIMME library may be used. This function simplifies the call syntax and control logic in the top-level function, and makes it easier to experiment with different eigensolvers. This function is dependent on \lstinline$eigs$, and \lstinline$primme_eigs$.
+ \begin{lstlisting}
+ 	function [eigVector, eigValue] = EigenSolver(effL, HERMITIAN, PRIMME, initVec, HERMITICITY_THRESHOLD) \end{lstlisting}
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$eigVector$ & \emph{1 dimensional double array}. The eigenvector of the effective Liouvillian with the eigenvalue closest to zero. This will be reshaped to replace the site tensor, \(A^{[n]}\). \\
+ \lstinline$eigValue$ & \emph{Double}. The eigenvalue corresponding to \lstinline$eigVector$. This is the closest to zero of all the eigenvalues of the supplied effective Liouvillian. How close it actually is to zero is used as a measure of success for the whole calculation. \\ \hline
+ Input & \\ \hline
+ \lstinline$effL$ & \emph{2 dimensional double array}. The effective Liouvillian \(\hat{L}^{[n]}_{\mathrm{eff}}\) for some site, may be formed from the Liouvillian \(\mathcal{L}\), or the hermitian product of the Liouvillian, \(\mathcal{L}^{\dagger}\mathcal{L}\). \\ 
+ \lstinline$HERMITIAN$ & \emph{Bool}. Should be true if the Hermitian product of the Liouvillian is being used. \\
+ \lstinline$PRIMME$ & \emph{Bool}. Should be true if use of PRIMME is desired. Note that this will only have an impact if \lstinline$HERMITIAN = true$, as PRIMME's eigensolver only operates on Hermitian matrices. If \lstinline$HERMITIAN$ is false, then \lstinline$PRIMME$ should be too, but its value will be ignored. \\
+ \lstinline$initVec$ & \emph{1 dimensional double array}. An initial guess for the eigenvector -- supplying this improves the stability and speed of the eigensolvers. In general this will be the current site tensor reshaped into a vector. \\
+ \lstinline$HERMITICITY_THRESHOLD$ & \emph{Double, optional}. This is an optional argument. If the Hermitian product Liouvillian is being used then the effective Liouvillian should also be Hermitian. That said, it is almost certainly not due to numerical error. This problem is solved by taking the average of the effective Liouvillian and it's Hermitian conjugate, and supplying that to the eigensolving routines. If \lstinline$HERMITICITY_THRESHOLD$ is supplied, the difference \(|\hat{L} - \hat{L}^{\dagger}|\) is calculated and tested against it. If this test is failed it indicates that the MPO supplied to the top-level function is for \(\mathcal{L}\), not \(\mathcal{L}^{\dagger}\mathcal{L}\). If \lstinline$HERMITIAN = false$, this argument will be ignored.  \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$EigenSolverTest$. Checks that an error is thrown if \lstinline$HERMITICITY_THRESHOLD$ is supplied and an MPO for \(\mathcal{L}\) is used, and that the eigenvalue and eigenvectors found by each variant of the problem are self-consistent. That is if the non-Hermitian eigensolver is used, it consistently finds the same eigenvector and eigenvalue for some fixed input -- each of the three return a slightly different eigenvalue and vector, which is to be expected.
  
  \subsubsection{DMPOResize}
+ \paragraph{Docstring} This is an interface function for the two DMPO resizing functions, \lstinline$DMPOCompress$, and \lstinline$DMPOEnlarge$. It greatly simplifies call syntax in the top-level functions. This function depends on \lstinline$DMPOCompress$, \lstinline$DMPOEnlarge$, and \lstinline$TrNorm$.
+ \begin{lstlisting}
+ 	function [rsDMPO] = DMPOResize(dmpo, COMPRESS) \end{lstlisting}
+ \begin{longtabu}{X[1,1]X[4,1]}
+ \hline
+ Return & \\ \hline
+ \lstinline$rsDMPO$ & \emph{\(N \times 1\) cell array}. The appropriately resized density matrix operator, in the standard format. \\ \hline
+ Input & \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
+ \lstinline$COMPRESS$ & \emph{Double}. Should be a positive integer, greater than or equal to \(d^{2}\). The new maximum matrix dimension for the dmpo, \(\chi\). The first thing the function does is check the current maximum dimension of the supplied DMPO, by measuring the middle site tensor. If \lstinline$COMPRESS$ is smaller, but larger than \(d^{2}\) then the function hands over to \lstinline$DMPOCompress$. If \lstinline$COMPRESS$ is larger, and then the current dimension is less than that required for an exact representation, the function hands over to \lstinline$DMPOEnlarge$. Finally, if the current dimension is the same as \lstinline$COMPRESS$, the function quietly returns \lstinline$dmpo$. \\
+ \hline
+ \end{longtabu}
+ \paragraph{Testing} \lstinline$DMPOResizeTest$. Checks that the returned DMPO is the right size (across all variants of the `right' size), and that a too small value of \lstinline$COMPRESS$ is rejected, and an error thrown.
  
  \subsubsection{TrNorm}
  \paragraph{Docstring} Normalises a density matrix product operator by dividing it by its trace. This function depends on \lstinline$DMPOTrace$, and \lstinline$DMPOScalarDiv$.
