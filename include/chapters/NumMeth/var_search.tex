@@ -680,36 +680,38 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \end{equation}
  and tested against some threshold value \(x_{\mathrm{th}}\), where \(M\) is the size of the data set supplied, and \(x\) is some vector. In the context of the stationary state search, the input vector contains the eigenvalues from the last \(M\) site updates, and convergence is tested against the user-defined convergence threshold.
  \begin{lstlisting}
- 	function [convFlag, convergence] = ConvTest(data, THRESHOLD) \end{lstlisting}
+ function [convFlag, convergence] = ConvTest(data, THRESHOLD) \end{lstlisting}
  \begin{longtabu}{X[1,1]X[4,1]}
  \hline
  Return & \\ \hline
  \lstinline$convFlag$ & \emph{Boolean}. True if the values supplied in \lstinline$data$ are deemed to have converged, otherwise false. \\
  \lstinline$convergence$ & \emph{Double}. The mean of the absolute value of the difference between neighbouring elements of the input vector -- the value of \(\bar{x}\). Returned for monitoring and debugging purposes. \\ \hline
  Input & \\ \hline
- \lstinline$data$ & \emph{1 dimensional double array}. A vector containing the values to be tested for convergence. The only assumption made about this vector is that successive elements are related, so that the difference \(x_{j+1} - x_{j}\) is a meaningful measure of convergence. \\
+ \lstinline$data$ & \emph{1 dimensional complex double array}. A vector containing the values to be tested for convergence. The only assumption made about this vector is that successive elements are related, so that the difference \(x_{j+1} - x_{j}\) is a meaningful measure of convergence. \\
  \lstinline$THRESHOLD$ & \emph{Double}. The value against which \lstinline$convergence$ is to be tested. If \lstinline$convergence$ \(<\) \lstinline$THRESHOLD$, then \lstinline$convFlag$ is set to true. \\ 
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$ConvTestTest$. Checks that the function does not return true when the input vector contains \lstinline$NaN$ values, or is nearly (but not quite) converged, and that it does correctly return a true value.
   
  \subsubsection{DMPOCompress}
- \paragraph{Docstring} This function compresses the virtual dimensions of a density matrix product operator, so that they do not exceed the limit \(\chi_{\mathrm{max}}\), set by \lstinline$COMPRESS$. A QR decomposition is performed at each site, and only the first \lstinline$COMPRESS$ rows and columns of the matrix \(Q\) are kept. 
+ \paragraph{Docstring} This low-level function compresses the virtual dimensions of a density matrix product oeprator, so that they do not exceed the limit \(\chi_{\mathrm{max}}\). A sparse singular value decomposoition is performed at each site which needs to be compressed, and only \(\chi_{\mathrm{max}}\) singular values retained. Only sites whose virtual dimension previously exceeded \(\chi_{\mathrm{max}}\) are affected. This function is interfaced by \lstinline$DMPOResize$.
  \begin{lstlisting}
- function [compDMPO] = DMPOCompress(dmpo, COMPRESS) \end{lstlisting}
+ function [compDMPO] = DMPOCompress(dmpo, COMPRESS, HILBY, LENGTH) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
  \lstinline$compDMPO$ & \emph{\(N \times 1\) cell array}. A density matrix product operator whose virtual dimensions do not exceed the limit set by \lstinline$COMPRESS$, in the standard format. \\ \hline
  Input & \\ \hline
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
- \lstinline$COMPRESS$ & \emph{Double}. The maximum size, \(\chi_{\mathrm{max}}\) of the virtual dimensions of the density matrix product state site tensors, \(A^{[n]}\). Should be a positive integer greater than or equal to \(d^{2}\). If it is less than \(d^{2}\), an error will be thrown. \\
+ \lstinline$COMPRESS$ & \emph{Double}. The maximum size, \(\chi_{\mathrm{max}}\) of the virtual dimensions of the density matrix product state site tensors, \(A^{[n]}\). Should be a positive integer greater than or equal to \(d^{2}\). \\
+ \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than one. \\
+ \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer, greater than one. \\ 
  \hline
  \end{longtabu}
- \paragraph{Testing} \lstinline$DMPOCompressTest$. Checks that the type and size of \lstinline$compDMPO$ are correct, and checks that it is still possible to multiply through the chain of site tensors, and that the virtual dimensions do not exceed \lstinline$COMPRESS$. Checks that the trace is unity, and real. Additionally, it is checked that the trace is not changed by compression, however, for strong compression it will be.
+ \paragraph{Testing} \lstinline$DMPOCompressTest$. Checks that the type and size of \lstinline$compDMPO$ are correct, and checks that it is still possible to multiply through the chain of site tensors. Checks that a set of easily representable states are not altered by light compression.
  
  \subsubsection{DMPOConj}
- \paragraph{Docstring} This function calculates the Hermitian conjugate density matrix product operator, by conjugating the matrices \(A^{[n]}_{i,j}\), and swapping their physical indices.
+ \paragraph{Docstring} This low-level function calculates the Hermitian conjugate density matrix product operator, by conjugating the matrices \(A^{[n]}_{i,j}\), and swapping their physical indices.
  \begin{lstlisting}
  function [conjDMPO] = DMPOConj(dmpo) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -725,14 +727,14 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \subsubsection{DMPOEnlarge}
  \paragraph{Docstring} This low-level function returns a copy of the input density matrix product operator with a larger maximum virtual dimension, \(\chi_{\mathrm{max}}\). Only sites where the virtual dimension was actually truncated by the previous value of \(\chi_{\mathrm{max}}\) will be enlarged, and the additional rows and columns will be padded with zeros. This function is interfaced by \lstinline$DMPOResize$.
  \begin{lstlisting} 
- 	function [bigDMPO] = DMPOEnlarge(dmpo, COMPRESS, HILBY, LENGTH) \end{lstlisting}
+ function [bigDMPO] = DMPOEnlarge(dmpo, COMPRESS, HILBY, LENGTH) \end{lstlisting}
  \begin{longtabu}{X[1,1]X[4,1]}
  \hline
  Return & \\ \hline
  \lstinline$bigDMPO$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. Represents the same state as the input DMPO, but has a larger maximum virtual dimension. \\ \hline
  Input & \\ \hline
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
- \lstinline$COMPRESS$ & \emph{Double}. The new maximum virtual dimension. Should be a positive integer greater than both \(d^{2}\) and the current maximum virtual dimension of the input DMPO. \\
+ \lstinline$COMPRESS$ & \emph{Double}. The new maximum virtual dimension, \(\chi_{\mathrm{max}}\). Should be a positive integer greater than both \(d^{2}\) and the current maximum virtual dimension of the input DMPO. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
  \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer, greater than 1. \\
  \hline
@@ -740,7 +742,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$DMPOEnlargeTest$. Checks the size, shape, and class of \lstinline$bigDMPO$. Checks that the function preserves the trace and state of the input. 
  
  \subsubsection{DMPOExp}
- \paragraph{Docstring} This function calculates the expectation value of some set of locally acting operator \(\hat{O}\), by calculating \(\mathrm{Tr}[\hat{O}\rho]\). The format of the operator here is that it should be a three dimensional complex double array, with the first two indices referencing the local physical state, and the third indexing the site. 
+ \paragraph{Docstring} This low-level function calculates the expectation value of some set of locally acting operator \(\hat{O}\), by calculating \(\mathrm{Tr}[\hat{O}\rho]\). The format of the operator here is that it should be a three dimensional complex double array, with the first two indices referencing the local physical state, and the third indexing the site. 
  \begin{lstlisting}
  function [expect] = DMPOExp(dmpo, op) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -760,7 +762,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$DMPOExpTest$. Checks the type of \lstinline$expect$, the trace of a set of density matrix product operators, and the expectation value of \(\hat{n}\) on some product states.
 
  \subsubsection{DMPOScalarDiv}
- \paragraph{Docstring} This function divides a density matrix product operator by a scalar value. Currently it does so simply by dividing the first site tensor \(A^{[1]}\) by the scalar.
+ \paragraph{Docstring} This low-level function divides a density matrix product operator by a scalar value. Currently it does so simply by dividing the first site tensor \(A^{[1]}\) by the scalar.
  \begin{lstlisting}
  function [divDMPO] = DMPOScalarDiv(dmpo, scalar) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -775,7 +777,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$DMPOScalarDivTest$. Checks that type, size, and shape of the returned density matrix product operator. Checks that \(\mathrm{Tr}[\tilde{\rho}] = \mathrm{Tr}[\rho] / a\), and by sampling elements from the density matrix, that the division has been carried out correctly.
 
  \subsubsection{DMPOSum}
- \paragraph{Docstring} This function adds two density matrix product operators, which represent the same system, together. Given two density matrix product operators, 
+ \paragraph{Docstring} This low-level function adds two density matrix product operators, which represent the same system, together. Given two density matrix product operators, 
  \begin{align}
  |\bar{\rho}_{A} \rangle &= \sum_{i_{1}\ldots i_{N}} \sum_{j_{1} \ldots j_{N}} A^{[1]}_{i,j} A^{[2]}_{i,j} \ldots A^{[N]}_{i,j} |j_{1} j_{2} \ldots j_{N} \rangle \otimes |i_{1} i_{2} \ldots i_{N} \rangle, \label{eq:vs3-5} \\
  |\bar{\rho}_{B} \rangle &= \sum_{l_{1} \ldots l_{N}} \sum_{m_{1} \ldots m_{N}} B^{[1]}_{l,m} B^{[2]}_{l,m} \ldots B^{[N]}_{l,m} |m_{1} m_{2} \ldots m_{N} \rangle \otimes |l_{1} l_{2} \ldots l_{N} \rangle, \label{eq:vs3-6} 
@@ -802,7 +804,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$DMPOSumTest$. Checks the type, size, and shape of \lstinline$sumDMPO$. Checks that an error is thrown if the two input systems do not match. Checks that the trace of \lstinline$sumDMPO$ is the sum of the trace of \lstinline$rhoA$ and \lstinline$rhoB$, and samples the density matrix to check the summation has been performed correctly.  
 
  \subsubsection{DMPOTrace}
- \paragraph{Docstring} This function calculates the trace of a density matrix product operator. It uses the same contraction as \lstinline$DMPOExp$, only it ignores non-diagonal terms. 
+ \paragraph{Docstring} This low-level function calculates the trace of a density matrix product operator. It uses the same contraction as \lstinline$DMPOExp$, only it ignores non-diagonal terms. 
  \begin{lstlisting}
  function [trace] = DMPOTrace(dmpo) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -822,11 +824,11 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \begin{longtabu}{X[1,1]X[4,1]}
  \hline
  Return & \\ \hline
- \lstinline$effectiveLiouv$ & \emph{2 dimensional sparse double array}. This very large sparse matrix is an effective Liouvillian for some site in the system. Its construction, and subsequent eigensolving places by far the greatest burden on available memory. This function sacrifices speed to some extent, in order to reduce memory consumption during array construction. \\ \hline
+ \lstinline$effectiveLiouv$ & \emph{2 dimensional sparse complex double array}. This very large sparse matrix is an effective Liouvillian for some site in the system. Its construction, and subsequent eigensolving places by far the greatest burden on available memory. This function sacrifices speed to some extent, in order to reduce memory consumption during array construction. \\ \hline
  Input & \\ \hline
- \lstinline$lBlock$ & \emph{3 dimensional double array}. The contraction of the tensor network from site \(1\), up to the site on which the effective Liouvillian is being formed. \\
- \lstinline$siteMPO$ & \emph{6 dimensional double array}. The MPO tensor for the site on which the effective Liouvillian is being formed. \\
- \lstinline$rBlock$ & \emph{3 dimensional double array}. The contraction of the tensor network from the final site in the system \(N\), up to the site on which the effective Liouvillian is being formed. \\
+ \lstinline$lBlock$ & \emph{3 dimensional complex double array}. The contraction of the tensor network from site \(1\), up to the site on which the effective Liouvillian is being formed. \\
+ \lstinline$siteMPO$ & \emph{6 dimensional complex double array}. The MPO tensor for the site on which the effective Liouvillian is being formed. \\
+ \lstinline$rBlock$ & \emph{3 dimensional complex double array}. The contraction of the tensor network from the final site in the system \(N\), up to the site on which the effective Liouvillian is being formed. \\
  \lstinline$ROW_SIZE$ & \emph{Double}. The size of the first virtual dimension of the site tensor for the site on which the effective Liouvillian is being formed. Should be a positive integer. \\
  \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of the site tensor for the site on which the effective Liouvillian is being formed. Should be a positive integer. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
@@ -835,7 +837,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$EffLSparseTest$. Checks that the return is the right size, shape, and class. A test case is used where \lstinline$effectiveLiouv$ should be an identity matrix. 
  
  \subsubsection{FWBase}
- \paragraph{Docstring} This is a utility function which returns an array containing the big-endian, \(N\)-bit, base \(d\) representation of a decimal number. It is used by \lstinline$ProdDMPO$, and extensively by test routines. 
+ \paragraph{Docstring} This low-level function returns an array containing the big-endian, \(N\)-bit, base \(d\) representation of a decimal number. It is used by \lstinline$ProdDMPO$, and extensively by test routines. 
  \begin{lstlisting}
  function [bits] = FWBase(n, BASE, WIDTH) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -851,61 +853,64 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$FWBaseTest$. Checks that errors are thrown correctly, and that the right size arrays are created. Checks that decimal numbers are converted correctly.
 
  \subsubsection{GrowLeft}
- \paragraph{Docstring} This function is the density matrix product operator version of the function with the same name in the ground state search code. It does exactly the same job of enlarging the left tensor block, while taking account of the additional indices in the stationary state search.
+ \paragraph{Docstring} This low-level function returns the contraction of the system from site \(1\) up to and including the specified site. It is used to form and update the left block tensor, \(L^{[n+1]}\), as described by \cref{eq:vs1-4}. This function is interfaced by \lstinline$GrowBlock$.
  \begin{lstlisting}
- function [updateBlock] = GrowLeft(siteTensor, mpo, leftBlock, ROW_SIZE, COL_SIZE, HILBY, OP_ROW, OP_COL) \end{lstlisting}
+ function [updateBlock] = GrowLeft(siteTensor, mpo, leftBlock, ROW_SIZE, COL_SIZE, HILBY, OP_COL) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
  \lstinline$updateBlock$ & \emph{3 dimensional complex double array}. The rank-3 left block tensor for the site \(n + 1\), \(L^{[n+1]}\). \\ \hline
  Input & \\ \hline
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\), in the standard format. \\
  \lstinline$leftBlock$ & \emph{3 dimensional complex double array}. The rank-3 left block tensor for the site \(n\), \(L^{[n]}\). \\
- \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\). The indexing format is \lstinline$mpo(bra, ket, conjBra, conjKet, opRow, opCol)$, where \lstinline$bra$ and \lstinline$ket$ are the physical indices for the density matrix product operator, \lstinline$conjBra$ and \lstinline$conjKet$ are the physical indices for the conjugate density matrix product operator, and \lstinline$opRow$ and \lstinline$opCol$ are the virtual indices for the matrix product operator. \\
  \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of the density matrix product operator. Should be a positive integer. \\ 
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
- \lstinline$OP_ROW$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator. Should be a positive integer. \\
  \lstinline$OP_COL$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator. Should be a positive integer. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$GrowLeftTest$. Checks the vector norm of the system, by calling \lstinline$GrowLeft$ on the last site.
  
  \subsubsection{GrowRight}
- \paragraph{Docstring} This function is the density matrix product operator version of the function with the same name in the ground state search code. It does exactly the same job of enlarging the right tensor block, while taking account of the additional indices in the stationary state search.
+ \paragraph{Docstring} This low-level function returns the contraction of the system from site \(N\) up to and including the specified site. It is used to form and update the right block tensor, \(R^{[n-1]}\), as described by \cref{eq:vs1-5}. This function is interfaced by \lstinline$GrowBlock$.
  \begin{lstlisting}
- function [updateBlock] = GrowRight(siteTensor, mpo, rightBlock, ROW_SIZE, COL_SIZE, HILBY, OP_ROW, OP_COL) \end{lstlisting}
+ function [updateBlock] = GrowRight(siteTensor, mpo, rightBlock, ROW_SIZE, COL_SIZE, HILBY, OP_ROW) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
  \lstinline$updateBlock$ & \emph{3 dimensional complex double array}. The rank-3 right block tensor for the site \(n - 1\), \(R^{[n-1]}\). \\ \hline
  Input & \\ \hline
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\), in the standard format. \\
  \lstinline$rightBlock$ & \emph{3 dimensional complex double array}. The rank-3 right block tensor for the site \(n\), \(R^{[n]}\). \\
- \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\). The indexing format is \lstinline$mpo(bra, ket, conjBra, conjKet, opRow, opCol)$, where \lstinline$bra$ and \lstinline$ket$ are the physical indices for the density matrix product operator, \lstinline$conjBra$ and \lstinline$conjKet$ are the physical indices for the conjugate density matrix product operator, and \lstinline$opRow$ and \lstinline$opCol$ are the virtual indices for the matrix product operator. \\
  \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of the density matrix product operator. Should be a positive integer. \\ 
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
  \lstinline$OP_ROW$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator. Should be a positive integer. \\
- \lstinline$OP_COL$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator. Should be a positive integer. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$GrowRightTest$. Checks the vector norm of the system, by calling \lstinline$GrowRight$ on the first site.
 
  \subsubsection{LCan}
- \paragraph{Docstring} This function is the density matrix product operator version of the function with the same name in the ground state search code. It does exactly the same job of left-normalising the site tensors, while taking account of the additional indices in the stationary state search.
+ \paragraph{Docstring} This low-level function returns a left-canonically normalised site tensor, and its now non-canonical following neighbour. This function is interfaced by \lstinline$Can$.  
  \begin{lstlisting}
- 	function [ldmpo] = LCan(dmpo, route) \end{lstlisting}
+ function [canSite, SVNextSite] = LCan(siteTensor, nextSiteTensor, HILBY, ROW_SIZE, COL_SIZE, NEXT_COL) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$ldmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format, with site tensors along the specified route made left-canonical. \\ \hline
- Input & \\
- \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
- \lstinline$route$ & \emph{1 dimensional double array}. Specifies the site, or sites which are to be made left-canonical. Should be all integers, and form a continuous path through system i.e. \lstinline$[start : 1 : stop]$. The last site in \lstinline$route$ cannot be the last site in the system. If it is, an error will be thrown. \\
+ \lstinline$canSite$ & \emph{4 dimensional complex double array}. The left-canonically normalised density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$SVNextSite$ & \emph{4 dimensional complex double array}. The non-canonical density matrix product operator tensor for the site \(n+1\), in the standard format. \\ \hline
+ Input & \\ \hline
+ \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$nextSiteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n+1\), in the standard format. \\
+ \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
+ \lstinline$COL_SIZE$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
+ \lstinline$NEXT_COL$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
  \hline
  \end{longtabu} 
- \paragraph{Testing} \lstinline$LCanTest$. Checks the type, size, and shape of the returned density matrix product operator. Checks that a bad route throws the correct error. Checks that the function does not alter the trace, or a sample of the elements of the density matrix. 
+ \paragraph{Testing} \lstinline$LCanTest$. Checks the type, size, and shape of a density matrix product operator, operated on by \lstinline$LCan$. Checks that the left-canonical normalisation condition holds. Checks that the function does not alter the trace, or a sample of the elements of the density matrix. 
  
  \subsubsection{MPOHermProd}
  \paragraph{Docstring} This low-level function returns an MPO representing the Hermitian product (\(\mathcal{L}^{\dagger}\mathcal{L}\)) of a Liouvillian supplied in MPO form. In this way the user can avoid having to explicitly formulate the MPO representation of the Hermitian product of the Liouvillian. For efficiency reasons this is never done automatically by a top-level function, so the user must always take care to supply the correct MPO.
@@ -922,22 +927,27 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \paragraph{Testing} \lstinline$MPOHermProdTest$. Checks that the returned MPO is the right size and shape. Rebuilds the Liouvillian from the returned MPO, and checks that it is Hermitian, and that it is the Hermitian product of the input Liouvillian. 
  
  \subsubsection{RCan}
- \paragraph{Docstring} This function is the density matrix product operator version of the function with the same name in the ground state search code. It does exactly the same job of right-normalising the site tensors, while taking account of the additional indices in the stationary state search.
+ \paragraph{Docstring} This low-level function returns a right-canonically normalised site tensor, and its now non-canonical following neighbour. This function is interfaced by \lstinline$Can$.  
  \begin{lstlisting}
- function [rdmpo] = RCan(dmpo, route) \end{lstlisting}
-  \begin{longtabu}{X[1,l]X[4,l]}
+ function [canSite, nextSiteUS] = RCan(siteTensor, nextSiteTensor, HILBY, ROW_SIZE, COL_SIZE, NEXT_ROW) \end{lstlisting}
+ \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$rdmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format, with site tensors along the specified route made right-canonical. \\ \hline
- Input & \\
- \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
- \lstinline$route$ & \emph{1 dimensional double array}. Specifies the site, or sites which are to be made right-canonical. Should be all integers, and form a continuous path through system i.e. \lstinline$[start : -1 : stop]$. The last site in \lstinline$route$ cannot be the first site in the system. If it is, an error will be thrown. \\
+ \lstinline$canSite$ & \emph{4 dimensional complex double array}. The left-canonically normalised density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$nextSiteUS$ & \emph{4 dimensional complex double array}. The non-canonical density matrix product operator tensor for the site \(n-1\), in the standard format. \\ \hline
+ Input & \\ \hline
+ \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
+ \lstinline$nextSiteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n-1\), in the standard format. \\
+ \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
+ \lstinline$COL_SIZE$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
+ \lstinline$NEXT_ROW$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
  \hline
- \end{longtabu}
- \paragraph{Testing} \lstinline$RCanTest$.  Checks the type, size, and shape of the returned density matrix product operator. Checks that a bad route throws the correct error. Checks that the function does not alter the trace, or a sample of the elements of the density matrix. 
- 
+ \end{longtabu} 
+ \paragraph{Testing} \lstinline$RCanTest$. Checks the type, size, and shape of a density matrix product operator, operated on by \lstinline$RCan$. Checks that the right-canonical normalisation condition holds. Checks that the function does not alter the trace, or a sample of the elements of the density matrix. 
+
  \subsubsection{SVDNorm}
- \paragraph{Docstring} This function uses the SVD (or in fact the QR) decomposition to vector normalise a density matrix product operator. Essentially the same as \lstinline$LCan$, except it includes the last site in the system, and simply throws away the last \(V^{\dagger}\) or \(R\) matrix. Has no impact on the physicality of the density matrix product operator, so should only be used at initialisation. Thereafter the process of left and right normalising individual site tensors ensures that the density matrix product operator remains vector normalised. 
+ \paragraph{Docstring} This function uses the SVD decomposition to vector normalise a density matrix product operator. Essentially the same as \lstinline$LCan$, except it includes the last site in the system, and simply throws away the last \(V^{\dagger}\) matrix. Has no impact on the physicality of the density matrix product operator, so should only be used at initialisation. Thereafter the process of left and right normalising individual site tensors ensures that the density matrix product operator remains vector normalised. 
  \begin{lstlisting}
  function [normDMPO] = SVDNorm(dmpo) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
