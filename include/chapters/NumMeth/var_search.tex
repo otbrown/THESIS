@@ -449,6 +449,19 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  
  We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}. Finally, we note that this code makes use of an external library, the PRIMME eigensolver \cite{SM10,WRS16}.
  
+% FORMATS
+ \subsubsection{Standard Format}
+ Throughout this implementation I assume a standard format for the density matrix product operator, and matrix product operator. Note that this format is specific to this implementation, and does not conform to any standard which may or may not exist within the wider community.
+ \paragraph{DMPO} 
+ The density matrix product operator is, at the highest level, an \(N \times 1\) cell array. Each cell, \(n\), contains the site tensor \(A^{[n]}_{r,c,i,j}\). The cell array is used rather than a standard array structure, as it allows each site tensor to have different dimensions. Each site tensor is a 4-dimensional complex double array, with the first two indices corresponding to the virtual dimensions (`\emph{r}ow' and `\emph{c}olumn'), and the second two corresponding to the physical indices of the density matrix, \(\rho = |i \rangle \langle j|\). The size of the virtual dimensions will always be \(1 \times d^{2}\) on the first site, and \(d^{2} \times 1\) on the last site, and will grow by a factor of \(d^{2}\) up to the middle site, after which they will shrink by a factor of \(d^{2}\). The virtual dimensions will not be allowed to exceed the limit imposed by \(\chi_{\mathrm{max}}\). If the limit is reached the size of each virtual dimension will be \(\chi_{\mathrm{max}}\) until it naturally drops back below this limit, nearer the end of the system. 
+
+ \begin{tabu} to \linewidth {X[c]|X[c]}
+  	\(A^{[n]}_{r,c,i,j}\) & \lstinline$dmpo\{n\}(r,c,i,j)$
+ \end{tabu}
+
+\paragraph{MPO}
+The matrix product operator is also an \(N \times 1\) cell array. Each cell contains the MPO tensor \(O^{[n]}_{i,j,k,l,p,q}\). Each tensor is a 6-dimensional complex double array, with the first four indices corresponding to the physical dimensions of the Liouvillian (an input and output density matrix), and the last two indices corresponding to the MPO virtual dimensions.
+ 
 % TOP FUNCTIONS
  \subsubsection{DDMPO}
  \paragraph{Docstring} This is a constructor function for a density matrix product operator. It creates a DMPO which represents a normalised density matrix with the same real value in every element. For example, for a two qubit system \lstinline$DDMPO$ would create a density matrix product operator corresponding to the density matrix,
