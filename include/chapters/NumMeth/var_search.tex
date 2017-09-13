@@ -1,9 +1,28 @@
-\otb{Comments written in brown.} 
-
-In this section we consider variational searches using matrix product states. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then describe how to use my own implementations of this technique -- one to perform a ground state search, and one to perform a stationary state search. There is no suggestion that my implementation represents best practise, or is in any sense \emph{the right way} to perform these calculations. It is merely how \emph{I} approached the problem. Both implementations were written in and for MATLAB \cite{MATLAB}, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
+In this chapter we consider variational searches using matrix product states. We will first discuss the theoretical underpinnings of such a technique -- what we vary, and what we search for. I will then document my own implementation of this technique which performs a stationary state search. There is no suggestion that my implementation represents best practise, or is in any sense \emph{the right way} to perform these calculations. It is merely how \emph{I} approached the problem. It is written for MATLAB \cite{MATLAB}, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
  \subsection{Theory}
-It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator. Given a set of variational parameters upon which the eigenfunctions depend, one can move always to a lower eigenvalue, by minimising over one parameter at a time \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
+ \subsubsection{Matrix Product States}
+ Matrix product states as we describe them here were first presented by Vidal \cite{Vidal04}, but in effect grew from the understanding that Steven White's Density Matrix Renormalisation Group method \cite{White92,White93} could be reformulated to use a matrix product state representation which had previously been used as an analytical tool for finitely correlated states -- in particular the AKLT state \cite{AKLT87}.
+ Given some generic one-dimensional many body state \(|\Psi \rangle\), we may decompose the state vector,
+ \begin{equation}
+ 	|\Psi \rangle = \sum_{\sigma_{1} \ldots \sigma_{N}} c_{\sigma_{1} \ldots \sigma_{N}}| \sigma_{1} \ldots \sigma_{N} \rangle,
+ 	\label{eq:mps1-1}
+ \end{equation}
+ as a sum of basis vectors with individual coefficients. The matrix product state further decomposes these coefficients in the following way, 
+ \begin{equation}
+ 	c_{\sigma_{1} \ldots \sigma_{N}} = A^{[1]}_{\sigma_{1}} A^{[2]}_{\sigma_{2}} \ldots A^{[N]}_{\sigma_{N}},
+ 	\label{eq:mps1-2}
+ \end{equation}
+ where each \(A^{[n]}_{\sigma}\) is a so-called matrix product state `site tensor'. The first site tensor \(A^{[1]}\) has a row vector for each physical state on the first site, the last site tensor \(A^{[N]}\) has a column vector for each physical state on the last site, and each other tensor \(A^{[n]}\) has a matrix for each physical state on the \(n^{\mathrm{th}}\) site. The product of matrices for a particular set of local states recovers the coefficient for that many-body state. On the face of it, this is nothing more than a highly inefficient way to write state vectors. While every state vector is unique, MPS representations are degenerate as we have introduced additonal degrees of freedom in the form of the virtual dimensions (rows and columns) in each site tensor. There are two things that make this technique fundamentally useful. 
+ 
+ Firstly, we can limit the size of the virtual dimensions. Typically in an exact representation the virtual dimensions will grow as we move through the system reaching a maximum on the middle site(s) and then decrease again, keeping in mind the constraint that the second virtual dimension on the site \(n\) must match the size of the first virtual dimension on the site \(n+1\), and the first and last sites must be vectors. We can construct the MPS such that the virtual dimension never exceeds some value \(\chi_{\mathrm{max}}\) to create an approximation to the state, and we can further use the Singular Value Decomposition to programatically ensure that these compressed tensors are optimal. Importantly, thanks to Vidal's observation that using the SVD in this manner is equivalent to performing a Schmidt decomposition on a bipartite splitting of the state, it is clear what exactly we lose when we compress the state in this manner \cite{Vidal03}. Since the number of non-zero coefficients is a measure of entanglement in the system, if we truncate our virtual dimensions by removing components with the smallest singular values, we lose access to more highly entangled states. To put it another way, MPS is a useful and efficient representation for states with low levels of entanglement. At the extreme end, a product state could be represented with a virtual dimension of 1 on every site. 
+ 
+ Secondly, we can perform useful operations on individual site tensors. A tensor network can be constructed which when contracted yields the result of some operator acting on the matrix product state. Furthermore, expectation values can be calculated by introducing the conjugate matrix product state. This allows us to efficiently investigate the system represented by the MPS, as long as we do not require representation of a state with more entanglement than compression allows. One example of this which we shall discuss in great detail is the variational search, in which individual site tensors are optimised with respect to some operator such as a Hamiltonian or Liouvillian. One can also efficiently perform time evolution of the state, and indeed this was the first method developed explicitly using MPS, being familiar from DMRG. Such efficient operations on MPS represented states requires a Matrix Product Operator (MPO) representation of the operator in question, which we shall discuss next.  
+ 
+ \subsubsection{Matrix Product Operators}
+ 
+ \subsubsection{Variational Search}
+ It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator. Given a set of variational parameters upon which the eigenfunctions depend, one can move always to a lower eigenvalue, by minimising over one parameter at a time \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
 \begin{equation}
 E = \frac{\langle \psi (\mathbf{x}^{*}) | \hat{H} | \psi (\mathbf{x}) \rangle}{\langle \psi (\mathbf{x}^{*}) | \psi (\mathbf{x}) \rangle},
 \label{eq:vs1-1}
@@ -115,330 +134,330 @@ We do this on the first site in our system, and then re-normalise using an SVD o
 \label{fig:vs1-3}
 \end{figure}
 
-\FloatBarrier
- \subsection{Ground State Implementation}
- \otb{Is this section worth including, given how little use we've made of the ground state code?}  
- 
- We will now discuss my implementation of the variational ground state search. The implementation is written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVGSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\). \Cref{fig:vs2-1} shows the structure of the code diagramatically.
- 
- \begin{figure}[ht!]
- \centering
- \includegraphics[width=0.8\linewidth]{\figpath/mpsvgss}
- \caption{A diagram showing the structure of the variational ground state search code. Each rectangle is a function which forms part of the code, while the arrows represent return values. The return value follows the direction of the arrow i.e. \lstinline$LCan$ is called from, and returns data to, \lstinline$Can$. It can be seen that only \lstinline$Ground$, \lstinline$Can$, and \lstinline$GrowBlock$ have dependencies. The matrix product state constructor functions \lstinline$CompMPS$, and \lstinline$ProdMPS$ are not shown as they are convenience functions which help to form part of the input to \lstinline$Ground$, but are not necessary to run the calculation. They both have only one dependency, on \lstinline$MPSNorm$. Note that the built-in functions of MATLAB \cite{MATLAB} are not considered, but almost all the functions written for the variational ground state search rely on them to some extent. They are assumed to operate properly.}
- \label{fig:vs2-1}
- \end{figure}
- 
- \subsubsection{Ground}
- \paragraph{Docstring}
- This is the top-level function for the variational ground state search. Dependencies are \lstinline$Can$, \lstinline$ConvTest$, \lstinline$EffH$, \lstinline$Expect$, and \lstinline$SiteUpdate$. It is in principle the only function an end-user should have to deal with. Although mentioned here, explanation of the `standard format' of matrix product state used in this implementation is deferred until the main constructor function, \lstinline$CompMPS$, is described. The standard format of the matrix product operator used throughout this implementation is described here. Much of this function is devoted to book-keeping and reporting, though it does not produce a save file by itself except one after passing convergence threshold of \(1 \times 10^{-5}\). It does however, regularly output (hopefully) useful information to stdout. The rest of the function deals with the high level implementation of the variational search keeping track of what site is being updated, which direction the current sweep through the system is going, what the current energy of the system is, and how many sweeps have been completed. 
- \begin{lstlisting} 
- function [groundMPS, energyTracker] = Ground(init_mps, mpo, THRESHOLD, RUNMAX) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$groundMPS$ & \emph{\(N \times 1\) cell array}. Contains a matrix product state representing the approximate ground state of the system -- the solution state. Matrix product state is in the standard format used in this implementation. \\
- \lstinline$energyTracker$ & \emph{Dynamic 1-dimensional complex double array}. Begins with a single element, the energy of the initial state evaluated as \(\langle \Psi_{\mathrm{init}}^{\mathrm{MPS}} | \hat{H} | \Psi_{\mathrm{init}}^{\mathrm{MPS}} \rangle \). The energy of the system is evaluated after each full sweep, and the result is stored as \lstinline$energyTracker(end + 1)$ enlarging the array up to a maximum size of \lstinline$RUNMAX$\(+ 1\), in the case where the energy does not converge. This array is used to monitor for convergence.\\ \hline
- Input & \\ \hline
- \lstinline$init_mps$ & \emph{\(N \times 1\) cell array}. Contains some initial state in the standard matrix product format used in this implementation. \\
- \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. Contains a matrix product operator representation of a Hamiltonian. \lstinline$mpo\{1\}$ contains the first site matrix product operator, \lstinline$mpo\{3\}$ contains the last site matrix product operator, and \lstinline$mpo\{2\}$ contains the bulk site matrix product operator. Each is a two dimensional complex double array, formed from \(d \times d\) blocks, as advised in section 6.1 of Ref~\cite{Schollwoeck11}. The specific size will be dependent on the Hamiltonian being represented, but if \(P\) is the number of blocks required then \lstinline$mpo\{1\}$ will be \(d \times Pd\), \lstinline$mpo\{2\}$ will be \(Pd \times Pd\), and \lstinline$mpo\{3\}$ will be \(Pd \times d\). \\
- \lstinline$THRESHOLD$ & \emph{Double}. The threshold below which the energy of the system will be considered to have converged. Should be real, greater than numerical error (whatever that may be on the relevant hardware), and less than \(1 \times 10^{-7}\) since the code won't check against this value until the energy has converged to at least that level.\\
- \lstinline$RUNMAX$ & \emph{Double}. The maximum number of site updates that will be performed before the code finishes regardless of convergence. Take care that there are \(N\) site updates per \emph{sweep}. Should be an integer value (much) greater than zero. Essentially this value is used to stop the code iterating forever when a calculation does not converge to the desired level.\\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$GroundTest$ \& \lstinline$MPO_on-site+hop.mat$. Tests function against different local state space sizes, system sizes, and amounts of compression. Standard size, shape, type testing of return values. Checks that \lstinline$groundMPS$ is normalised. Loads simple Hamiltonian matrix product operator from \lstinline$MPO_on-site+hop.mat$ and checks that function correctly finds the \(|0_{1}0_{2}\ldots 0_{N} \rangle\) ground state.
- \paragraph{Improvements}
- \begin{itemize}
- \item Function only creates a save file at the convergence to \(1 \times 10^{-5}\) checkpoint. It should probably do so at the \(1 \times 10^{-7}\) checkpoint, and full convergence as well. The checkpoint thresholds should be inputs, and ideally optional.
- \end{itemize}
- 
- \subsubsection{CompMPS} 
- \paragraph{Docstring}
- This is a constructor function for a random matrix product state. This functionality is mainly useful for testing that other functions are not appearing to give correct results because of some property of the input state. Its only dependency is \lstinline$MPSNorm$. It accepts some basic parameters of the physical system, and returns a normalised matrix product state of the correct size and shape in the standard format. The standard format is an \(N \times 1\) cell array, where each cell contains a three-dimensional complex double array. The third index is the physical index for that particular site, and so should run from \(1\) to \(d\). The first two indices are the first and second virtual indices for a particular site. The virtual indices should grow as we move through the system, so that the first site should be a \(1 \times d \times d\) array, and the second a \(d \times d^{2} \times d\) array, and so on until the limit set by \lstinline$COMPRESS$ (\(\chi\)) is reached. At a certain point the virtual indices should begin shrinking again, such that the last site is a \(d \times 1 \times d\) array. This function and the other constructor, \lstinline$ProdMPS$ ensure this is the case.  
- \begin{lstlisting}
- function [complexMPS] = CompMPS(HILBY, L, COMPRESS) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$complexMPS$ & \emph{\lstinline$L$ \(\times 1\) cell array}. Contains a normalised matrix product state in the standard format with arrays that are at most \lstinline$COMPRESS$ \(\times\) \lstinline$COMPRESS$ \(\times\) \lstinline$HILBY$ in size. Each array is filled with random complex numbers generated using the MATLAB function \lstinline$rand$ in the form \lstinline$complexMPS\{site\} = rand(rowSize, colSize, HILBY) + 1i * rand(rowSize, colSize, HILBY)$. \\ \hline
- Input & \\ \hline
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1.  \\
- \lstinline$L$ & \emph{Double}. The number of sites in the system, which we have previously referred to as \(N\). Should be a positive integer greater than 1. \\
- \lstinline$COMPRESS$ & \emph{Double}. The maximum allowed virtual dimension of the matrix prouct state tensors, which we have previously referred to as \(\chi_{\mathrm{max}}\). Note that if \lstinline$COMPRESS = 0$, it will be changed to the MATLAB value \lstinline$Inf$, meaning the matrix product state tensors will \emph{not} be compressed, and will reach a maximum size of \(d^{N/2}\).  \\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$CompMPSTest$. Tests class, size, and shape of returned matrix product state. Uses a range of input values.
- \paragraph{Improvements}
- \begin{itemize}
- \item Testing should include checking that the returned matrix product state is properly normalised.
- \end{itemize}
- 
- \subsubsection{ProdMPS}
- \paragraph{Docstring}
- This is a constructor function for a matrix product representation in the standard format of a simple product state. Its only dependence is \lstinline$MPSNorm$.
- \begin{lstlisting}
- function [matrices] = ProdMPS(stateArray, HILBY, COMPRESS) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$matrices$ & \emph{\(N \times 1\) cell array}. Contains a normalised matrix product state in the standard format, which represents the supplied product state. Formed by creating zero arrays of the correct size, and then replacing the appropriate matrices with the identity. \\ \hline
- Input & \\ \hline
- \lstinline$stateArray$ & \emph{\(N \times 1\) double array}. A column vector where each element refers to a particular site in the system, and contains the desired number state for that site. For example the three site state \(|1 1 0 \rangle\) would be supplied as \lstinline$[1; 1; 0]$. \\
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1.  \\
- \lstinline$COMPRESS$ & \emph{Double}. The maximum allowed virtual dimension of the matrix prouct state tensors, which we have previously referred to as \(\chi_{\mathrm{max}}\). Note that if \lstinline$COMPRESS = 0$, it will be changed to the MATLAB value \lstinline$Inf$, meaning the matrix product state tensors will \emph{not} be compressed, and will reach a maximum size of \(d^{N/2}\).  \\
- \hline
- \end{longtabu}
- \paragraph{Improvements}
- \begin{itemize}
- \item Needs unit tests.
- \item Currently the code enforces that \lstinline$stateArray$ is a column vector, but there's no good reason for this.
- \end{itemize}
- 
- \subsubsection{MPSNorm}
- \paragraph{Docstring}
- This function normalises a provided matrix product state. This is achieved by performing a QR decomposition on every site from the first, exactly as if one were making the state left-canonical. The major difference is that the final site in the system is also decomposed, and the final \(R\) matrix is discarded. In fact on the final site \(R\) is a scalar, equal to the norm of the state. Discarding it ensures that \(\langle \Psi | \Psi \rangle = 1\).
- \begin{lstlisting}
- function [normalMPS] = MPSNorm(mps) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$normalMPS$ & \emph{\(N \times 1\) cell array}. Contains the normalised form of the input matrix product state, \lstinline$mps$.  \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some presumably un-normalised matrix product state, in the standard format. \\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$MPSNormTest$. Builds matrix product states using a range of system sizes and levels of compression, and then normalises them. Rebuilds the state vector and and calculates \(\langle \Psi | \Psi \rangle\). 
- \paragraph{Improvements}
- \begin{itemize}
- \item \lstinline$MPSNormTest$ calls \lstinline$CompMPS$, a function which itself depends on \lstinline$MPSNorm$. This should be avoided if possible. 
- \item \lstinline$MPSNormTest$ rebuilds the entire state vector which is never efficient, and may be avoidable. Worse, it depends on the debug function \lstinline$Rebuild$ to do so. This should be changed.
- \end{itemize}
- 
- \subsubsection{Can}
- \paragraph{Docstring} This function operates as an interface for the lower level matrix product state canonisation functions, \lstinline$LCan$, and \lstinline$RCan$ -- it is dependent on them. The most important task it performs is to check the supplied canonisation route ends at an appropriate place. If the system is being made left-canonical the last site in the route cannot be \(N\) as there is no `next site'. If the system is being made right-canonical, the last site in the route cannot be \(1\) for the same reason.
- \begin{lstlisting}
- function [cmps] = Can(mps, route, DIRECTION) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$cmps$ & \emph{\(N \times 1\) cell array}. Contains the canonical form of the input matrix product state, \lstinline$mps$.  \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
- \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 0, and no larger than \(N\), and they should form a continuous route through the system -- \lstinline$[start : 1 : stop]$. If \lstinline$DIRECTION$ is \lstinline$'L'$ and \lstinline$route(end)$ is  \(N\), or if \lstinline$DIRECTION$ is \lstinline$'R'$ and \lstinline$route(end)$ is \(1\), then the route will be rejected and a warning will be printed to stdout.\\
- \lstinline$DIRECTION$ & \emph{Character}. Should be either \lstinline$'L'$, or \lstinline$'R'$. Specifies whether the sites should be made left- or right-canonical. \\
- \hline
- \end{longtabu}
- \paragraph{Improvements}
- \begin{itemize}
- \item Needs unit testing. Although \lstinline$CanTest$ exists, it really only tests \lstinline$LCan$ and \lstinline$RCan$, and nothing specific to \lstinline$Can$.
- \item Defensive if statements test whether \lstinline$route(end)$ is \(N\) or \(1\), but not any other incorrect values. A more comprehensive defence should be used.
- \item It may be better to use the MATLAB exception framework, rather than warnings printed to stdout.
- \end{itemize}
- 
- \subsubsection{GrowBlock}
- \paragraph{Docstring} This function operates as an interface to the two lower level block formation functions, \lstinline$GrowLeft$ and \lstinline$GrowRight$. It is dependent on them. When called it adds a given site tensor into either a left or right block tensor, returning either \(L^{[n+1]}\) or \(R^{[n-1]}\). It's main purpose is to keep the function call required to grow a left or right block more simple by checking the size of the matrix product state site tensor, and the matrix product operator tensor in order to generate some of the constants that \lstinline$GrowLeft$ and \lstinline$GrowRight$ require. It also ensures the correct matrix product state, and left or right block tensors are used.
- \begin{lstlisting}
- function [updateBlock] = GrowBlock(mps, mpo, TARGET, SIDE, blockCell) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The left or right block tensor \(L^{[n+1]}\) or \(R^{[n-1]}\) from \cref{eq:vs1-4,eq:vs1-5}, where \(n\) is \lstinline$TARGET$. \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
- \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. A matrix product operator representation of a Hamiltonian, in the standard format. \\
- \lstinline$TARGET$ & \emph{Double}. The site which is to be included in the left or right block. Note that the left block tensor \(L^{[n]}\) does not include the site tensor \(A^{[n]}\), \emph{only} \(A^{[1]} \ldots A^{[n-1]}\). Similarly, \(R^{[n]}\) does not include \(A^{[n]}\), only \(A^{[n+1]} \ldots A^{[N]}\). Should be an integer value greater than 0 and no greater than \(N\). \\
- \lstinline$SIDE$ & \emph{Character}. Should be either \lstinline$'L'$, or \lstinline$'R'$. Specifies whether the left or right block is being updated. \\
- \lstinline$blockCell$ & \emph{\(N \times 1\) cell array}. Contains all of the \(L^{[n]}\) or \(R^{[n]}\) arrays in the format \lstinline$blockCell\{n\}$. \\
- \hline
- \end{longtabu}
- \paragraph{Improvements}
- \begin{itemize}
- \item Needs unit testing.
- \item Should defend against bad values of \lstinline$TARGET$ and if possible \lstinline$blockCell$.
- \end{itemize}
- 
- \subsubsection{ConvTest}
- \paragraph{Docstring} This function tests to see if the energy of the system has converged. Exactly what `converged' means is configurable by the input parameters. The latest observed energy is subtracted from the last \lstinline$sampleSize$ observed energies. The largest absolute value resulting from this is compared against \lstinline$threshold$. If it is smaller, then a true flag is returned.
- \begin{lstlisting}
- function [convFlag] = ConvTest(energyTracker, sampleSize, threshold) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$convFlag$ & \emph{Double}. MATLAB doesn't use Boolean datatypes. Instead a non-zero double will evaluate as true, and \(0\) will evaluate as false. As such, \lstinline$convFlag$ will be returned as \(1\) if the convergence test is passed, and will be returned as \(0\) otherwise. \\ \hline
- Input & \\ \hline
- \lstinline$energyTracker$ & \emph{1-dimensional complex double array}. Contains the observed energies of the system, calculated by evaluating \(\langle \Psi | \hat{H} | \Psi \rangle\) by contracting the system as shown in \cref{fig:vs1-2}. This array changes size throughout the calculation, but is fixed at time of input to this function. It may be as small as \(1 \times 1\), or as large as \lstinline$RUNMAX$\( \times 1\). If it is smaller than \lstinline$sampleSize$\(\times 1\), then \lstinline$ConvTest$ will just return \lstinline$convFlag = 1$. \\
- \lstinline$sampleSize$ & \emph{Double}. The number of energies which will be compared to test for convergence. It should be an integer, and should obviously be less than \lstinline$RUNMAX$, however be cautioned that setting it too low will result in the energy `converging' while undergoing oscillation. It is worth inspecting \lstinline$energyTracker$ to make sure this is not the case. \\
- \lstinline$threshold$ & \emph{Double}. The threshold against which the energy's convergence will be tested. For the convergence test to return true, the absolute value of the energy of the system will not have changed by more than \lstinline$threshold$ in the last \lstinline$sampleSize$ iterations of the variational procedure. \\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$ConvTestTest$. Throws a variety of fabricated \lstinline$energyTracker$ arrays and parameters at \lstinline$ConvTest$, and asserts that they should return 1 or 0. Looks for false positives on both undersampled, and non-converged energies.
- \paragraph{Improvements}
- \begin{itemize}
- \item There may be a more sophisticated way to test for convergence. 
-\end{itemize}  
-
- \subsubsection{EffH}
- \paragraph{Docstring} This function calculates the effective Hamiltonian for a particular site in the system, using \cref{eq:vs1-9} which is visualised in \cref{fig:vs1-3}. In fact it returns the rank-6 tensor already reshaped into a matrix, and ready to be eigensolved.
- \begin{lstlisting}
- function [effectiveHamiltonian] = EffH(HILBY, rowMax, colMax, leftBlock, mpoTensor, rightBlock) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[2,l]}
- \hline
- Return & \\ \hline
- \lstinline$effectiveHamiltonian$ & \emph{2-dimensional complex double array}. The rank-6 effective Hamiltonian tensor for site \(n\), \(\hat{H}_{\mathrm{eff}}^{[n]}\) formed by the contraction shown in \cref{eq:vs1-9}, and visualised in \cref{fig:vs1-3}. The tensor is reshaped in to a matrix, with dimensions equal to the square of the number of elements in the matrix product state tensor for site \(n\) -- (\lstinline$HILBY$\( \times \)\lstinline$rowMax$\( \times \)\lstinline$colMax$) \(\times\) (\lstinline$HILBY$\( \times \)\lstinline$rowMax$\( \times \)\lstinline$colMax$). The eigenvector of this matrix with the smallest real eigenvalue can be reshaped to replace \(A^{[n]}\). \\ \hline
- Input & \\ \hline
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
- \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}.\\
- \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The relevant matrix product operator tensor for the site \(n\), \(\hat{O}^{[n]}\). A rank-4 tensor, but the format used throughout this code is a matrix, formed from \(d \times d\) blocks, which are indexed by the tensor's virtual indices.\\
- \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian up to the site \(n+1\), from the last site, as shown in \cref{eq:vs1-5}.\\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$EffHTest$ \& \lstinline$MPO_on-site+hop.mat$. Forms a random uncompressed nine qubit matrix product state, and uses the Hamiltonian matrix product operator from \lstinline$MPO_on-site+hop.mat$. Forms the effective Hamiltonian at each site, and checks that it is Hermitian. 
- \paragraph{Improvements} 
- \begin{itemize}
- \item The contraction and the reshape should be two separate functions. This function \emph{has} been optimised, but as a result is almost impossible to read and understand, and combining the contraction with the reshape to a matrix doesn't help that. 
- \item Some way of testing that the effective Hamiltonian was right would certainly help. 
- \end{itemize}
- 
- \subsubsection{Expect}
- \paragraph{Docstring} This function calculates the expectation value of the Hamiltonian, \(\langle \Psi_{\mathrm{MPS}} | \hat{H} | \Psi_{\mathrm{MPS}} \rangle\). It performs a contraction using the left and right block tensors, and the matrix product state site tensors for a single site, in the manner visualised in \cref{fig:vs1-2}. In general this function performs best on the first and last site, as the dimensions are reduced.
- \begin{lstlisting}
- function [expectationValue] = Expect(mps, mpo, leftBlock, rightBlock, TARGET) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[3,l]}
- \hline
- Return & \\ \hline
- \lstinline$expectationValue$ & \emph{Complex double}. This is the expectation value \(\langle \Psi | \hat{H} | \Psi \rangle\). Although it is evaluated `at a site', it is the expectation value for the whole system. The \lstinline$leftBlock$ and \lstinline$rightBlock$ contain contractions through to either side of the target site. Using the already contracted left and right blocks is considerably faster than always contracting through the entire system. This function is called after every site update in order to monitor the energy of the system for convergence.  \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
- \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. A matrix product operator of a Hamiltonian, in the standard format.\\
- \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}.\\
- \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian up to the site \(n+1\), from the last site, as shown in \cref{eq:vs1-5}. \\
- \lstinline$TARGET$ & \emph{Double}. The site \(n\) at which the contraction to calculate \(\langle \Psi | \hat{H} | \Psi \rangle\) is to be completed. Can be any integer from \(1\) to \(N\), but should match with \lstinline$leftBlock$ and \lstinline$rightBlock$. In the context of the variational search, this is evaluated at the site on which an update has just been performed in order to calculate the new energy of the system. \\
- \hline
- \end{longtabu}
- \paragraph{Testing} \lstinline$ExpectTest$. Builds random matrix product states using a range of local Hilbert space sizes, system sizes, and levels of compression. Calculates the expectation value of the identity operator -- the norm of the state -- and asserts that it is \(1\). This works as long as the state is properly normalised.
- \paragraph{Improvements}
- \begin{itemize}
- \item Some defense against using left and right blocks that did not relate to the correct site. Currently the calculation would fail if the sites happened to have different size matrices, otherwise it just outputs the wrong answer.
- \item \lstinline$ExpectTest$ does not normalise the matrix product states, but assumes that they are normalised. Changing this may of course introduce an unwanted dependence on \lstinline$MPSNorm$. 
- \item \lstinline$ExpectTest$ always evaluates the \(\langle \Psi | \mathbb{I} | \Psi \rangle\) at the central site. It would be good to verify that the evaluation returned the same result when performed at different sites.
- \end{itemize} 
- 
- \subsubsection{GrowLeft}
- \paragraph{Docstring} This is a low-level function interfaced by \lstinline$GrowBlock$. It is responsible for contracting a matrix product site tensor, \(A^{[n]}\), into a left block tensor \(L^{[n]}\) in order to find the left block tensor \(L^{[n+1]}\). It implements the contraction shown in \cref{eq:vs1-4}. 
- \begin{lstlisting}
- function [updateBlock] = GrowLeft(siteTensor, mpoTensor, leftBlock, rowMax, colMax, HILBY, opRowMax, opColMax, OPCOUNT) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The left block tensor for the site \(n+1\), \(L^{[n+1]}\). \\ \hline
- Input & \\ \hline
- \lstinline$siteTensor$ & \emph{3-dimensional complex double array}. The matrix product state tensor for the site \(n\), in the standard format. \\
- \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The matrix product operator tensor for the site \(n\), in the standard format. \\
- \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}. \\
- \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
- \lstinline$opRowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
- \lstinline$opColMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
- \lstinline$OPCOUNT$ & \emph{Double}. The larger of \lstinline$opRowMax$ and \lstinline$opColMax$ plus one. The maximum virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from one}. Should be a positive integer. \\
- \hline
- \end{longtabu}
- \paragraph{Improvements}
- \begin{itemize}
- \item Needs unit testing.
- \end{itemize}
- 
- \subsubsection{GrowRight}
- \paragraph{Docstring} This is a low-level function interfaced by \lstinline$GrowBlock$. It is responsible for contracting a matrix product site tensor, \(A^{[n]}\), into a right block tensor \(R^{[n]}\) in order to find the right block tensor \(R^{[n-1]}\). It implements the contraction shown in \cref{eq:vs1-5}. 
- \begin{lstlisting}
- function [updateBlock] = GrowRight(siteTensor, mpoTensor, rightBlock, rowMax, colMax, HILBY, opRowMax, opColMax, OPCOUNT) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The right block tensor for the site \(n-1\), \(R^{[n-1]}\). \\ \hline
- Input & \\ \hline
- \lstinline$siteTensor$ & \emph{3-dimensional complex double array}. The matrix product state tensor for the site \(n\), in the standard format. \\
- \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The matrix product operator tensor for the site \(n\), in the standard format. \\
- \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the last site, to the site \(n+1\), as shown in \cref{eq:vs1-5}. \\
- \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
- \lstinline$opRowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
- \lstinline$opColMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
- \lstinline$OPCOUNT$ & \emph{Double}. The larger of \lstinline$opRowMax$ and \lstinline$opColMax$ plus one. The maximum virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from one}. Should be a positive integer. \\
- \hline
- \end{longtabu}
- \paragraph{Improvements}
- \begin{itemize}
- \item Needs unit testing.
- \end{itemize}
- 
- \subsubsection{LCan}
- \paragraph{Docstring} This is a low-level function interfaced by \lstinline$Can$. It is responsible for renormalising a site tensor, or continuous set of site tensors so that they are left-canonical. This is achieved using a QR decomposition, as it is faster than an SVD decomposition. The site tensor \(A^{[n]}\) is reshaped to form the matrix \(M\) which is decomposed as \(M=QR\). The \(Q\) matrix is reshaped to replace the site tensor \(A^{[n]}\), and \(R\) is multiplied in to the next site tensor along, \(A^{[n+1]}\).
- \begin{lstlisting}
- function [lmps] = LCan(mps, route) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$lmps$ & \emph{\(N \times 1\) cell array}. A matrix product state in the standard format, with sites along the specified route made left-canonical. \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. A matrix product state, in the standard format. \\
- \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 0, and less than \(N\), and they should form a continuous route through the system -- \lstinline$[start : 1 : stop]$. \\
- \hline
- \end{longtabu}
- \paragraph{Testing}
- \lstinline$CanTest.m$. Creates random matrix product states using a range of local state space sizes, system sizes, and levels of compression. Checks that using \lstinline$LCan$ does not affect the norm of the matrix product state, and does not change the state it represents.
- \paragraph{Improvements}
- \begin{itemize}
- \item \lstinline$CanTest$ relies on the debug function \lstinline$Rebuild$ to check state does not change -- this is not ideal. Instead of rebuilding the entire state vector, elements from it could be sampled.
- \end{itemize}
-
- \subsubsection{RCan}
- \paragraph{Docstring} This is a low-level function interfaced by \lstinline$Can$. It is responsible for renormalising a site tensor, or continuous set of site tensors so that they are right-canonical. The site tensor \(A^{[n]}\) is reshaped into the matrix \(M\) which is decomposed as \(M = USV^{\dagger}\). The unitary matrix \(V^{\dagger}\) is reshaped to form the new site tensor \(A^{[n]}\), and \(US\) is multiplied in to the next site tensor along, \(A^{[n-1]}\).
- \begin{lstlisting}
- function [rmps] = RCan(mps, route) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$rmps$ & \emph{\(N \times 1\) cell array}. A matrix product state in the standard format, with sites along the specified route made right-canonical. \\ \hline
- Input & \\ \hline
- \lstinline$mps$ & \emph{\(N \times 1\) cell array}. A matrix product state, in the standard format. \\
- \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 1, and no larger than \(N\), and they should form a continuous route through the system -- \lstinline$[start : -1 : stop]$. \\
- \hline
- \end{longtabu}
- \paragraph{Testing}
-  \lstinline$CanTest.m$. Creates random matrix product states using a range of local state space sizes, system sizes, and levels of compression. Checks that using \lstinline$RCan$ does not affect the norm of the matrix product state, and does not change the state it represents.
-  \paragraph{Improvements}
-  \begin{itemize}
-  \item The QR decomposition is considerably faster than the SVD, and could be used here instead.
-  \item \lstinline$CanTest$ relies on the debug function \lstinline$Rebuild$ to check state does not change -- this is not ideal. Instead of rebuilding the entire state vector, elements from it could be sampled.
-  \end{itemize}
-  
- \subsubsection{SiteUpdate}
- \paragraph{Docstring} A very simple function that takes an eigenvector of \(H^{[n]}_{\mathrm{eff}}\) and reshapes it to form the new rank-3 site tensor, \(A^{[n]}\). 
- \begin{lstlisting}
- function [updateMatrix] = SiteUpdate(eigVec, rowMax, colMax, HILBY) \end{lstlisting}
- \begin{longtabu}{X[1,l]X[4,l]}
- \hline
- Return & \\ \hline
- \lstinline$updateMatrix$ & \emph{3-dimensional complex double array}. The new rank-3 site tensor \(A^{[n]}\). \\ \hline
- Input & \\ \hline
- \lstinline$eigVec$ & \emph{1-dimensional complex double array}. An eigenvector of the effective Hamiltonian for the site \(n\). Must have dimension \lstinline$rowMax$\(\times\)\lstinline$colMax$\(\times\)\lstinline$HILBY$. \\
- \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
- \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
- \hline
- \end{longtabu}
+%\FloatBarrier
+% \subsection{Ground State Implementation}
+% \otb{Is this section worth including, given how little use we've made of the ground state code?}  
+% 
+% We will now discuss my implementation of the variational ground state search. The implementation is written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVGSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\). \Cref{fig:vs2-1} shows the structure of the code diagramatically.
+% 
+% \begin{figure}[ht!]
+% \centering
+% \includegraphics[width=0.8\linewidth]{\figpath/mpsvgss}
+% \caption{A diagram showing the structure of the variational ground state search code. Each rectangle is a function which forms part of the code, while the arrows represent return values. The return value follows the direction of the arrow i.e. \lstinline$LCan$ is called from, and returns data to, \lstinline$Can$. It can be seen that only \lstinline$Ground$, \lstinline$Can$, and \lstinline$GrowBlock$ have dependencies. The matrix product state constructor functions \lstinline$CompMPS$, and \lstinline$ProdMPS$ are not shown as they are convenience functions which help to form part of the input to \lstinline$Ground$, but are not necessary to run the calculation. They both have only one dependency, on \lstinline$MPSNorm$. Note that the built-in functions of MATLAB \cite{MATLAB} are not considered, but almost all the functions written for the variational ground state search rely on them to some extent. They are assumed to operate properly.}
+% \label{fig:vs2-1}
+% \end{figure}
+% 
+% \subsubsection{Ground}
+% \paragraph{Docstring}
+% This is the top-level function for the variational ground state search. Dependencies are \lstinline$Can$, \lstinline$ConvTest$, \lstinline$EffH$, \lstinline$Expect$, and \lstinline$SiteUpdate$. It is in principle the only function an end-user should have to deal with. Although mentioned here, explanation of the `standard format' of matrix product state used in this implementation is deferred until the main constructor function, \lstinline$CompMPS$, is described. The standard format of the matrix product operator used throughout this implementation is described here. Much of this function is devoted to book-keeping and reporting, though it does not produce a save file by itself except one after passing convergence threshold of \(1 \times 10^{-5}\). It does however, regularly output (hopefully) useful information to stdout. The rest of the function deals with the high level implementation of the variational search keeping track of what site is being updated, which direction the current sweep through the system is going, what the current energy of the system is, and how many sweeps have been completed. 
+% \begin{lstlisting} 
+% function [groundMPS, energyTracker] = Ground(init_mps, mpo, THRESHOLD, RUNMAX) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$groundMPS$ & \emph{\(N \times 1\) cell array}. Contains a matrix product state representing the approximate ground state of the system -- the solution state. Matrix product state is in the standard format used in this implementation. \\
+% \lstinline$energyTracker$ & \emph{Dynamic 1-dimensional complex double array}. Begins with a single element, the energy of the initial state evaluated as \(\langle \Psi_{\mathrm{init}}^{\mathrm{MPS}} | \hat{H} | \Psi_{\mathrm{init}}^{\mathrm{MPS}} \rangle \). The energy of the system is evaluated after each full sweep, and the result is stored as \lstinline$energyTracker(end + 1)$ enlarging the array up to a maximum size of \lstinline$RUNMAX$\(+ 1\), in the case where the energy does not converge. This array is used to monitor for convergence.\\ \hline
+% Input & \\ \hline
+% \lstinline$init_mps$ & \emph{\(N \times 1\) cell array}. Contains some initial state in the standard matrix product format used in this implementation. \\
+% \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. Contains a matrix product operator representation of a Hamiltonian. \lstinline$mpo\{1\}$ contains the first site matrix product operator, \lstinline$mpo\{3\}$ contains the last site matrix product operator, and \lstinline$mpo\{2\}$ contains the bulk site matrix product operator. Each is a two dimensional complex double array, formed from \(d \times d\) blocks, as advised in section 6.1 of Ref~\cite{Schollwoeck11}. The specific size will be dependent on the Hamiltonian being represented, but if \(P\) is the number of blocks required then \lstinline$mpo\{1\}$ will be \(d \times Pd\), \lstinline$mpo\{2\}$ will be \(Pd \times Pd\), and \lstinline$mpo\{3\}$ will be \(Pd \times d\). \\
+% \lstinline$THRESHOLD$ & \emph{Double}. The threshold below which the energy of the system will be considered to have converged. Should be real, greater than numerical error (whatever that may be on the relevant hardware), and less than \(1 \times 10^{-7}\) since the code won't check against this value until the energy has converged to at least that level.\\
+% \lstinline$RUNMAX$ & \emph{Double}. The maximum number of site updates that will be performed before the code finishes regardless of convergence. Take care that there are \(N\) site updates per \emph{sweep}. Should be an integer value (much) greater than zero. Essentially this value is used to stop the code iterating forever when a calculation does not converge to the desired level.\\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$GroundTest$ \& \lstinline$MPO_on-site+hop.mat$. Tests function against different local state space sizes, system sizes, and amounts of compression. Standard size, shape, type testing of return values. Checks that \lstinline$groundMPS$ is normalised. Loads simple Hamiltonian matrix product operator from \lstinline$MPO_on-site+hop.mat$ and checks that function correctly finds the \(|0_{1}0_{2}\ldots 0_{N} \rangle\) ground state.
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Function only creates a save file at the convergence to \(1 \times 10^{-5}\) checkpoint. It should probably do so at the \(1 \times 10^{-7}\) checkpoint, and full convergence as well. The checkpoint thresholds should be inputs, and ideally optional.
+% \end{itemize}
+% 
+% \subsubsection{CompMPS} 
+% \paragraph{Docstring}
+% This is a constructor function for a random matrix product state. This functionality is mainly useful for testing that other functions are not appearing to give correct results because of some property of the input state. Its only dependency is \lstinline$MPSNorm$. It accepts some basic parameters of the physical system, and returns a normalised matrix product state of the correct size and shape in the standard format. The standard format is an \(N \times 1\) cell array, where each cell contains a three-dimensional complex double array. The third index is the physical index for that particular site, and so should run from \(1\) to \(d\). The first two indices are the first and second virtual indices for a particular site. The virtual indices should grow as we move through the system, so that the first site should be a \(1 \times d \times d\) array, and the second a \(d \times d^{2} \times d\) array, and so on until the limit set by \lstinline$COMPRESS$ (\(\chi\)) is reached. At a certain point the virtual indices should begin shrinking again, such that the last site is a \(d \times 1 \times d\) array. This function and the other constructor, \lstinline$ProdMPS$ ensure this is the case.  
+% \begin{lstlisting}
+% function [complexMPS] = CompMPS(HILBY, L, COMPRESS) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$complexMPS$ & \emph{\lstinline$L$ \(\times 1\) cell array}. Contains a normalised matrix product state in the standard format with arrays that are at most \lstinline$COMPRESS$ \(\times\) \lstinline$COMPRESS$ \(\times\) \lstinline$HILBY$ in size. Each array is filled with random complex numbers generated using the MATLAB function \lstinline$rand$ in the form \lstinline$complexMPS\{site\} = rand(rowSize, colSize, HILBY) + 1i * rand(rowSize, colSize, HILBY)$. \\ \hline
+% Input & \\ \hline
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1.  \\
+% \lstinline$L$ & \emph{Double}. The number of sites in the system, which we have previously referred to as \(N\). Should be a positive integer greater than 1. \\
+% \lstinline$COMPRESS$ & \emph{Double}. The maximum allowed virtual dimension of the matrix prouct state tensors, which we have previously referred to as \(\chi_{\mathrm{max}}\). Note that if \lstinline$COMPRESS = 0$, it will be changed to the MATLAB value \lstinline$Inf$, meaning the matrix product state tensors will \emph{not} be compressed, and will reach a maximum size of \(d^{N/2}\).  \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$CompMPSTest$. Tests class, size, and shape of returned matrix product state. Uses a range of input values.
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Testing should include checking that the returned matrix product state is properly normalised.
+% \end{itemize}
+% 
+% \subsubsection{ProdMPS}
+% \paragraph{Docstring}
+% This is a constructor function for a matrix product representation in the standard format of a simple product state. Its only dependence is \lstinline$MPSNorm$.
+% \begin{lstlisting}
+% function [matrices] = ProdMPS(stateArray, HILBY, COMPRESS) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$matrices$ & \emph{\(N \times 1\) cell array}. Contains a normalised matrix product state in the standard format, which represents the supplied product state. Formed by creating zero arrays of the correct size, and then replacing the appropriate matrices with the identity. \\ \hline
+% Input & \\ \hline
+% \lstinline$stateArray$ & \emph{\(N \times 1\) double array}. A column vector where each element refers to a particular site in the system, and contains the desired number state for that site. For example the three site state \(|1 1 0 \rangle\) would be supplied as \lstinline$[1; 1; 0]$. \\
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1.  \\
+% \lstinline$COMPRESS$ & \emph{Double}. The maximum allowed virtual dimension of the matrix prouct state tensors, which we have previously referred to as \(\chi_{\mathrm{max}}\). Note that if \lstinline$COMPRESS = 0$, it will be changed to the MATLAB value \lstinline$Inf$, meaning the matrix product state tensors will \emph{not} be compressed, and will reach a maximum size of \(d^{N/2}\).  \\
+% \hline
+% \end{longtabu}
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Needs unit tests.
+% \item Currently the code enforces that \lstinline$stateArray$ is a column vector, but there's no good reason for this.
+% \end{itemize}
+% 
+% \subsubsection{MPSNorm}
+% \paragraph{Docstring}
+% This function normalises a provided matrix product state. This is achieved by performing a QR decomposition on every site from the first, exactly as if one were making the state left-canonical. The major difference is that the final site in the system is also decomposed, and the final \(R\) matrix is discarded. In fact on the final site \(R\) is a scalar, equal to the norm of the state. Discarding it ensures that \(\langle \Psi | \Psi \rangle = 1\).
+% \begin{lstlisting}
+% function [normalMPS] = MPSNorm(mps) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$normalMPS$ & \emph{\(N \times 1\) cell array}. Contains the normalised form of the input matrix product state, \lstinline$mps$.  \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some presumably un-normalised matrix product state, in the standard format. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$MPSNormTest$. Builds matrix product states using a range of system sizes and levels of compression, and then normalises them. Rebuilds the state vector and and calculates \(\langle \Psi | \Psi \rangle\). 
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item \lstinline$MPSNormTest$ calls \lstinline$CompMPS$, a function which itself depends on \lstinline$MPSNorm$. This should be avoided if possible. 
+% \item \lstinline$MPSNormTest$ rebuilds the entire state vector which is never efficient, and may be avoidable. Worse, it depends on the debug function \lstinline$Rebuild$ to do so. This should be changed.
+% \end{itemize}
+% 
+% \subsubsection{Can}
+% \paragraph{Docstring} This function operates as an interface for the lower level matrix product state canonisation functions, \lstinline$LCan$, and \lstinline$RCan$ -- it is dependent on them. The most important task it performs is to check the supplied canonisation route ends at an appropriate place. If the system is being made left-canonical the last site in the route cannot be \(N\) as there is no `next site'. If the system is being made right-canonical, the last site in the route cannot be \(1\) for the same reason.
+% \begin{lstlisting}
+% function [cmps] = Can(mps, route, DIRECTION) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$cmps$ & \emph{\(N \times 1\) cell array}. Contains the canonical form of the input matrix product state, \lstinline$mps$.  \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
+% \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 0, and no larger than \(N\), and they should form a continuous route through the system -- \lstinline$[start : 1 : stop]$. If \lstinline$DIRECTION$ is \lstinline$'L'$ and \lstinline$route(end)$ is  \(N\), or if \lstinline$DIRECTION$ is \lstinline$'R'$ and \lstinline$route(end)$ is \(1\), then the route will be rejected and a warning will be printed to stdout.\\
+% \lstinline$DIRECTION$ & \emph{Character}. Should be either \lstinline$'L'$, or \lstinline$'R'$. Specifies whether the sites should be made left- or right-canonical. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Needs unit testing. Although \lstinline$CanTest$ exists, it really only tests \lstinline$LCan$ and \lstinline$RCan$, and nothing specific to \lstinline$Can$.
+% \item Defensive if statements test whether \lstinline$route(end)$ is \(N\) or \(1\), but not any other incorrect values. A more comprehensive defence should be used.
+% \item It may be better to use the MATLAB exception framework, rather than warnings printed to stdout.
+% \end{itemize}
+% 
+% \subsubsection{GrowBlock}
+% \paragraph{Docstring} This function operates as an interface to the two lower level block formation functions, \lstinline$GrowLeft$ and \lstinline$GrowRight$. It is dependent on them. When called it adds a given site tensor into either a left or right block tensor, returning either \(L^{[n+1]}\) or \(R^{[n-1]}\). It's main purpose is to keep the function call required to grow a left or right block more simple by checking the size of the matrix product state site tensor, and the matrix product operator tensor in order to generate some of the constants that \lstinline$GrowLeft$ and \lstinline$GrowRight$ require. It also ensures the correct matrix product state, and left or right block tensors are used.
+% \begin{lstlisting}
+% function [updateBlock] = GrowBlock(mps, mpo, TARGET, SIDE, blockCell) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The left or right block tensor \(L^{[n+1]}\) or \(R^{[n-1]}\) from \cref{eq:vs1-4,eq:vs1-5}, where \(n\) is \lstinline$TARGET$. \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
+% \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. A matrix product operator representation of a Hamiltonian, in the standard format. \\
+% \lstinline$TARGET$ & \emph{Double}. The site which is to be included in the left or right block. Note that the left block tensor \(L^{[n]}\) does not include the site tensor \(A^{[n]}\), \emph{only} \(A^{[1]} \ldots A^{[n-1]}\). Similarly, \(R^{[n]}\) does not include \(A^{[n]}\), only \(A^{[n+1]} \ldots A^{[N]}\). Should be an integer value greater than 0 and no greater than \(N\). \\
+% \lstinline$SIDE$ & \emph{Character}. Should be either \lstinline$'L'$, or \lstinline$'R'$. Specifies whether the left or right block is being updated. \\
+% \lstinline$blockCell$ & \emph{\(N \times 1\) cell array}. Contains all of the \(L^{[n]}\) or \(R^{[n]}\) arrays in the format \lstinline$blockCell\{n\}$. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Needs unit testing.
+% \item Should defend against bad values of \lstinline$TARGET$ and if possible \lstinline$blockCell$.
+% \end{itemize}
+% 
+% \subsubsection{ConvTest}
+% \paragraph{Docstring} This function tests to see if the energy of the system has converged. Exactly what `converged' means is configurable by the input parameters. The latest observed energy is subtracted from the last \lstinline$sampleSize$ observed energies. The largest absolute value resulting from this is compared against \lstinline$threshold$. If it is smaller, then a true flag is returned.
+% \begin{lstlisting}
+% function [convFlag] = ConvTest(energyTracker, sampleSize, threshold) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$convFlag$ & \emph{Double}. MATLAB doesn't use Boolean datatypes. Instead a non-zero double will evaluate as true, and \(0\) will evaluate as false. As such, \lstinline$convFlag$ will be returned as \(1\) if the convergence test is passed, and will be returned as \(0\) otherwise. \\ \hline
+% Input & \\ \hline
+% \lstinline$energyTracker$ & \emph{1-dimensional complex double array}. Contains the observed energies of the system, calculated by evaluating \(\langle \Psi | \hat{H} | \Psi \rangle\) by contracting the system as shown in \cref{fig:vs1-2}. This array changes size throughout the calculation, but is fixed at time of input to this function. It may be as small as \(1 \times 1\), or as large as \lstinline$RUNMAX$\( \times 1\). If it is smaller than \lstinline$sampleSize$\(\times 1\), then \lstinline$ConvTest$ will just return \lstinline$convFlag = 1$. \\
+% \lstinline$sampleSize$ & \emph{Double}. The number of energies which will be compared to test for convergence. It should be an integer, and should obviously be less than \lstinline$RUNMAX$, however be cautioned that setting it too low will result in the energy `converging' while undergoing oscillation. It is worth inspecting \lstinline$energyTracker$ to make sure this is not the case. \\
+% \lstinline$threshold$ & \emph{Double}. The threshold against which the energy's convergence will be tested. For the convergence test to return true, the absolute value of the energy of the system will not have changed by more than \lstinline$threshold$ in the last \lstinline$sampleSize$ iterations of the variational procedure. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$ConvTestTest$. Throws a variety of fabricated \lstinline$energyTracker$ arrays and parameters at \lstinline$ConvTest$, and asserts that they should return 1 or 0. Looks for false positives on both undersampled, and non-converged energies.
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item There may be a more sophisticated way to test for convergence. 
+%\end{itemize}  
+%
+% \subsubsection{EffH}
+% \paragraph{Docstring} This function calculates the effective Hamiltonian for a particular site in the system, using \cref{eq:vs1-9} which is visualised in \cref{fig:vs1-3}. In fact it returns the rank-6 tensor already reshaped into a matrix, and ready to be eigensolved.
+% \begin{lstlisting}
+% function [effectiveHamiltonian] = EffH(HILBY, rowMax, colMax, leftBlock, mpoTensor, rightBlock) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[2,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$effectiveHamiltonian$ & \emph{2-dimensional complex double array}. The rank-6 effective Hamiltonian tensor for site \(n\), \(\hat{H}_{\mathrm{eff}}^{[n]}\) formed by the contraction shown in \cref{eq:vs1-9}, and visualised in \cref{fig:vs1-3}. The tensor is reshaped in to a matrix, with dimensions equal to the square of the number of elements in the matrix product state tensor for site \(n\) -- (\lstinline$HILBY$\( \times \)\lstinline$rowMax$\( \times \)\lstinline$colMax$) \(\times\) (\lstinline$HILBY$\( \times \)\lstinline$rowMax$\( \times \)\lstinline$colMax$). The eigenvector of this matrix with the smallest real eigenvalue can be reshaped to replace \(A^{[n]}\). \\ \hline
+% Input & \\ \hline
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
+% \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}.\\
+% \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The relevant matrix product operator tensor for the site \(n\), \(\hat{O}^{[n]}\). A rank-4 tensor, but the format used throughout this code is a matrix, formed from \(d \times d\) blocks, which are indexed by the tensor's virtual indices.\\
+% \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian up to the site \(n+1\), from the last site, as shown in \cref{eq:vs1-5}.\\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$EffHTest$ \& \lstinline$MPO_on-site+hop.mat$. Forms a random uncompressed nine qubit matrix product state, and uses the Hamiltonian matrix product operator from \lstinline$MPO_on-site+hop.mat$. Forms the effective Hamiltonian at each site, and checks that it is Hermitian. 
+% \paragraph{Improvements} 
+% \begin{itemize}
+% \item The contraction and the reshape should be two separate functions. This function \emph{has} been optimised, but as a result is almost impossible to read and understand, and combining the contraction with the reshape to a matrix doesn't help that. 
+% \item Some way of testing that the effective Hamiltonian was right would certainly help. 
+% \end{itemize}
+% 
+% \subsubsection{Expect}
+% \paragraph{Docstring} This function calculates the expectation value of the Hamiltonian, \(\langle \Psi_{\mathrm{MPS}} | \hat{H} | \Psi_{\mathrm{MPS}} \rangle\). It performs a contraction using the left and right block tensors, and the matrix product state site tensors for a single site, in the manner visualised in \cref{fig:vs1-2}. In general this function performs best on the first and last site, as the dimensions are reduced.
+% \begin{lstlisting}
+% function [expectationValue] = Expect(mps, mpo, leftBlock, rightBlock, TARGET) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[3,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$expectationValue$ & \emph{Complex double}. This is the expectation value \(\langle \Psi | \hat{H} | \Psi \rangle\). Although it is evaluated `at a site', it is the expectation value for the whole system. The \lstinline$leftBlock$ and \lstinline$rightBlock$ contain contractions through to either side of the target site. Using the already contracted left and right blocks is considerably faster than always contracting through the entire system. This function is called after every site update in order to monitor the energy of the system for convergence.  \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. Some matrix product state, in the standard format. \\
+% \lstinline$mpo$ & \emph{\(3 \times 1\) cell array}. A matrix product operator of a Hamiltonian, in the standard format.\\
+% \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}.\\
+% \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian up to the site \(n+1\), from the last site, as shown in \cref{eq:vs1-5}. \\
+% \lstinline$TARGET$ & \emph{Double}. The site \(n\) at which the contraction to calculate \(\langle \Psi | \hat{H} | \Psi \rangle\) is to be completed. Can be any integer from \(1\) to \(N\), but should match with \lstinline$leftBlock$ and \lstinline$rightBlock$. In the context of the variational search, this is evaluated at the site on which an update has just been performed in order to calculate the new energy of the system. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing} \lstinline$ExpectTest$. Builds random matrix product states using a range of local Hilbert space sizes, system sizes, and levels of compression. Calculates the expectation value of the identity operator -- the norm of the state -- and asserts that it is \(1\). This works as long as the state is properly normalised.
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Some defense against using left and right blocks that did not relate to the correct site. Currently the calculation would fail if the sites happened to have different size matrices, otherwise it just outputs the wrong answer.
+% \item \lstinline$ExpectTest$ does not normalise the matrix product states, but assumes that they are normalised. Changing this may of course introduce an unwanted dependence on \lstinline$MPSNorm$. 
+% \item \lstinline$ExpectTest$ always evaluates the \(\langle \Psi | \mathbb{I} | \Psi \rangle\) at the central site. It would be good to verify that the evaluation returned the same result when performed at different sites.
+% \end{itemize} 
+% 
+% \subsubsection{GrowLeft}
+% \paragraph{Docstring} This is a low-level function interfaced by \lstinline$GrowBlock$. It is responsible for contracting a matrix product site tensor, \(A^{[n]}\), into a left block tensor \(L^{[n]}\) in order to find the left block tensor \(L^{[n+1]}\). It implements the contraction shown in \cref{eq:vs1-4}. 
+% \begin{lstlisting}
+% function [updateBlock] = GrowLeft(siteTensor, mpoTensor, leftBlock, rowMax, colMax, HILBY, opRowMax, opColMax, OPCOUNT) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The left block tensor for the site \(n+1\), \(L^{[n+1]}\). \\ \hline
+% Input & \\ \hline
+% \lstinline$siteTensor$ & \emph{3-dimensional complex double array}. The matrix product state tensor for the site \(n\), in the standard format. \\
+% \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The matrix product operator tensor for the site \(n\), in the standard format. \\
+% \lstinline$leftBlock$ & \emph{3-dimensional complex double array}. The rank-3 left block tensor for site \(n\), \(L^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the first site, up to the site \(n-1\), as shown in \cref{eq:vs1-4}. \\
+% \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
+% \lstinline$opRowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
+% \lstinline$opColMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
+% \lstinline$OPCOUNT$ & \emph{Double}. The larger of \lstinline$opRowMax$ and \lstinline$opColMax$ plus one. The maximum virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from one}. Should be a positive integer. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Needs unit testing.
+% \end{itemize}
+% 
+% \subsubsection{GrowRight}
+% \paragraph{Docstring} This is a low-level function interfaced by \lstinline$GrowBlock$. It is responsible for contracting a matrix product site tensor, \(A^{[n]}\), into a right block tensor \(R^{[n]}\) in order to find the right block tensor \(R^{[n-1]}\). It implements the contraction shown in \cref{eq:vs1-5}. 
+% \begin{lstlisting}
+% function [updateBlock] = GrowRight(siteTensor, mpoTensor, rightBlock, rowMax, colMax, HILBY, opRowMax, opColMax, OPCOUNT) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$updateBlock$ & \emph{3-dimensional complex double array}. The right block tensor for the site \(n-1\), \(R^{[n-1]}\). \\ \hline
+% Input & \\ \hline
+% \lstinline$siteTensor$ & \emph{3-dimensional complex double array}. The matrix product state tensor for the site \(n\), in the standard format. \\
+% \lstinline$mpoTensor$ & \emph{2-dimensional complex double array}. The matrix product operator tensor for the site \(n\), in the standard format. \\
+% \lstinline$rightBlock$ & \emph{3-dimensional complex double array}. The rank-3 right block tensor for site \(n\), \(R^{[n]}\). Contains the contraction of the the expectation over the Hamiltonian from the last site, to the site \(n+1\), as shown in \cref{eq:vs1-5}. \\
+% \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
+% \lstinline$opRowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
+% \lstinline$opColMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from zero}. Should be a positive integer. Indexed from zero in this case as it is used to generate a linear index. \\
+% \lstinline$OPCOUNT$ & \emph{Double}. The larger of \lstinline$opRowMax$ and \lstinline$opColMax$ plus one. The maximum virtual dimension of the matrix product operator tensor for site \(n\), \(\hat{O}^{[n]}\), \emph{when indexed from one}. Should be a positive integer. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item Needs unit testing.
+% \end{itemize}
+% 
+% \subsubsection{LCan}
+% \paragraph{Docstring} This is a low-level function interfaced by \lstinline$Can$. It is responsible for renormalising a site tensor, or continuous set of site tensors so that they are left-canonical. This is achieved using a QR decomposition, as it is faster than an SVD decomposition. The site tensor \(A^{[n]}\) is reshaped to form the matrix \(M\) which is decomposed as \(M=QR\). The \(Q\) matrix is reshaped to replace the site tensor \(A^{[n]}\), and \(R\) is multiplied in to the next site tensor along, \(A^{[n+1]}\).
+% \begin{lstlisting}
+% function [lmps] = LCan(mps, route) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$lmps$ & \emph{\(N \times 1\) cell array}. A matrix product state in the standard format, with sites along the specified route made left-canonical. \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. A matrix product state, in the standard format. \\
+% \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 0, and less than \(N\), and they should form a continuous route through the system -- \lstinline$[start : 1 : stop]$. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+% \lstinline$CanTest.m$. Creates random matrix product states using a range of local state space sizes, system sizes, and levels of compression. Checks that using \lstinline$LCan$ does not affect the norm of the matrix product state, and does not change the state it represents.
+% \paragraph{Improvements}
+% \begin{itemize}
+% \item \lstinline$CanTest$ relies on the debug function \lstinline$Rebuild$ to check state does not change -- this is not ideal. Instead of rebuilding the entire state vector, elements from it could be sampled.
+% \end{itemize}
+%
+% \subsubsection{RCan}
+% \paragraph{Docstring} This is a low-level function interfaced by \lstinline$Can$. It is responsible for renormalising a site tensor, or continuous set of site tensors so that they are right-canonical. The site tensor \(A^{[n]}\) is reshaped into the matrix \(M\) which is decomposed as \(M = USV^{\dagger}\). The unitary matrix \(V^{\dagger}\) is reshaped to form the new site tensor \(A^{[n]}\), and \(US\) is multiplied in to the next site tensor along, \(A^{[n-1]}\).
+% \begin{lstlisting}
+% function [rmps] = RCan(mps, route) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$rmps$ & \emph{\(N \times 1\) cell array}. A matrix product state in the standard format, with sites along the specified route made right-canonical. \\ \hline
+% Input & \\ \hline
+% \lstinline$mps$ & \emph{\(N \times 1\) cell array}. A matrix product state, in the standard format. \\
+% \lstinline$route$ & \emph{1-dimensional double array}. Contains the site, or sites which are to be made canonical. May be as small as 1 element, or as large as \(N - 1\). All values should be integers larger than 1, and no larger than \(N\), and they should form a continuous route through the system -- \lstinline$[start : -1 : stop]$. \\
+% \hline
+% \end{longtabu}
+% \paragraph{Testing}
+%  \lstinline$CanTest.m$. Creates random matrix product states using a range of local state space sizes, system sizes, and levels of compression. Checks that using \lstinline$RCan$ does not affect the norm of the matrix product state, and does not change the state it represents.
+%  \paragraph{Improvements}
+%  \begin{itemize}
+%  \item The QR decomposition is considerably faster than the SVD, and could be used here instead.
+%  \item \lstinline$CanTest$ relies on the debug function \lstinline$Rebuild$ to check state does not change -- this is not ideal. Instead of rebuilding the entire state vector, elements from it could be sampled.
+%  \end{itemize}
+%  
+% \subsubsection{SiteUpdate}
+% \paragraph{Docstring} A very simple function that takes an eigenvector of \(H^{[n]}_{\mathrm{eff}}\) and reshapes it to form the new rank-3 site tensor, \(A^{[n]}\). 
+% \begin{lstlisting}
+% function [updateMatrix] = SiteUpdate(eigVec, rowMax, colMax, HILBY) \end{lstlisting}
+% \begin{longtabu}{X[1,l]X[4,l]}
+% \hline
+% Return & \\ \hline
+% \lstinline$updateMatrix$ & \emph{3-dimensional complex double array}. The new rank-3 site tensor \(A^{[n]}\). \\ \hline
+% Input & \\ \hline
+% \lstinline$eigVec$ & \emph{1-dimensional complex double array}. An eigenvector of the effective Hamiltonian for the site \(n\). Must have dimension \lstinline$rowMax$\(\times\)\lstinline$colMax$\(\times\)\lstinline$HILBY$. \\
+% \lstinline$rowMax$ & \emph{Double}. The size of the first virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$colMax$ & \emph{Double}. The size of the second virtual dimension of the matrix product state tensor for site \(n\), \(A^{[n]}\). Should be a positive integer. Will range between 1 and \(\chi_{\mathrm{max}}\).\\
+% \lstinline$HILBY$ & \emph{Double}. The size of the local state space, which we have previously referred to as \(d\). Should be a positive integer greater than 1. \\
+% \hline
+% \end{longtabu}
  
 \FloatBarrier 
  
- \subsection{Stationary State Implementation}
+ \subsection{Stationary State Search Implementation}
  
  \begin{figure}[ht!]
  \centering
@@ -447,7 +466,7 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \label{fig:vs2-2}
  \end{figure} 
  
- We will now discuss the variational stationary state search. The implementation is also written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. The principle difference between this and the ground state search code, is that our matrix product state now has two physical indices, \(|i \rangle \langle j |\), and our matrix product operator has four. To make the dsitinction clear, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}. Finally, we note that this code makes use of an external library, the PRIMME eigensolver \cite{SM10,WRS16}.
+ We will now discuss the \lstinline$mpostat$ variational stationary state search code. The implementation is written for MATLAB \cite{MATLAB}, and at the time of writing is held in a git repository hosted at Ref~\cite{otb:gitVSSS}. In this section we will use the conventions that \(N\) is the number of sites in our system, and \(d\) is the dimension of the local state space, so the total state space of our system would be \(d^{N}\), and the full density matrix has \(d^{2N}\) elements. \Cref{fig:vs2-2} shows the structure of the code diagramatically. To clearly distinguish between this and a ground state search, we refer to the matrix product state as a `density matrix product operator'. In order to write this code I referred to the ever useful Ref~\cite{Schollwoeck11}, and also to two more recent papers which dealt specifically with variational stationary state searches \cite{CCB15,MFS15}. Finally, we note that this code makes use of an external library, the PRIMME eigensolver \cite{SM10,WRS16}.
  
 % FORMATS
  \subsubsection{Standard Format}
@@ -460,7 +479,11 @@ We do this on the first site in our system, and then re-normalise using an SVD o
  \end{tabu}
 
 \paragraph{MPO}
-The matrix product operator is also an \(N \times 1\) cell array. Each cell contains the MPO tensor \(O^{[n]}_{i,j,k,l,p,q}\). Each tensor is a 6-dimensional complex double array, with the first four indices corresponding to the physical dimensions of the Liouvillian (an input and output density matrix), and the last two indices corresponding to the MPO virtual dimensions.
+The matrix product operator is also an \(N \times 1\) cell array. Each cell contains the MPO tensor \(O^{[n]}_{i,j,k,l,p,q}\). Each tensor is a 6-dimensional complex double array, with the first four indices corresponding to the physical dimensions of the Liouvillian (an input and output density matrix), and the last two indices corresponding to the MPO virtual dimensions. The size of the first virtual dimension on the first site, and the second virtual dimension on the last site is always 1, as the MPO also follows the convention of beginning with a row vector, and ending with a column vector. Unlike the DMPO, the MPO has the same virtual dimensions on every site between the first and last.
+
+ \begin{tabu} to \linewidth {X[c]|X[c]}
+  	\(O^{[n]}_{i,j,k,l,p,q}\) & \lstinline$mpo\{n\}(i,j,k,l,p,q)$
+ \end{tabu}
  
 % TOP FUNCTIONS
  \subsubsection{DDMPO}
