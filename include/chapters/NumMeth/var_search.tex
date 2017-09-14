@@ -20,6 +20,52 @@ In this chapter we consider variational searches using matrix product states. We
  Secondly, we can perform useful operations on individual site tensors. A tensor network can be constructed which when contracted yields the result of some operator acting on the matrix product state. Furthermore, expectation values can be calculated by introducing the conjugate matrix product state. This allows us to efficiently investigate the system represented by the MPS, as long as we do not require representation of a state with more entanglement than compression allows. One example of this which we shall discuss in great detail is the variational search, in which individual site tensors are optimised with respect to some operator such as a Hamiltonian or Liouvillian. One can also efficiently perform time evolution of the state, and indeed this was the first method developed explicitly using MPS, being familiar from DMRG. Such efficient operations on MPS represented states requires a Matrix Product Operator (MPO) representation of the operator in question, which we shall discuss next.  
  
  \subsubsection{Matrix Product Operators}
+ In order to make effective use of matrix product states we must be able to write operators in a compatible format. This is achieved through the matrix product operator formalism, however, MPOs must, in general, be constructed by hand. We will discuss the process of doing so, beginning with the following simple one-dimensional Heisenberg XXX model with open boundary conditions,
+ \begin{equation}
+ 	\mathcal {H} = -J \sum_{j=1}^{N-1} \left[ \sigma^{x}_{j}\sigma^{x}_{j+1} + \sigma^{y}_{j}\sigma^{y}_{j+1} + \sigma^{z}_{j}\sigma^{z}_{j+1} \right] - h \sum_{j=1}^{N} \hat{\sigma}^{z}_{j},  
+ 	\label{eq:mpo1-1}
+ \end{equation}
+ where \(\sigma^{x,y,z}\) are the spin Pauli matrices, \(J\) is a coupling constant, and \(h\) is an external field. To form the MPO it is simplest to ignore the physical indices of each tensor, and instead work in terms of local operators. The problem is then to design a set of matrices which, when multiplied through recover the operator form of the Hamiltonian. We recall the fact that the notation \(\sigma^{x}_{j}\) is a short hand which in fact refers to the tensor product,
+ \begin{equation*}
+ 	\cdots \mathbb{I} \otimes \mathbb{I} \otimes \sigma^{x} \otimes \mathbb{I} \otimes \mathbb{I} \cdots
+ \end{equation*}
+ where the \(sigma^{x}\) is the \(j^{\mathrm{th}}\) operator in the chain. Keeping that in mind, our MPO matrices should deliver chains of operators of the form,
+ \begin{equation*}
+ 	\cdots \mathbb{I} \otimes -h\sigma^{z} \otimes \mathbb{I} \cdots
+ \end{equation*}
+ and
+ \begin{equation*}
+ 	\cdots \mathbb{I} \otimes -J\sigma^{x,y,z} \otimes \sigma^{x,y,z} \otimes \mathbb{I} \cdots
+ \end{equation*}
+ for each site. Additionally, as with the MPS, the first site MPO tensor should be a row vector, and the last site MPO tensor should be a column vector. Since the Hamiltonian is homogeneous across all sites in the bulk, the same MPO tensor can be used for each. One valid formulation then is,
+ \begin{align}
+ 	H^{[1]} &= \begin{bmatrix} -h\sigma^{z} & -J\sigma^{x} & -J\sigma^{y} & -J\sigma^{z} & \mathbb{I} \end{bmatrix}, \label{eq:mpo1-2} \\
+ 	H^{[\mathrm{bulk}]} &= \begin{bmatrix} \mathbb{I} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{x} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{y} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{z} & 0 & 0 & 0 & 0 \\
+ 										    -h\sigma^{z} & -J\sigma^{x} & -J\sigma^{y} & -J\sigma^{z} & \mathbb{I}
+ 							\end{bmatrix}, \label{eq:mpo1-3} \\
+ 	H^{[N]} &= \begin{bmatrix} \mathbb{I} \\ \sigma^{x} \\ \sigma^{y} \\ \sigma^{z} \\ -h\sigma^{z} \end{bmatrix}, \label{eq:mpo1-4}
+ \end{align}
+ which in the simplest, three-site case yields,
+ \begin{align}
+ 	H^{[1]}H^{[2]}H^{[3]} &= \begin{bmatrix} -h\sigma^{z} & -J\sigma^{x} & -J\sigma^{y} & -J\sigma^{z} & \mathbb{I} \end{bmatrix} 
+ 							\begin{bmatrix} \mathbb{I} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{x} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{y} & 0 & 0 & 0 & 0 \\
+ 										   \sigma^{z} & 0 & 0 & 0 & 0 \\
+ 										    -h\sigma^{z} & -J\sigma^{x} & -J\sigma^{y} & -J\sigma^{z} & \mathbb{I}
+ 							\end{bmatrix}
+ 							\begin{bmatrix} \mathbb{I} \\ \sigma^{x} \\ \sigma^{y} \\ \sigma^{z} \\ -h\sigma^{z} \end{bmatrix}, \notag \\
+ 						  &= \begin{bmatrix} (-h\sigma^{z}\mathbb{I} - J\sigma^{x}\sigma^{x} - J\sigma^{y}\sigma^{y} - J\sigma^{z}\sigma^{z} - h\mathbb{I}\sigma^{z}) & -J\mathbb{I}\sigma^{x} & -J\mathbb{I}\sigma^{y} & -J\mathbb{I}\sigma^{z} & \mathbb{I}\mathbb{I} \end{bmatrix}
+ 						     \begin{bmatrix} \mathbb{I} \\ \sigma^{x} \\ \sigma^{y} \\ \sigma^{z} \\ -h\sigma^{z} \end{bmatrix}, \notag \\
+ 						  &= -h\sigma^{z}\mathbb{I}\mathbb{I} - J\sigma^{x}\sigma^{x}\mathbb{I} - J\sigma^{y}\sigma^{y}\mathbb{I} - J\sigma^{z}\sigma^{z}\mathbb{I} - h\mathbb{I}\sigma^{z}\mathbb{I} - J \mathbb{I}\sigma^{x}\sigma^{x} - J \mathbb{I}\sigma^{y}\sigma^{y} - J \mathbb{I}\sigma^{z}\sigma^{z} - h \mathbb{I}\mathbb{I}\sigma^{z},
+ 	\label{eq:mpo1-5}
+ \end{align}
+ which is indeed correct. How exactly the physical and virtual dimensions are arranged after this point is an implementation detail, which we need not concern ourselves with at the design stage. It should be noted that this formulation is not unique, but we have chosen certain conventions, such as scalar coefficients being included in the `leading' terms, and making use of the bottom row and first column in the bulk MPO. Obviously, more complex Hamiltonians require more complex MPOs -- in particular moving beyond nearest-neighbour coupling requires making use of the inner space in the bulk MPO, and the creation of `passing lanes' in the main row and column. We defer further discussion of that until later when we discuss Ref.~\cite{OBH17}, which relied heavily on such techniques. 
+ 
+ We will now briefly discuss the additional complexity involved in creating an MPO for a Liouvillian, as this is directly useful for the variational stationary state code presented later.  
  
  \subsubsection{Variational Search}
  It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator. Given a set of variational parameters upon which the eigenfunctions depend, one can move always to a lower eigenvalue, by minimising over one parameter at a time \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
