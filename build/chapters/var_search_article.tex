@@ -43,15 +43,6 @@
 	commentstyle=\color{ForestGreen}
 }
 
-% Promote sections for article compilation
-\newenvironment{levelup}% Promote sectional commands
-  {%\let\subparagraph\paragraph%
-   %\let\paragraph\subsubsection%
-   \let\subsubsection\subsection%
-   \let\subsection\section%
-   %\let\section\relax%
-  }{}
-
 \begin{document}
 
 \maketitle
@@ -59,9 +50,7 @@
 \tableofcontents
 \vspace{5mm}
 
-\begin{levelup}
 \input{\chappath/NumMeth/var_search}
-\end{levelup}
 
 \bibliographystyle{apsrev4-1-title}
 \bibliography{\refpath/literature,\refpath/web,\refpath/book}
