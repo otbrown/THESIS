@@ -23,6 +23,9 @@
 \author{Oliver Thomson Brown}
 \title{Variational Search}
 
+\definecolor{brown}{HTML}{804000}
+\newcommand{\otb}[1]{{\color{brown} \sc #1}}
+
 \tabulinesep=2mm
 
 \lstset{
@@ -40,15 +43,6 @@
 	commentstyle=\color{ForestGreen}
 }
 
-% Promote sections for article compilation
-\newenvironment{levelup}% Promote sectional commands
-  {%\let\subparagraph\paragraph%
-   %\let\paragraph\subsubsection%
-   \let\subsubsection\subsection%
-   \let\subsection\section%
-   %\let\section\relax%
-  }{}
-
 \begin{document}
 
 \maketitle
@@ -56,9 +50,7 @@
 \tableofcontents
 \vspace{5mm}
 
-\begin{levelup}
-\input{\chappath/NumMeth/var_search}
-\end{levelup}
+\input{\chappath/NumericalMethods}
 
 \bibliographystyle{apsrev4-1-title}
 \bibliography{\refpath/literature,\refpath/web,\refpath/book}
