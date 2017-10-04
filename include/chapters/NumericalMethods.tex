@@ -20,16 +20,16 @@ In this chapter we consider the numerical methods we have used to study the dyna
  Secondly, we can perform useful operations on individual site tensors. A tensor network can be constructed which when contracted yields the result of some operator acting on the matrix product state. Furthermore, expectation values can be calculated by introducing the conjugate matrix product state \cite{Schollwoeck11,Orus14}. This allows us to efficiently investigate the system represented by the MPS, as long as we do not require representation of a state with more entanglement than compression allows. One example of this which we shall discuss in great detail is the variational search, in which individual site tensors are optimised with respect to some operator such as a Hamiltonian or Liouvillian \cite{VPC04,CCB15}. One can also efficiently perform time evolution of the state, and indeed this was the first method developed explicitly using MPS, being familiar from DMRG \cite{Vidal04}. Such efficient operations on MPS represented states requires a Matrix Product Operator (MPO) representation of the operator in question, which we shall discuss next.  
  
  \subsection{Matrix Product Representation of Operators}
- In order to make effective use of matrix product states it is helpful to write operators in a compatible format. This is achieved through the matrix product operator formalism, however, MPOs must, in general, be constructed by hand \cite{McCulloch07,CB08,FND10,PMCV10,Schollwoeck11}. We will discuss the process of doing so, beginning with the following simple one-dimensional Heisenberg XXX model with open boundary conditions,
+ In order to make effective use of matrix product states it is helpful to write operators in a compatible format. This is achieved through the matrix product operator formalism, however, MPOs must, in general, be constructed by hand \cite{McCulloch07,CB08,FND10,PMCV10,Schollwoeck11}. Note that when I refer to MPOs throughout this thesis I mean matrix product representations of operators such as the Hamiltonian, Liouvillian, or observables. The distinction is necessary as the matrix product representation of a density matrix is also a matrix product operator by dint of having both input and output states. I will refer to an MPO representation of a density matrix as a Density Matrix Product Operator (DMPO), in order to distinguish it. We will now discuss the process of constructing an MPO, beginning with the following simple one-dimensional Heisenberg XXX model with open boundary conditions,
  \begin{equation}
  	\mathcal {H} = -J \sum_{j=1}^{N-1} \left[ \sigma^{x}_{j}\sigma^{x}_{j+1} + \sigma^{y}_{j}\sigma^{y}_{j+1} + \sigma^{z}_{j}\sigma^{z}_{j+1} \right] - h \sum_{j=1}^{N} \hat{\sigma}^{z}_{j},  
  	\label{eq:mpo1-1}
  \end{equation}
- where \(\sigma^{x,y,z}\) are the spin Pauli matrices, \(J\) is a coupling constant, and \(h\) is an external field. To form the MPO it is simplest to ignore the physical indices of each tensor, and instead work in terms of local operators. The problem is then to design a set of matrices which, when multiplied through recover the operator form of the Hamiltonian. We recall the fact that the notation \(\sigma^{x}_{j}\) is a short hand which in fact refers to the tensor product,
+ where \(\sigma^{x,y,z}\) are the spin Pauli matrices, \(J\) is a coupling constant, and \(h\) is an external field. We recall the fact that the notation \(\sigma^{x}_{j}\) is a short hand which in fact refers to the tensor product,
  \begin{equation*}
  	\cdots \mathbb{I} \otimes \mathbb{I} \otimes \sigma^{x} \otimes \mathbb{I} \otimes \mathbb{I} \cdots
  \end{equation*}
- where the \(sigma^{x}\) is the \(j^{\mathrm{th}}\) operator in the chain. Keeping that in mind, our MPO matrices should deliver chains of operators of the form,
+ where the \(\sigma^{x}\) is the \(j^{\mathrm{th}}\) operator in the chain. Keeping that in mind, our MPO matrices should deliver chains of operators of the form,
  \begin{equation*}
  	\cdots \mathbb{I} \otimes -h\sigma^{z} \otimes \mathbb{I} \cdots
  \end{equation*}
@@ -68,7 +68,13 @@ In this chapter we consider the numerical methods we have used to study the dyna
  \end{align}
  which is indeed correct. How exactly the physical and virtual dimensions are arranged after this point is an implementation detail, which we need not concern ourselves with at the design stage. It should be noted that this formulation is not unique, but we have chosen certain conventions, such as scalar coefficients being included in the `leading' terms, and making use of the bottom row and first column in the bulk MPO. Obviously, more complex Hamiltonians require more complex MPOs -- in particular moving beyond nearest-neighbour coupling requires making use of the inner space in the bulk MPO, and the creation of `passing lanes' in the main row and column. We defer further discussion of that until later when we discuss Ref.~\cite{OBH17}, which relied heavily on such techniques. 
  
- We will now briefly discuss the additional complexity involved in creating an MPO for a Liouvillian, as this is directly useful for the variational stationary state code presented later. We note that formation of the Liouvillian matrix, \(\hat{\mathcal{L}}\) which acts on the vectorised density matrix, \(|\rho \rangle \rangle\), relies on the following property. Given the matrix equation,
+ We will now briefly discuss the additional complexity involved in creating an MPO for a Liouvillian, as this is directly useful for the variational stationary state code presented later. Firstly, we note that \(|\rho (\mathbf{x}) \rangle \rangle\) denotes the density matrix vectorised according to the isomorphism,
+\begin{align}
+\rho &= \sum_{ij} c_{ij} |i \rangle \langle j| \notag \\
+\rightarrow | \rho \rangle \rangle &= \sum_{ij} c_{ij} |j \rangle \otimes |i \rangle,
+\label{eq:vs1-11}
+\end{align}
+where \(|i\rangle\) is some complete set of basis states. Second, we note that formation of the Liouvillian matrix, \(\hat{\mathcal{L}}\) which acts on the vectorised density matrix, \(|\rho \rangle \rangle\) relies on the following property. Given the matrix equation,
  \begin{equation}
  	AXB = C,
  	\label{eq:mpo1-6}
@@ -77,14 +83,13 @@ In this chapter we consider the numerical methods we have used to study the dyna
  \begin{equation}
  	(B^{T} \otimes A)\vec{X} = \vec{C}.
  	\label{eq:mpo1-7}
- \end{equation}  
- 
+ \end{equation}
  Given then that the system dynamics are given by \(\dot{\rho} = -i[\mathcal{H}, \rho]\), we must write an MPO form of the equation,
  \begin{equation}
  	\hat{\mathcal{L}}|\rho \rangle \rangle = \left( \mathbb{I} \otimes -i\mathcal{H} + i\mathcal{H}^{T} \otimes \mathbb{I} \right)| \rho \rangle \rangle.
  	\label{eq:mpo1-8}
  \end{equation}
- The additional complexity in the MPO structure is clear -- we must account separately for terms on the `left' and `right' side of the tensor product. As an example we consider the bulk MPO for the dynamics of our one-dimensional Heisenberg XXX system. It is as follows,
+ The additional complexity in the MPO structure is clear -- we must account separately for terms on the `left' and `right' side of the tensor product. As an example we consider the bulk MPO for the dynamics of our one-dimensional Heisenberg XXX system \cref{eq:mpo1-1}. It is as follows,
  \begin{align}
  	&\hat{\mathcal{L}}^{\mathrm{bulk}} = \notag \\
  	&\resizebox{0.98\linewidth}{!}{%
@@ -115,13 +120,7 @@ with respect to some \(x\), where E is the energy of the system, \(\hat{H}\) is 
 \frac{\mathrm{d}\rho}{\mathrm{d}t} = \langle \langle \rho(\mathbf{x}^{*}) | \hat{\mathcal{L}^{\dagger}} \hat{\mathcal{L}} | \rho(\mathbf{x}) \rangle \rangle,
 \label{eq:vs1-2}
 \end{equation}
-with respect to some \(x\), where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\mathbf{x}\) is again some set of variational parameters. The notation \(|\rho (\mathbf{x}) \rangle \rangle\) denotes the density matrix vectorised according to the isomorphism,
-\begin{align}
-\rho &= \sum_{ij} c_{ij} |i \rangle \langle j| \notag \\
-\rightarrow | \rho \rangle \rangle &= \sum_{ij} c_{ij} |j \rangle \otimes |i \rangle,
-\label{eq:vs1-11}
-\end{align}
-where \(|i\rangle\) is some complete set of basis states. We will discuss here the generic case in which we have some observable \(O\) we wish to minimise, which has an operator \(\hat{O}\). As such we seek to use matrix product states to minimise the expression,
+with respect to some \(x\), where \(\hat{\mathcal{L}}\) is a Liouvillian, \(\rho\) is an approximation to the stationary state, and \(\mathbf{x}\) is again some set of variational parameters. We will discuss here the generic case in which we have some observable \(O\) we wish to minimise, which has an operator \(\hat{O}\). As such we seek to use matrix product states to minimise the expression,
 \begin{equation}
 \langle \psi(\mathbf{x}^{*}) | \hat{O} | \psi(\mathbf{x}) \rangle,
 \label{eq:vs1-10}
@@ -131,7 +130,7 @@ with respect to some \(x\). A visual representation of the variational search pr
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\linewidth]{\figpath/var_space}
-\caption{A visual representation of a variational search using matrix product states. The purple background represents the total state space of the system, and the green oval is the part of that state space that can be represented by a matrix product state of some finite dimension. The orange star represents our desired solution state, and it is inaccessible to the matrix product state space. The black circle is the initial matrix product state, the black star is the nearest matrix product state approximation to the solution state, and the black squares are states through which the matrix product state transitions on its way to the solution state. The black dashed line represents a variational step -- an optimisation over one or more of the variational parameters. The transitional states may or may not have some physical meaning in the context of the variational search depending on the specifics of the system being investigated. In general, however, if one wishes to know \emph{how} a system reaches the solution state a time evolution method should be used, not a variational search.}
+\caption{A visual representation of a variational search using matrix product states. The purple background represents the total state space of the system, and the green oval is the part of that state space that can be represented by a matrix product state of some finite dimension. The orange star represents our desired solution state, and in this case it is inaccessible to the matrix product state space. The black circle is the initial matrix product state, the black star is the nearest matrix product state approximation to the solution state, and the black squares are states through which the matrix product state transitions on its way to the solution state. The black dashed line represents a variational step -- an optimisation over one or more of the variational parameters. The transitional states may or may not have some physical meaning in the context of the variational search depending on the specifics of the system being investigated. In general, however, if one wishes to know \emph{how} a system reaches the solution state a time evolution method should be used, not a variational search.}
 \label{fig:vs1-1}
 \end{figure}
 
@@ -145,23 +144,22 @@ When using matrix product states the set of variational parameters we employ are
 \end{figure}
 
 The first site left block tensor \(L^{[1]}\) is just the scalar \(1\), as there are obviously no sites before the first. The second left block tensor \(L^{[2]}\) is then found by performing the contraction procedure,
-\begin{align}
-L^{[2]}_{r^{\prime}, c, q} &= \sum_{\sigma^{\prime}, c^{\prime}} A^{\dagger [1] \sigma^{\prime}}_{r^{\prime}, c^{\prime}} \left( \sum_{\sigma, p} O^{[1]  \sigma, \sigma^{\prime}}_{p, q} \left( \sum_{r} L^{[1]}_{c^{\prime}, r, p} A^{[1] \sigma}_{r, c} \right) \right), \notag \\
-&= \sum_{\sigma^{\prime}, c^{\prime}} A^{\dagger [1] \sigma^{\prime}}_{r^{\prime}, c^{\prime}} \left( \sum_{\sigma, p} O^{[1]  \sigma, \sigma^{\prime}}_{p, q} \left( \sum_{r} A^{[1] \sigma}_{r, c} \right) \right),
+\begin{equation}
+L^{[2]}_{r^{\prime}, c, q} = \sum_{\sigma^{\prime}, c^{\prime}} A^{\dagger [1] \sigma^{\prime}}_{r^{\prime}, c^{\prime}} \left( \sum_{\sigma, p} O^{[1]  \sigma, \sigma^{\prime}}_{p, q} \left( \sum_{r} A^{[1] \sigma}_{r, c} \right) \right),
 \label{eq:vs1-3}
-\end{align}
+\end{equation}
 where \(A^{[n]}\) is the matrix product state tensor for the site \(n\), \(\sigma\) indexes the local physical state, \(r\) and \(c\) (`row' and `column') index the local virtual dimensions, primed indices relate to the conjugate matrix product state tensor \(A^{\dagger [n]}\), and \(p\) and \(q\) index the virtual dimensions of the matrix product operator. The procedure continues from there, much as you might expect, by moving on to the third site and so on until the last site is reached. The general formula for \(L^{[n]}\) is,
 \begin{equation} 
 L^{[n]}_{r^{\prime}, c, q} = \sum_{\sigma^{\prime}, c^{\prime}} A^{\dagger [n-1] \sigma^{\prime}}_{r^{\prime}, c^{\prime}} \left( \sum_{\sigma, p} O^{[n-1]  \sigma, \sigma^{\prime}}_{p, q} \left( \sum_{r} L^{[n-1]}_{c^{\prime}, r, p} A^{[n-1] \sigma}_{r, c} \right) \right),
 \label{eq:vs1-4}
 \end{equation}
-which is shown diagramatically in \cref{fig:vs1-4}.
+which is shown diagramatically in \cref{fig:vsTMP}.
 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\linewidth]{\figpath/L_contract}
 \caption{A tensor network diagram which, when contracted, yields the `left block' for the site \(n\), \(L^{[n]}\). This is the operation described in \cref{eq:vs1-4}. The un-contracted indices \(c\), \(q\), and \(r'\), form the three dimensions of \(L^{[n]}\).}
-\label{fig:vs1-4}
+\label{fig:vsTMP}
 \end{figure}
 
 The procedure for forming the right block is naturally very similar, starting from the last site with \(R^{[N]} = 1\) and,
@@ -179,7 +177,7 @@ We will sweep backwards and forwards through the system, updating each site tens
 \Rightarrow \hat{H} |\psi(\mathbf{x}) \rangle &= E | \psi(\mathbf{x}) \rangle,
 \label{eq:vs1-6}
 \end{align}
-which of course is an expression of the time-independent Schr\"{o}dinger equation. If we could solve that for the many-body state \(| \psi (\mathbf{x}) \rangle\) then we would not need matrix product states at all. Unfortunately, we cannot, but what matrix product states allow us to do is to form an effective Hamiltonian for some particular \(| \psi(x) \rangle\), and instead solve the more limited eigenvalue problem,
+which of course is an expression of the time-independent Schr\"{o}dinger equation. If we could solve that for the many-body state \(| \psi (\mathbf{x}) \rangle\) then we would not need matrix product states at all. Unfortunately, we cannot -- the computational effort scales exponentially with the system size as the Hamiltonian has \(d^{2N}\) elements for a system with \(d\) local states, and \(N\) sites. What matrix product states allow us to do is to form an effective Hamiltonian for some particular \(| \psi(x) \rangle\), and instead solve the more limited eigenvalue problem,
 \begin{equation}
 \hat{H}_{\mathrm{eff}} |\psi(x) \rangle = E_{[x]} |\psi(x) \rangle,
 \label{eq:vs1-7}
@@ -189,13 +187,12 @@ from which we simply select \(|\psi(x) \rangle\) which corresponds to the lowest
 \hat{H}_{\mathrm{eff}}^{[n]} = \langle \psi(\tilde{\mathbf{x}}) | \hat{H} | \psi(\tilde{\mathbf{x}}) \rangle,
 \label{eq:vs1-8}
 \end{equation}
-where \(|\psi(\tilde{\mathbf{x}}) \rangle \) is our matrix product state \emph{excluding the tensor for the site \(n\)}. Such a contraction is shown diagramatically in \cref{fig:vs1-3}. Mathematically, the contraction is performed as,
+where \(|\psi(\tilde{\mathbf{x}}) \rangle \) is our matrix product state \emph{excluding the tensor for the site \(n\)}. Such a contraction is shown diagramatically in \cref{fig:vs1-4}. Mathematically, the contraction is performed as,
 \begin{equation}
 \hat{H}^{[n]\, \mathrm{eff}}_{r,c,r^{\prime},c^{\prime},\sigma,\sigma^{\prime}} = \sum_{p,q} L^{[n]}_{r,r^{\prime},p} O^{[n] \sigma, \sigma^{\prime}}_{p,q} R^{[n]}_{c,c^{\prime},q},
 \label{eq:vs1-9}
 \end{equation}
-which seems simple enough, and indeed would be except that we have an eigenvalue problem to solve. As such we require \(\hat{H}_{\mathrm{eff}}^{[n]}\) to be a matrix, not a rank-6 tensor. This can be accomplished by joining the indices corresponding to the matrix product state, and joining those of its conjugate to form a matrix \(\hat{H}^{[n]\, \mathrm{eff}}_{(\sigma ,r,c), (\sigma^{\prime},r^{\prime},c^{\prime})}\). Once this is achieved it is a simple matter of finding the eigenvector of \(\hat{H}^{[n]\, \mathrm{eff}}_{(\sigma ,r,c), (\sigma^{\prime},r^{\prime},c^{\prime})}\) corresponding to the optimal eigenvalue. Which eigenvalue depends explicitly on the problem you are trying to solve, and the eigenspectrum of the relevant operator -- some examples are given in \cref{tab:vs1-1}. This eigenvector is the vectorised site tensor \(A^{[n]}_{\sigma, r, c}\), which we reshape to be \(A^{[n] \sigma}_{r,c}\) and use to update our matrix product state.
-
+which seems simple enough, and indeed would be except that we have an eigenvalue problem to solve. As such we require \(\hat{H}_{\mathrm{eff}}^{[n]}\) to be a matrix, not a rank-6 tensor. This can be accomplished by joining the indices corresponding to the matrix product state, and joining those of its conjugate to form a matrix \(\hat{H}^{[n]\, \mathrm{eff}}_{(\sigma ,r,c), (\sigma^{\prime},r^{\prime},c^{\prime})}\). Once this is achieved it is a simple matter of finding the eigenvector of \(\hat{H}^{[n]\, \mathrm{eff}}_{(\sigma ,r,c), (\sigma^{\prime},r^{\prime},c^{\prime})}\) corresponding to the optimal eigenvalue. Which eigenvalue depends explicitly on the problem you are trying to solve, and the eigenspectrum of the relevant operator -- some examples are given in \cref{tab:vs1-1}. 
 \begin{table}[h!]
 	\centering
 	\begin{tabu} to \linewidth{l | c | c | c}
@@ -209,13 +206,15 @@ which seems simple enough, and indeed would be except that we have an eigenvalue
 	\label{tab:vs1-1}
 \end{table}
 
-We do this on the first site in our system, and then re-normalise using an SVD or QR decomposition in order to make the site left-canonical. We then update the left block tensor for the second site in the system, \(L^{[2]}\) using \cref{eq:vs1-4}. We are then ready to find an effective Hamiltonian for the second site and update it. This procedure repeats sweeping `right' through our system until we reach and update the \(N\)th site -- at this point we have updated every site in the system, but it is unlikely that our observable has converged after only one such sweep. The procedure for sweeping `left' through the system back to the first site is very similar, except when re-normalising we make our newly updated site right-canonical and then update the right block, \(R^{[n]}\). In this way we are always using the most up-to-date version of the system when we calculate the effective operator for a given site. The whole procedure repeats, sweeping left and right through the system until our chosen observable converges.
+This eigenvector is the vectorised site tensor \(A^{[n]}_{\sigma, r, c}\), which we reshape to be \(A^{[n] \sigma}_{r,c}\) and use to update our matrix product state. Given that, it should be clear that the size of the effective Hamiltonian is dependent on the local virtual dimensions. If the maximum size of the virtual dimensions is \(\chi_{\mathrm{max}}\), then the effective Hamiltonian has at most \(\chi_{\mathrm{max}}^{4}d^{2}\) elements, which is certain to be less than \(d^{2N}\) provided \(\chi_{\mathrm{max}} < d^{\frac{1}{2}(N-1)}\). It should come as no surprise that \(\chi_{\mathrm{max}} \geq d^{\frac{1}{2}(N-1)}\) is also the condition for a guaranteed exact MPS representation. Consider that an MPS tensor with square matrices for each physical state, and \(\chi = d^{\frac{1}{2}(N-1)}\) has \(d^{\frac{1}{2}(N-1)} \times d^{\frac{1}{2}(N-1)} \times d = d^{N}\) elements. 
+
+We update the first site in our system, and then re-normalise using an SVD or QR decomposition in order to make the site left-canonical. We then update the left block tensor for the second site in the system, \(L^{[2]}\) using \cref{eq:vs1-4}. We are then ready to find an effective Hamiltonian for the second site and update it. This procedure repeats sweeping `right' through our system until we reach and update the \(N\)th site -- at this point we have updated every site in the system, but it is unlikely that our observable has converged after only one such sweep. The procedure for sweeping `left' through the system back to the first site is very similar, except when re-normalising we make our newly updated site right-canonical and then update the right block, \(R^{[n]}\). In this way we are always using the most up-to-date version of the system when we calculate the effective operator for a given site. The whole procedure repeats, sweeping left and right through the system until our chosen observable converges.
 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\linewidth]{\figpath/effH_diagram}
 \caption{A diagrammatic representation of the contraction that must be performed in order to find the effective operator on some site \(n\). As usual the red circles represent matrix product state tensors, the blue squares represent some matrix product operator, and black lines are indices. The lines which reach into the gap left by the missing site \(n\) are indices which are left free, and will become the indices of the effective operator. As such, it can be seen that the effective operator will be a rank-6 tensor.}
-\label{fig:vs1-3}
+\label{fig:vs1-4}
 \end{figure}
 
 \subsection{Time evolution}
@@ -405,7 +404,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \paragraph{Testing} \lstinline$DMPOResizeTest$. Checks that the returned DMPO is the right size (across all variants of the `right' size), and that a too small value of \lstinline$COMPRESS$ is rejected, and an error thrown.
 
  \subsection{EffL}
- \paragraph{Docstring} This is an interface function for the low-level function which forms the effective Liouvillian matrix using the contraction procedure given in \cref{eq:vs1-9} and \cref{fig:vs1-3}. It does not perform the contraction itself, but provides a simplified call syntax for top-level functions, and allows for easier replacement of the low-level function. This function is dependent on \lstinline$EffLSparse$.
+ \paragraph{Docstring} This is an interface function for the low-level function which forms the effective Liouvillian matrix using the contraction procedure given in \cref{eq:vs1-9} and \cref{fig:vs1-4}. It does not perform the contraction itself, but provides a simplified call syntax for top-level functions, and allows for easier replacement of the low-level function. This function is dependent on \lstinline$EffLSparse$.
  \begin{lstlisting}
  function [effectiveLiouv] = EffL(TARGET, dmpo, mpo, left, right) \end{lstlisting}
  \begin{longtabu}{X[1,1]X[4,1]}
@@ -620,7 +619,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \paragraph{Testing} Creates a `density matrix' of all ones for various sizes of system, and then confirms that the trace is real, and equal to \(d^{N}\). 
 
  \subsection{EffLSparse}
- \paragraph{Docstring} This low-level function returns the effective Liouvillian for a particular site, in sparse matrix format. This is the tensor network contraction shown in \cref{eq:vs1-9} and \cref{fig:vs1-3}, and one of the most important tasks of the whole calculation. This function is interfaced by \lstinline$EffL$.
+ \paragraph{Docstring} This low-level function returns the effective Liouvillian for a particular site, in sparse matrix format. This is the tensor network contraction shown in \cref{eq:vs1-9} and \cref{fig:vs1-4}, and one of the most important tasks of the whole calculation. This function is interfaced by \lstinline$EffL$.
  \begin{lstlisting}
  function [effectiveLiouv] = EffLSparse(lBlock, siteMPO, rBlock, ROW_SIZE, COL_SIZE, HILBY) \end{lstlisting}
  \begin{longtabu}{X[1,1]X[4,1]}
