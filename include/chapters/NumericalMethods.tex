@@ -1,4 +1,4 @@
-In this chapter we consider the numerical methods we have used to study the dynamics of dissipative many-body quantum systems. In particular, we consider the use of Matrix Product States to approximate the state of the system. We will first discuss the theoretical underpinnings of MPS, and then consider in detail the variational search technique. I will then document my own implementation of this technique which performs a stationary state search. There is no suggestion that my implementation represents best practise, or is in any sense \emph{the right way} to perform these calculations. It is merely how \emph{I} approached the problem. It is written for MATLAB \cite{MATLAB}, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}. Finally, we will discuss time evolution methods, in particular Time Evolving Block Decimation which we have made use of in some of the poublished work included in this thesis. 
+In this chapter we consider the numerical methods we have used to study the dynamics of dissipative many-body quantum systems. In particular, we consider the use of Matrix Product States to approximate the state of the system. We will first discuss the theoretical underpinnings of MPS, and then consider in detail the variational search technique. We will then briefly discuss time evolution methods, in particular Time Evolving Block Decimation which we have made use of in some of the poublished work included in this thesis. I will then document my own implementation of the variational search which seeks stationary states. There is no suggestion that my implementation represents best practise, or is in any sense \emph{the right way} to perform these calculations. It is merely how \emph{I} approached the problem. It is written for MATLAB \cite{MATLAB}, and can at time of writing be found in repositories hosted at Ref~\cite{otb:githome}.
  
  \section{Theory}
  \subsection{Matrix Product States}
@@ -129,16 +129,16 @@ with respect to some \(x\). A visual representation of the variational search pr
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.8\linewidth]{\figpath/var_space}
+\includegraphics[width=0.9\linewidth]{\figpath/var_space}
 \caption{A visual representation of a variational search using matrix product states. The purple background represents the total state space of the system, and the green oval is the part of that state space that can be represented by a matrix product state of some finite dimension. The orange star represents our desired solution state, and in this case it is inaccessible to the matrix product state space. The black circle is the initial matrix product state, the black star is the nearest matrix product state approximation to the solution state, and the black squares are states through which the matrix product state transitions on its way to the solution state. The black dashed line represents a variational step -- an optimisation over one or more of the variational parameters. The transitional states may or may not have some physical meaning in the context of the variational search depending on the specifics of the system being investigated. In general, however, if one wishes to know \emph{how} a system reaches the solution state a time evolution method should be used, not a variational search.}
 \label{fig:vs1-1}
 \end{figure}
 
-When using matrix product states the set of variational parameters we employ are the individual site tensors, \(A^{[n]}\). We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}. I begin my explanation by assuming that we have already some initial matrix product state, \(\Psi_{\mathrm{init}}\) which is normalised, and has dimensions \(N \times \chi_{\mathrm{max}} \times \chi_{\mathrm{max}} \times d\), where \(N\) is the number of sites in the system, \(\chi_{\mathrm{max}}\) is the maximal allowed matrix dimension, and \(d\) is the local state space dimension. Additionally I assume we may represent the operator \(\hat{O}\) as a matrix product operator with site tensors \(O^{[n]}\). First, we construct left and right `blocks' for each site in the system. The left block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from the first site up to the site \(n-1\). The right block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from last site through to the site \(n+1\). This is shown diagramatically in \cref{fig:vs1-2}.
+When using matrix product states the set of variational parameters we employ are the individual site tensors, \(A^{[n]}\). We shall discuss the search procedure as prescribed by Ulrich Schollw\"{o}ck's excellent review article \cite{Schollwoeck11}. I begin my explanation by assuming that we have already some initial matrix product state, \(\Psi_{\mathrm{init}}\) which is normalised, and has dimensions \(N \times \chi_{j-1} \times \chi_{j} \times d\), where \(N\) is the number of sites in the system, \(d\) is the local state space dimension, \(\chi_{j}\) is the local virtual dimension and meets the condition \(\chi_{j} \leq \chi_{\mathrm{max}}\), which is the maximal allowed virtual dimension. Additionally I assume we may represent the operator \(\hat{O}\) as a matrix product operator with site tensors \(O^{[n]}\). First, we construct left and right `blocks' for each site in the system. The left block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from the first site up to the site \(n-1\). The right block for some site \(n\) is a rank-3 tensor which contains the expectation of \(\hat{O}\) from last site through to the site \(n+1\). This is shown diagramatically in \cref{fig:vs1-2}.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.8\linewidth]{\figpath/LR_blocks}
+\includegraphics[width=0.9\linewidth]{\figpath/LR_blocks}
 \caption{A tensor network diagram for a system which has been partially contracted in order to form left and right blocks, \(L^{[n]}\) and \(R^{[n]}\). The upper red dot here is a tensor for the site \(n\), \(A^{[n]}\), and the lower red dot is its conjugate, \(A^{\dagger [n]}\). The blue square is the mpo tensor \(O^{[n]}\) of some observable with an operator \(\hat{O}\). The black lines represent tensor indices which can be contracted over. If this contraction is completed it will be equivalent to a contraction over the full system, and the result will be the expectation value \(\langle \Psi | \hat{O} | \Psi \rangle \).}
 \label{fig:vs1-2}
 \end{figure}
@@ -157,7 +157,7 @@ which is shown diagramatically in \cref{fig:vsTMP}.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.8\linewidth]{\figpath/L_contract}
+\includegraphics[width=0.9\linewidth]{\figpath/L_contract}
 \caption{A tensor network diagram which, when contracted, yields the `left block' for the site \(n\), \(L^{[n]}\). This is the operation described in \cref{eq:vs1-4}. The un-contracted indices \(c\), \(q\), and \(r'\), form the three dimensions of \(L^{[n]}\).}
 \label{fig:vsTMP}
 \end{figure}
@@ -208,11 +208,28 @@ which seems simple enough, and indeed would be except that we have an eigenvalue
 
 This eigenvector is the vectorised site tensor \(A^{[n]}_{\sigma, r, c}\), which we reshape to be \(A^{[n] \sigma}_{r,c}\) and use to update our matrix product state. Given that, it should be clear that the size of the effective Hamiltonian is dependent on the local virtual dimensions. If the maximum size of the virtual dimensions is \(\chi_{\mathrm{max}}\), then the effective Hamiltonian has at most \(\chi_{\mathrm{max}}^{4}d^{2}\) elements, which is certain to be less than \(d^{2N}\) provided \(\chi_{\mathrm{max}} < d^{\frac{1}{2}(N-1)}\). It should come as no surprise that \(\chi_{\mathrm{max}} \geq d^{\frac{1}{2}(N-1)}\) is also the condition for a guaranteed exact MPS representation. Consider that an MPS tensor with square matrices for each physical state, and \(\chi = d^{\frac{1}{2}(N-1)}\) has \(d^{\frac{1}{2}(N-1)} \times d^{\frac{1}{2}(N-1)} \times d = d^{N}\) elements. 
 
-We update the first site in our system, and then re-normalise using an SVD or QR decomposition in order to make the site left-canonical. We then update the left block tensor for the second site in the system, \(L^{[2]}\) using \cref{eq:vs1-4}. We are then ready to find an effective Hamiltonian for the second site and update it. This procedure repeats sweeping `right' through our system until we reach and update the \(N\)th site -- at this point we have updated every site in the system, but it is unlikely that our observable has converged after only one such sweep. The procedure for sweeping `left' through the system back to the first site is very similar, except when re-normalising we make our newly updated site right-canonical and then update the right block, \(R^{[n]}\). In this way we are always using the most up-to-date version of the system when we calculate the effective operator for a given site. The whole procedure repeats, sweeping left and right through the system until our chosen observable converges.
+We update the first site in our system, and must then re-normalise the site. Note that computationally, the appropriate norm for a matrix product state is the vector norm,
+\begin{equation}
+	\langle \psi(\mathbf{x}^{*}) | \psi(\mathbf{x}) \rangle = 1,
+	\label{eq:vs1-12}
+\end{equation}
+regardless of the physical system being represented. For ground state searches this is no issue since the vector norm is also the appropriate measure for state vectors, however for density matrices the appropriate norm is the trace norm -- the vector norm must nevertheless be maintained to prevent numerical problems. The physically relevant trace norm condition,
+\begin{equation}
+	\mathrm{Tr}[\rho] = 1,
+	\label{eq:vs1-13}
+\end{equation}
+must be separately enforced (often by simply rescaling at the end of a calculation). In principle, one could recalculate the vector norm after every update and rescale the newly updated site in order to maintain the vector norm, however this is computationally costly, requiring a contraction through the full system. A smarter approach is to begin with an appropriately normalised MPS, and to use the singular value decomposition to maintain this normalisation. The SVD decomposes some matrix \(M\) in the following way,
+\begin{equation}
+	M = U S V^{\dagger},
+	\label{eq:vs1-14}
+\end{equation}
+where \(S\) is a diagonal matrix of singular values, and \(U\) and \(V\) are unitary matrices. We reshape our updated site tensor \(A^{[n] \sigma}_{r,c}\) into a matrix by joining the physical indices to the first virtual index (the \emph{rows}), and performing the SVD procedure on it. The first unitary matrix \(U\) is retained and reshaped to (once again) replace the site tensor. The singular value matrix and the second unitary are multiplied together, and then the product \(SV^{\dagger}\) is multiplied into the following site site tensor \(A^{[n+1] \sigma}_{r,c}\). This procedure ensures that normalisation is maintained throughout the system, and prevents large differences in scale between site tensors, which would cause numerical problems. That said, there is clearly a directionality to this procedure -- the reverse procedure is to retain the second unitary \(V^{\dagger}\), and to multiply \(US\) into the site site tensor \(A^{[n-1] \sigma}_{r,c}\). We therefore refer to site tensors as either left or right `canonical', and we ensure that all sites left of the update site are left-canonical, and all sites right of the update site are right-canonical. As well as ensuring normalisation is maintained, unitarity property this confers on the reshaped site tensors allows us to optimise certain contractions. Finally we note that in a sense, this procedure `pushes' the normalisation of the MPS through the system. Consequently, if the system is made left-canonical up to the last site (or right-canonical up to the first), then performing the canonisation procedure on the last (first) site yields a single non-zero singular value, which is the vector norm of the state.   
+
+Having performed the full update and renormalisation procedure on the first site, we then update the left block tensor for the second site in the system, \(L^{[2]}\) using \cref{eq:vs1-4}. We are then ready to find an effective Hamiltonian for the second site and update it. This procedure repeats sweeping `right' through our system until we reach and update the \(N\)th site -- at this point we have updated every site in the system, but it is unlikely that our observable has converged after only one such sweep. The procedure for sweeping `left' through the system back to the first site is very similar, except when re-normalising we make our newly updated site right-canonical and then update the right block, \(R^{[n]}\). In this way we are always using the most up-to-date version of the system when we calculate the effective operator for a given site. The whole procedure repeats, sweeping left and right through the system until our chosen observable converges.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.8\linewidth]{\figpath/effH_diagram}
+\includegraphics[width=0.9\linewidth]{\figpath/effH_diagram}
 \caption{A diagrammatic representation of the contraction that must be performed in order to find the effective operator on some site \(n\). As usual the red circles represent matrix product state tensors, the blue squares represent some matrix product operator, and black lines are indices. The lines which reach into the gap left by the missing site \(n\) are indices which are left free, and will become the indices of the effective operator. As such, it can be seen that the effective operator will be a rank-6 tensor.}
 \label{fig:vs1-4}
 \end{figure}
@@ -226,7 +243,7 @@ We update the first site in our system, and then re-normalise using an SVD or QR
  
  \begin{figure}[ht!]
  \centering
- \includegraphics[width=0.8\linewidth]{\figpath/mpostat}
+ \includegraphics[width=\linewidth]{\figpath/mpostat}
  \caption{A diagram showing the structure of the variational stationary state search code. Each rectangle is a function, with it's size indicating position in the program hierarchy. The largest are \emph{top level} functions which are intended to be called by the user, the medium sized are \emph{core} functions which are interface functions to the smallest squares, the \emph{utility} functions. The arrows represent calls and returns, with the return direction indicated by the arrow head i.e. \lstinline$Stationary$ calls \lstinline$GrowBlock$ and \lstinline$GrowBlock$ returns values to \lstinline$Stationary$. }
  \label{fig:vs2-2}
  \end{figure} 
