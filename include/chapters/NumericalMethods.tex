@@ -235,7 +235,23 @@ Having performed the full update and renormalisation procedure on the first site
 \end{figure}
 
 \subsection{Time evolution}
+Although the code written by myself implements the variational stationary state search, results included in this thesis [DRIVEN-DISSIPATIVE ARRAY REFERENCE] were calculated using time evolution. As such, we will briefly discuss how a matrix product state can be time evolved, specifically using the Time Evolving Block Decimation (TEBD) method due to Vidal [REFERENCE]. 
 
+In general, time evolution of a density matrix takes the following form,
+\begin{equation}
+	\rho(t) = \hat{U}(t)\rho(0)\hat{U}^{\dagger}(t),
+	\label{eq:te1}
+\end{equation}
+where,
+\begin{equation}
+	\hat{U}(t) = \mathrm{e}^{-i\mathcal{H}t}.
+	\label{eq:te2}
+\end{equation}
+So the question is, how to apply this operator to an MPS. 
+
+TEBD STUFF
+
+As well as TEBD, there are other, more modern time-evolution methods such as...	  
  
 \FloatBarrier 
  
