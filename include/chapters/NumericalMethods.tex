@@ -235,23 +235,45 @@ Having performed the full update and renormalisation procedure on the first site
 \end{figure}
 
 \subsection{Time evolution}
-Although the code written by myself implements the variational stationary state search, results included in this thesis [DRIVEN-DISSIPATIVE ARRAY REFERENCE] were calculated using time evolution. As such, we will briefly discuss how a matrix product state can be time evolved, specifically using the Time Evolving Block Decimation (TEBD) method due to Vidal [REFERENCE]. 
+Although the code written by myself implements the variational stationary state search, results included in this thesis [arXiv:1709.02165] were calculated using time evolution. As such, we will briefly discuss how a matrix product state can be time evolved, specifically using the Time Evolving Block Decimation (TEBD) method due to Vidal \cite{Vidal03}. 
 
-In general, time evolution of a density matrix takes the following form,
+First of all note that in TEBD we do not use an MPO, but instead split the Hamiltonian into commuting terms. For the sake of this explanation, we shall assume that the Hamiltonian only has nearest-neighbour interactions, and can therefore be written as a sum of terms on odd and even sites,
 \begin{equation}
-	\rho(t) = \hat{U}(t)\rho(0)\hat{U}^{\dagger}(t),
+	\mathcal{H} = \mathcal{H}_{\mathrm{odd}} + \mathcal{H}_{\mathrm{even}},
 	\label{eq:te1}
 \end{equation}
-where,
+where importantly, the following commutation relations hold,
+\begin{align}
+	\left[\mathcal{H}_{\mathrm{odd}}, \mathcal{H}_{\mathrm{odd}}\right] &= 0, \label{eq:te2} \\
+	\left[\mathcal{H}_{\mathrm{even}}, \mathcal{H}_{\mathrm{even}}\right] &= 0. \label{eq:te3}
+\end{align}
+We can then make use of the Suzuki-Trotter expansion \cite{Suzuki76} which in general is,
 \begin{equation}
-	\hat{U}(t) = \mathrm{e}^{-i\mathcal{H}t}.
-	\label{eq:te2}
+	\mathrm{e}^{A+B} = \lim_{n \rightarrow \infty}\left[ \mathrm{e}^{\frac{A}{n}} \mathrm{e}^{\frac{B}{n}}\right]^{n},
+	\label{eq:te4}
 \end{equation}
-So the question is, how to apply this operator to an MPS. 
+and which allows us to expand (to first order) the time evolution over some time-step \(\tau\),
+\begin{align}
+	|\psi(t+\tau)\rangle &= \mathrm{e}^{-i\mathcal{H}\tau}|\psi(t) \rangle, \notag \\ 
+	&= \mathrm{e}^{-i\mathcal{H}_{\mathrm{odd}}\tau}\mathrm{e}^{-i\mathcal{H}_{\mathrm{even}}\tau}|\psi(t) \rangle + \mathcal{O}(\tau^{2}).
+	\label{eq:te5}
+\end{align}
+In fact, it is more conventional to use the second-order expansion,
+\begin{equation}
+	\mathrm{e}^{-i\mathcal{H}\tau} = \mathrm{e}^{-i\mathcal{H}_{\mathrm{odd}}\tau / 2}\mathrm{e}^{-i\mathcal{H}_{\mathrm{even}}\tau}\mathrm{e}^{-i\mathcal{H}_{\mathrm{odd}}\tau / 2} + \mathcal{O}(\tau^{3}),
+	\label{eq:te6}
+\end{equation}
+which provides additional precision for little extra computational effort \cite{Schollwoeck11}. Note that since we have assumed nearest neighbour interactions here, the time-evolution operators will take the form of two-site gates, as shown in \cref{fig:te1}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{\figpath/TEBD_2siteGate}
+	\caption{\label{fig:te1} A time-evolution operator, \(\mathrm{e}^{-i\mathcal{H}_{\mathrm{odd}}\tau}\), being applied to a five site matrix product state system. The Hamiltonian contains only terms beginning on odd sites, \(j\), and extending only to \(j+1\). This means that each two site gate commutes with each other gate, and they can all be applied at once.}
+\end{figure}%
+Having determined the format of the operators, we consider the TEBD procedure. We begin with some normalised matrix product state \(|\psi\rangle\) with \(N\) sites, \(d\) local states, and a virtual dimension of \(\chi\). At each time-step each time-evolution operator is applied in turn by first combining and reshaping pairs of matrix product state site tensors. The two-site gate is then applied to each two-site MPS block, and the new matrix product state separated back into individual site tensors. During this separation step, the virtual dimension is truncated back to \(\chi\), by retaining the \(\chi\) largest singular values. This process is repeated until the desired integration time is reached. 
 
-TEBD STUFF
+The difference when considering stationary states of a dissipative quantum system is simply that, as before, we use a density matrix product operator describing the vectorised density marix \(| \rho \rangle\rangle\), and we replace the two-site Hamiltonian gates with two-site Liouvillian. Naturally, there is a commensurate increase in the dimensions of the problem.  
 
-As well as TEBD, there are other, more modern time-evolution methods such as...	  
+The requirement to be able to separate the operator into self-commuting terms is a clear disadvantage of this method, especially in systems with long range interactions. More modern approaches exist which attempt to overcome this limitation \cite{ZMKMP15,HLOVV16}, but it is still an open area of research. 
  
 \FloatBarrier 
  
