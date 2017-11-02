@@ -1,7 +1,42 @@
 In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad field, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by an `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will also briefly introduce some of the conventions from quantum optical lattice systems, in order to make later chapters more transparent. Then we will discuss what is meant by an `open' quantum systems, and consider what approximations are commonly applied in order to reduce the complexity of the problem. Finally we shall discuss how to construct a linear system of equations representing the many-body open quantum system.  
 
 \section{Many-Body Quantum Physics}
-THE MANY-BODY QUANTUM PROBLEM
+
+\subsection{How many?}
+Quantum physics has a problem. More than one actually, but the reader may safely assume that the author considers musing on the interpretation of quantum mechanics to be far above his pay-grade, and that he belongs to the ``Shut up and calculate!'' school of thought \cite{Mermin89}. What hardship then, does quantum mechanics present to those of us interested only in crunching numbers and getting results? 
+
+To answer that, let us first step back and consider a classical system. Consider some system of \(N\) components, each of which can be in one of two possible states. In total there are \(2^{N}\) possible configurations of the system, each of which can be \emph{completely} described by an \(N\)-bit string. Furthermore, if we increase \(N\) to \(N+m\), we only need to add \(m\) bits. Even if we change to a system where there are three possible states of each component, although the total state space increases in size to \(3^{N}\), since the system must exist in \emph{one and only one} of those configurations, we can still efficiently represent the system with just \(N\) bits. Mathematical representations of many-body classical systems scale linearly with the size of the system (the number of `bodies'). This does not mean that classical many-body problems are \emph{easy}, just that they get harder in proportion with the size of the system.  
+
+Enter quantum mechanics. We may again consider a system of \(N\) components, each of which can be in of two possible states, meaning there are \(2^{N}\) possible configurations -- so far, so good. However, there is a fundamental principle of quantum mechanics -- the Superposition principle -- that says that if a system may be in one of two states, which we shall label \(|0 \rangle\) and \(|1\rangle\), then it may also be in the state,
+\begin{equation}
+	| \psi \rangle = \alpha |0\rangle + \beta |1\rangle,
+	\label{eq:mbq1-1}
+\end{equation}
+where \(\alpha\) and \(\beta\) are complex coefficients. This means that we must replace each of our bits with a complex vector,
+\begin{equation}
+	|\psi \rangle = \begin{pmatrix}
+						\alpha \\
+						\beta
+					\end{pmatrix},
+	\label{eq:mbq1-2}
+\end{equation}
+where we have arbitrarily chosen a convention that the first element corresponds to \(|0\rangle\), and the second to \(|1\rangle\). Still if all takes to move to the quantum many-body problems is to move from \(N\) integers to \(2N\) complex floats, this is not so bad. Unfortunately, the superposition principle applies equally to the composite system. Taking \(N=3\), if \(|\Psi\rangle = |000\rangle\) and \(|\Psi\rangle = |111\rangle\) are valid configurations, so is 
+\begin{equation}  
+	| \Psi \rangle = c_{000}|000 \rangle + c_{111}| 111 \rangle,
+	\label{eq:mbq1-3}
+\end{equation}
+where \(c_{000}\) and \(c_{111}\) are again complex coefficients. In fact, any arbitrary combination of the \(2^{3} = 8\) possible states of the system,
+\begin{equation}
+	| \Psi \rangle = \sum^{1}_{i,j,k=0} c_{ijk} |ijk \rangle,
+	\label{eq:mbq1-4}
+\end{equation}
+is a valid state, so we must use a vector of 8 complex values to describe the state. More generally, if we have some system of \(N\) quantum components, each of which may be in any combination of \(d\) local states, we require a state vector of \(d^{N}\) complex elements. The representation of the system grows \emph{exponentially} with its size. This scaling problem is the crux of many-body quantum physics \cite{Barnett_MS,NielsenChuang_CS}. To compound the issue, it is also clear that the properties of a many-body system are unlikely to be well predicted by single- or even few-body systems -- it has long been understood that in nature ``more is different'' \cite{Anderson72}.
+
+\subsection{One-dimensional Lattice Systems}
+Properties particular to lattice systems, and one-dimensional problems. Introduce operator notation and interaction terms. Tight-binding, Bose-Hubbard?
+
+\subsection{Quantum Optics}
+Drive and dissipation. How can we create interaction between photons, and between sites? (Many-body physics with solitons)
 
 \section{Open Quantum Systems}
 
