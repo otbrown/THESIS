@@ -32,11 +32,30 @@ where \(c_{000}\) and \(c_{111}\) are again complex coefficients. In fact, any a
 \end{equation}
 is a valid state, so we must use a vector of 8 complex values to describe the state. More generally, if we have some system of \(N\) quantum components, each of which may be in any combination of \(d\) local states, we require a state vector of \(d^{N}\) complex elements. The representation of the system grows \emph{exponentially} with its size. This scaling problem is the crux of many-body quantum physics \cite{Barnett_MS,NielsenChuang_CS}. To compound the issue, it is also clear that the properties of a many-body system are unlikely to be well predicted by single- or even few-body systems -- it has long been understood that in nature ``more is different'' \cite{Anderson72}.
 
-\subsection{One-dimensional Lattice Systems}
-Properties particular to lattice systems, and one-dimensional problems. Introduce operator notation and interaction terms. Tight-binding, Bose-Hubbard?
+\Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the Matrix Product State technique, described in detail in the next chapter, was designed to defeat. 
 
-\subsection{Quantum Optics}
-Drive and dissipation. How can we create interaction between photons, and between sites? (Many-body physics with solitons)
+\begin{table}[hb!]
+	\centering
+	\begin{tabu}{lcc}
+		\hline
+		Object & Symbol & Size \\
+		\hline
+		State Vector & \(|\Psi\rangle\) & \(d^{N} \times 1\) \\
+		Hamiiltonian & \(\hat{H}\) & \(d^{N} \times d^{N}\) \\
+		Density Matrix & \(\rho\) & \(d^{N} \times d^{N}\) \\
+		Vectorised Density Matrix & \(|\rho \rangle\rangle\) & \(d^{2N} \times 1\) \\
+		Liouvillian Matrix & \(\hat{L}\) & \(d^{2N} \times d^{2N}\)
+	\end{tabu}
+	\caption{\label{tab:mbq1-1}}
+\end{table}
+
+
+\subsection{Strongly Interacting Light}
+The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to mediate strong interaction between photons
+
+\subsubsection{Non-Linear Cavity Array}
+
+\subsubsection{Superconducting Josephson Junctions}
 
 \section{Open Quantum Systems}
 
