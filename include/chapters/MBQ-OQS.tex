@@ -34,7 +34,7 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 
 \Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the Matrix Product State technique, described in detail in the next chapter, was designed to defeat. 
 
-\begin{table}[hb!]
+\begin{table}[ht!]
 	\centering
 	\begin{tabu}{lcc}
 		\hline
@@ -49,11 +49,11 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 	\caption{\label{tab:mbq1-1}}
 \end{table}
 
-
 \subsection{Strongly Interacting Light}
-The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to mediate strong interaction between photons
+The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to mediate strong interaction between photons. We will consider two such systems as examples -- non-linear cavity arrays and superconducting Josephson junctions -- and discuss how they can be engineered to fit the dissipative Bose-Hubbard type model we mostly consider in the research presented in this thesis.
 
 \subsubsection{Non-Linear Cavity Array}
+
 
 \subsubsection{Superconducting Josephson Junctions}
 
