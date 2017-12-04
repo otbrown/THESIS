@@ -34,7 +34,7 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 
 \Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the Matrix Product State technique, described in detail in the next chapter, was designed to defeat. 
 
-\begin{table}[ht!]
+\begin{table}[hb!]
 	\centering
 	\begin{tabu}{lcc}
 		\hline
@@ -50,12 +50,33 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 \end{table}
 
 \subsection{Strongly Interacting Light}
-The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to mediate strong interaction between photons. We will consider two such systems as examples -- non-linear cavity arrays and superconducting Josephson junctions -- and discuss how they can be engineered to fit the dissipative Bose-Hubbard type model we mostly consider in the research presented in this thesis.
+The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to trap light and then mediate strong interaction between photons. We will consider one such system as an example -- non-linear cavity arrays. We will discuss how they can be engineered to fit the driven-dissipative Bose-Hubbard type model we mostly consider in the research presented in this thesis.
 
 \subsubsection{Non-Linear Cavity Array}
+We begin by stating the model we intend to show is physically realisable,
+\begin{equation}
+	\mathcal{H} = \sum_{j} \left[\mu\hat{a}_{j}^{\dagger}\hat{a}_{j} + \frac{U}{2}\hat{a}_{j}^{\dagger 2}\hat{a}_{j}^{2} + J(\hat{a}_{j}\hat{a}_{j+1}^{\dagger} + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}) + \frac{\Omega}{\sqrt{2}}\hat{a}_{j}^{\dagger} + \frac{\Omega^{*}}{\sqrt{2}}\hat{a}_{j} \right],
+	\label{eq:mbq2-1}
+\end{equation}
+where \(\hat{a}_{j} (\hat{a}_{j}^{\dagger})\) is the bosonic annihilation (creation) operator on the lattice site \(j\), \(\mu\) is the `chemical potential', \(U\) is the interaction energy, \(J\) is the hopping rate between sites, and \(\Omega\) is the coherent drive strength, including a time-dependent phase, however we will typically neglect that by moving in to the rotating frame. In the rotating frame \(\mu\) will be replaced by a detuning of the drive from the energy levels of the system \(\Delta\), which we shall often neglect. Additionally we consider a standard Lindblad-form dissipator. We leave discussion of precisely what that means to the following section, however for now we do intend to show that we can control the dissipation rate \(\gamma\). This is the bosonic form of the fermionic Hubbard model \cite{Hubbard63} from solid-state physics, first considered by Fisher et al. \cite{FWGF89,HBP08}. We modify it with the inclusion of a coherent drive and a dissipator, as both are necessary for the generation of non-trivial dynamics -- a bosonic system with drive and no dissipation will trivially fill to infinity, while a bosonic system with dissipation and no drive will be trivially empty. So then, how do we trap light?
 
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.8\linewidth]{\figpath/FPetalon}
+\caption{Diagram of a simple planar cavity. Light enters through the mirror \(M_{1}\) and is then reflected between the two mirrors through some medium with a refractive index \(n\). Here we have assumed that \(M_{1}\) transmits perfectly in to the cavity and then light is perfectly reflected by both \(M_{1}\) and \(M_{2}\). Under this approximation the light is confined indefiniely and travels an infinite distance within the cavity. Only light whose wavelength is resonant with the cavity length, \(\lambda = 2nL_{\mathrm{cav}} / m\) where \(m\) is some integer, will survive under these conditions. Over an infinite number of round trips through the cavity even a small amount of destructive interference will result in total elimination of that wavelength of light. Obviously, real systems have losses in the form of absorption, transmission, and scattering, and will therefore neither perfectly isolate a single wavelength (and its harmonics), nor trap light indefinitely.}
+\label{fig:mbq2-1}
+\end{figure}
 
-\subsubsection{Superconducting Josephson Junctions}
+An optical cavity is any physical system in which light can be contained. The simplest such system is the Fabry-P\'{e}rot Etalon, a planar cavity consisting of two mirrors with some medium of refractive index \(n\) between \cite{PF1899,Fox_OC}. Such a system is shown diagramatically in \cref{fig:mbq2-1}. In the limit where the mirrors are perfectly reflective on the sides facing in to the cavity, and there are no absorption or scattering losses in the cavity medium, the light will travel an infinite number of round trips through the cavity and will be totally annihilated unless it is precisely resonant with the cavity length, that is,
+\begin{equation}
+	\lambda = \frac{2nL_{\mathrm{cav}}}{m},
+	\label{eq:mbq2-2}
+\end{equation}
+where \(m\) is some integer. Under these conditions, the light will be trapped indefinitely in the cavity. Obviously, the requirement that there is no absorption or scattering, and perfect reflectivity is physically unrealistic, so it is quite natural to consider such systems in the dissipative regime.
+
+[ABSORPTION + SCATTERING ARE BAD DISSIPATION, PURCELL EFFECT].
+
+Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with three parameters still to be accounted for
 
 \section{Open Quantum Systems}
 
