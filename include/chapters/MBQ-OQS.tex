@@ -49,6 +49,7 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 	\caption{\label{tab:mbq1-1}}
 \end{table}
 
+\FloatBarrier
 \subsection{Strongly Interacting Light}
 The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to trap light and then mediate strong interaction between photons. We will consider one such system as an example -- non-linear cavity arrays. We will discuss how they can be engineered to fit the driven-dissipative Bose-Hubbard type model we mostly consider in the research presented in this thesis.
 
@@ -74,9 +75,16 @@ An optical cavity is any physical system in which light can be contained. The si
 \end{equation}
 where \(m\) is some integer. Under these conditions, the light will be trapped indefinitely in the cavity. Obviously, the requirement that there is no absorption or scattering, and perfect reflectivity is physically unrealistic, so it is quite natural to consider such systems in the dissipative regime.
 
-[ABSORPTION + SCATTERING ARE BAD DISSIPATION, PURCELL EFFECT].
+In fact whether the physical origin of the photon loss is absorption or scattering by a mirror or the cavity medium, or by transmission from the cavity is essentially irrelevant to our dynamical equations. All three processes result in a photon leaving the system. In optics the ability of a cavity to retain light is usually referred to as its `quality factor', defined as
+\begin{equation}
+	\mathcal{Q} = \frac{4\pi L_{\mathrm{cav}}}{\lambda} \frac{1}{-\ln(p)},
+	\label{eq:mbq2-3}
+\end{equation}
+where \(p\) is the fraction of initial power remaining in the cavity after one round trip \cite{Siegman_chp11}. This measure includes loss from all possible sources, and can be exceedingly high in optical microcavities (\(>200\) million \cite{YOLYYV17}). This is important, as it allows us to reasonably neglect these losses \emph{which we cannot control}. Dissipation which we \emph{can} control is introduced through the Purcell effect.
 
-Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with three parameters still to be accounted for
+First presented to the American Physical Society by Edward Purcell in 1946 \cite{Purcell46}, the Purcell effect is the phenomenon in which spontaneous emission are enhanced (or suppressed) by the presence of a resonant cavity \cite{Fox_Purcell}. The \emph{Purcell factor} is the ratio of spontaneous emission rate in the presence of a second cavity to the original rate, so a purcell factor greater than one implies an enhancement to the spontaneous emission rate. The Purcell factor is proportional to the Q factor of the cavity, and inversely proportional to its modal volume, so smaller cavities with higher Q factors generate larger Purcell factors. In sum, this means that we can \emph{in principle} envision systems in which we are able to tune the dissipation rate on specific transitions. Naturally fabrication of such a device while possible \cite{GSGLCTM98}, is undoubtedly challenging. Be thankful then, that we are theorists.   
+
+Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with four parameters still to be accounted for -- the drive strength \(\Omega\), chemical potential \(\mu\), hopping rate \(t\), and interaction strength \(U\).
 
 \section{Open Quantum Systems}
 
