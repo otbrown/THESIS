@@ -108,8 +108,46 @@ The study of open quantum systems involves taking a well-behaved closed quantum 
 In this section we will begin by reminding ourselves of the properties of density matrices, followed by discussion of the Lindblad form master equation, and the approximations inherent to it. Finally, we will discuss some practical details of solving the dynamics of open quantum systems, which will aid in understanding the next chapter on numerical methods.
 
 \subsection{Density Matrix}
-The state vector suffices for describing a quantum system which is known to be in one particular state (a \emph{pure} state), but cannot adequately describe a quantum system which may be in one of a number of states. This \emph{ensemble} or \emph{mixed} state must be expressed using the density matrix, commonly denoted by \(\rho\).  \cite{NielsenChuang_DM}. 
+The state vector suffices for describing a quantum system which is known to be in one particular state (a \emph{pure} state), but cannot adequately describe a quantum system which may be in one of a number of states. This \emph{ensemble} or \emph{mixed} state must be expressed using the density matrix, commonly denoted by \(\rho\). The density matrix for an ensemble state is defined as,
+\begin{equation}
+	\rho = \sum_{j} p_{j} |\psi_{j} \rangle \langle \psi_{j}|,
+	\label{eq:oqs2-1}
+\end{equation}
+where \(p_{j} = |c_{j}|^{2}\) is the probability of finding the system in the state \(|\psi_{j}\rangle\) \cite{NielsenChuang_DM}. A valid density matrix has three important properties,
+\begin{align}
+	\mathrm{Tr}[\rho] &= 1, \label{eq:oqs2-2} \\
+	\rho &= \rho^{\dagger}, \label{eq:oqs2-3} \\
+	\langle \psi_{j}| \rho | \psi_{j} \rangle &\geq \, 0 \, \forall \, j, \label{eq:oqs2-4}
+\end{align}
+its trace is equal to one, it is hermitian, and its diagonal values are all greater than zero (formally it is \emph{positive semidefinite}). All three can be viewed as consequences of the interpretation of the diagonal values of the density matrix as probabilities for each state. The trace condition is simply the requirement that the probability of the system being in \emph{any} state is one, and the other two ensure that the eigenvalues are real and not-negative, making them valid probabilities.
+
+Observables of the system are calculated by taking the trace of the operator product,
+\begin{equation}
+	\langle \hat{O} \rangle = \mathrm{Tr}[\hat{O}\rho],
+	\label{eq:oqs2-5}
+\end{equation}
+while the system is operated on by applying the operator to `both halves' of the density matrix,
+\begin{align}
+	\rho (t) &= \hat{U}(t) \rho(0) \hat{U}^{\dagger}(t), \notag \\
+	&= \hat{U}(t) | \Psi(0) \rangle \langle \Psi(0) | \hat{U}^{\dagger}(t),
+	\label{eq:oqs2-6}
+\end{align}  
+where we have used a time evolution as an example. Finally, we can calculate the density matrix of a subsystem of a composite system by calculating the \emph{reduced density matrix},
+\begin{align}
+	\rho^{A} &= \mathrm{Tr}_{B}[\rho^{AB}], \notag \\
+	&= \sum_{j,k,l,m} |a_{j} \rangle \langle a_{k}| \langle b_{m} | b_{l} \rangle,
+	\label{eq:oqs2-7}
+\end{align}
+where \(|a_{j} \rangle\) and \(|b_{j} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively. This particularly property is what makes the density matrix invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment, however the environment can be traced out in order to consider the dynamics of just the system of interest. 
 
 \subsection{Lindblad Master Equation}
+Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems' \cite{BP_TMQME}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
+
+The diagonalised Lindblad master equation, named for G\"{o}ran Lindblad but based on both his work and that of Gorini, Kossakowski, and Sudarshan \cite{Lindblad76,GKS76}, is as follows,
+\begin{equation}
+	\frac{\mathrm{d}\rho}{\mathrm{d}t} = -i [\mathcal{H}, \rho] + \sum_{j} \frac{\gamma_{j}}{2} \left[ 2\hat{A}_{j} \rho \hat{A}_{j}^{\dagger} - \left\{\hat{A}_{j}^{\dagger}\hat{A}_{j}, \rho\right\}\right],
+	\label{eq:oqs2-8}
+\end{equation}
+where \(\mathcal{H}\) is the Hamiltonian for the system, the operators \(\hat{A}_{j}\) are the Lindblad operators on the site \(j\), which characterise the interaction between the system and its environment, and the anti-commutator \(\{a, b\} = ab + ba\). The first term is in fact the Liouville-von Neumann equation, 
 
 \subsection{Liouvillian as linear algebra}   
