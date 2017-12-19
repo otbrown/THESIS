@@ -138,7 +138,12 @@ where we have used a time evolution as an example. Finally, we can calculate the
 	&= \sum_{j,k,l,m} |a_{j} \rangle \langle a_{k}| \langle b_{m} | b_{l} \rangle,
 	\label{eq:oqs2-7}
 \end{align}
-where \(|a_{j} \rangle\) and \(|b_{j} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively. This particularly property is what makes the density matrix invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment, however the environment can be traced out in order to consider the dynamics of just the system of interest. 
+where \(|a_{j} \rangle\) and \(|b_{j} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively. This particularly property is what makes the density matrix invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment,
+\begin{equation}
+	\rho = \rho_{S} \otimes \rho_{E},
+	\label{eq:oqs2-8}
+\end{equation}
+where \(\rho_{S}\) is the state of the system of interest, and \(\rho_{E}\) is the state of the environment. The environment can be traced out in order to consider the dynamics of just the system of interest. 
 
 \subsection{Lindblad Master Equation}
 Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems' \cite{BP_TMQME}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
@@ -146,8 +151,44 @@ Throughout our research we will limit ourselves to consideration of master equat
 The diagonalised Lindblad master equation, named for G\"{o}ran Lindblad but based on both his work and that of Gorini, Kossakowski, and Sudarshan \cite{Lindblad76,GKS76}, is as follows,
 \begin{equation}
 	\frac{\mathrm{d}\rho}{\mathrm{d}t} = -i [\mathcal{H}, \rho] + \sum_{j} \frac{\gamma_{j}}{2} \left[ 2\hat{A}_{j} \rho \hat{A}_{j}^{\dagger} - \left\{\hat{A}_{j}^{\dagger}\hat{A}_{j}, \rho\right\}\right],
-	\label{eq:oqs2-8}
+	\label{eq:oqs3-1}
 \end{equation}
-where \(\mathcal{H}\) is the Hamiltonian for the system, the operators \(\hat{A}_{j}\) are the Lindblad operators on the site \(j\), which characterise the interaction between the system and its environment, and the anti-commutator \(\{a, b\} = ab + ba\). The first term is in fact the Liouville-von Neumann equation, 
+where \(\mathcal{H}\) is the Hamiltonian for the system, the operators \(\hat{A}_{j}\) are the Lindblad operators on the site \(j\), which characterise the interaction between the system and its environment, and the anti-commutator \(\{a, b\} = ab + ba\). The first term is in fact just the Liouville-von Neumann equation, which describes the unitary dynamics of the closed (non-dissipative) system \cite{BP_LvN}. The second term, often referred to as the dissipator,
+\begin{equation}
+	\mathcal{D}[\rho] = \sum_{j}\frac{\gamma_{j}}{2}\left[2\hat{A}_{j}\rho\hat{A}_{j}^{\dagger} - \left\{\hat{A}_{j}^{\dagger}\hat{A}_{j}, \rho\right\}\right],
+	\label{eq:oqs3-2}
+\end{equation}
+encodes the dissipative dynamics. Importantly, a dissipator of this form preserves both the positivity and trace of the density matrix upon which it operates, ensuring physical results. It is quite general, but does implicitly make the following two approximations.
 
-\subsection{Liouvillian as linear algebra}   
+First, the Born approximation. This approximation assumes that the influence of the system of interest on the environment is weak, and that the reduced density matrix for the environment is therefore approximately constant in time. This means that the density matrix for the system-environment composite is,
+\begin{equation}
+	\rho(t) \approx \rho_{S}(t) \otimes \rho_{E}.
+	\label{eq:oqs3-3}
+\end{equation} 
+This approximation is applied in order to eliminate the state of the environment from the equations of motion, and is valid provided the environment itself is very lossy, such that any excitations decay on a timescale much faster than those in the system of interest. Second, the Markov approximation. This approximation assumes that the system dynamics including the system-environment interactions are dependent only on the current system state, not any prior state. This approximation is made so that it is not necessary to integrate over the entire history of the system in order to determine the current interaction dynamics, and is valid provided that the system itself has no explicit dependency on its history, and again that the decay time of the environment is small compared to the timescale of system dynamics. In this way some excitation which decayed from the system to the environment at some time long ago cannot return to the system. These two approximations are often grouped together as the \emph{Born-Markov approximation} \cite{BP_BMS}.
+
+\subsection{The Liouvillian}
+The above section explains how we generate the dynamics of the density matrix, but not we find the stationary state,
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t}\rho_{SS} = 0,
+	\label{eq:oqs4-1}
+\end{equation}
+for this we convert the Lindblad into a system of linear equations, which is named the Liouvillian after its classical counterpart. The Lindblad is a \emph{superoperator}, acting on the density matrix from both the left and the right. In order to rephrase the dynamics as a system of coupled linear equations, we shall make use of the following property of matrix products,
+\begin{equation}
+	 \mathbf{A}\mathbf{X}\mathbf{B} = \left(\mathbf{B}^{T} \otimes \mathbf{A}\right)\bar{X},
+	 \label{eq:oqs4-2}
+\end{equation}
+ where \(\mathbf{A}, \mathbf{B}\) and \(\mathbf{X}\) are matrices, and \(\bar{X}\) is \(\mathbf{X}\) reshaped into a vector \cite{MO13,Roth34}. 
+ 
+ In this way the master equation \cref{eq:oqs3-1} is reformulated as the Liouvillian matrix,
+ \begin{align}
+ 	&\hat{L}|\rho \rangle \rangle = \notag \\ 
+ 	&\quad \left( \mathbb{I} \otimes -i\mathcal{H} + i\mathcal{H}^{T} \otimes \mathbb{I} + \sum_{j} \frac{\gamma_{j}}{2} \left[ \hat{A}_{j}^{*} \otimes 2\hat{A}_{j} - \mathbb{I} \otimes \hat{A}_{j}^{\dagger}\hat{A}_{j} - \hat{A}_{j}^{\dagger}\hat{A}_{j} \otimes \mathbb{I} \right]\right)|\rho\rangle\rangle,
+ 	\label{eq:oqs4-3}
+ \end{align}
+ where \(|\rho \rangle\rangle\) is the vectorised density matrix, and \(\mathbb{I}\) is the identity. Our stationary state is then trivially the solution to the system of equations,
+ \begin{equation}
+ 	\hat{L} |\rho_{SS} \rangle\rangle = 0,
+ 	\label{eq:oqs4-4}
+ \end{equation}
+ which for a small enough system we can solve directly using linear algebra methods. For larger systems, we make use of Matrix Product States, which will be the main topic of discussion on our next chapter on numerical methods.
