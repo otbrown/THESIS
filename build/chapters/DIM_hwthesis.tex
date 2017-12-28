@@ -1,0 +1,62 @@
+\documentclass[a4paper,oneside,12pt]{hwthesis}
+
+%PATHDEFS
+\newcommand*{\figpath}{../../include/figures}
+\newcommand*{\chappath}{../../include/chapters}
+\newcommand*{\refpath}{../../include/refs}
+
+% packages
+\usepackage[square,numbers]{natbib}		
+\usepackage{amsmath}						
+\usepackage{amssymb}						
+\usepackage{graphicx}					
+\usepackage{hyperref}					
+\usepackage{cleveref}					
+\usepackage[section]{placeins}	
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[labelfont=bf]{caption}
+\usepackage{longtable}
+\usepackage{tabu}
+
+\tabulinesep=2mm
+
+\spacing{1.66}
+
+\lstset{
+	basicstyle=\ttfamily,
+	language=Matlab,
+	breaklines=true,
+	upquote=true,
+	keepspaces=true,
+	showstringspaces=false,
+	numbers=none,
+	numbersep=5pt,
+	numberstyle=\tiny\color{Gray},
+	keywordstyle=\color{Blue},
+	stringstyle=\color{Orchid},
+	commentstyle=\color{ForestGreen}
+}
+
+% title info
+\author{Oliver Thomson Brown}
+\title{Stationary States of Dissipative Many-Body Quantum Systems via Matrix Product States}
+\degree{Doctor of Philosophy in Physics}
+\department{Engineering \& Physical Sciences}
+\gmonth{December}
+\gyear{2017}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Dissipation-induced mobility and coherence in frustrated lattices}
+
+\input{\chappath/DIM}
+
+\bibliographystyle{apsrev4-1-title}
+\bibliography{\refpath/literature,\refpath/web,\refpath/book}
+
+\end{document}
