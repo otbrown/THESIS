@@ -1,6 +1,16 @@
-In this chapter we will discuss my contributions to the article `Dissipation-induced mobility and coherence in frustrated lattices' \cite{OBH17}. We will begin by discussing the motivation and theoretical background to the investigation, then we will discuss in some detail the design of the matrix product operator, which was complex due to the long range interactions present int his model, and was my primary contribution to the article. Finally we will present, and comment on results from this investigation.
+In this chapter we will discuss my contributions to the article `Dissipation-induced mobility and coherence in frustrated lattices' \cite{OBH17}. We will begin by discussing the motivation and theoretical background to the investigation, then we will discuss in some detail the design of the matrix product operator, which was complex due to the long range interactions present in this model, and was my primary contribution to the article. Finally we will present, and comment on results from this investigation.
 
 \section{Introduction}
+In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson58,LR85,SSC13}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating stationary states of the system. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{GuzmanSilvaEA14,VicencioEA15,MukherjeeEA15,MT15}, polaritons in etched semiconductor heterostructures \cite{JacqminEA14,BabouxEA16}, ultracold atomic gases in optical lattices \cite{TOINNT15}, surface plasmons \cite{NONK12,KUNNK16}, and they have been proposed in superconducting resonators \cite{YangEA16}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.  
+
+[DAS MODELL]
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.6\linewidth]{\figpath/DIM_model}
+\caption{The lattice with tunneling rates \(t\) and \(t'\) along with the labeling of the \(A\) and \(B\) sublattices and the unit cell \(i\). Excitations dissipate at a rate \(\gamma_{A(B)}\) from the individual sites of the \(A (B)\) sublattice and coherent or incoherent drives are applied with amplitude \(\Omega_{X, i}\) or intensity \(P_{X, i}(X = A,B)\). Reproduced from ref.~\cite{OBH17} with permission from the author.}
+\label{fig:dim1-1}
+\end{figure}
 
 \section{MPO Design}
 
