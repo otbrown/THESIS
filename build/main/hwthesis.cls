@@ -254,7 +254,7 @@ information derived from it should be acknowledged.
 
 
 % 1.5 line spacing (ick!)
-\linespread{1.3}
+%\linespread{1.3}
 
 % Marginal notes
 %\setlength{\marginparwidth}{.75in} % width of marginal notes
