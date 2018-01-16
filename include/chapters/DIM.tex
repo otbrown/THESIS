@@ -4,7 +4,7 @@ In this chapter we will discuss my contributions to the article `Dissipation-ind
 In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson58,LR85,SSC13}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating stationary states of the system. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{GuzmanSilvaEA14,VicencioEA15,MukherjeeEA15,MT15}, polaritons in etched semiconductor heterostructures \cite{JacqminEA14,BabouxEA16}, ultracold atomic gases in optical lattices \cite{TOINNT15}, surface plasmons \cite{NONK12,KUNNK16}, and they have been proposed in superconducting resonators \cite{YangEA16}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.  
 
 \subsection{The Model}
-The model is a sawtooth lattice -- consisting of two one-dimensional sublattices, labelled \(A\) and \(B\). Each site in the \(B\) sublattice is coupled to its two adjacent sites with some tunneling rate \(t\). Each site in the \(A\) sublattice is connected to its two adjacent sites in the \(B\) sublattice with some tunneling rate \(t'\), but is \emph{not} connected to other sites in the \(A\) sublattice. Both sublattices have an interaction energy \(U_{X}\) and each site has a coherent drive with amplitude \(\Omega_{X,i}\), or an incoherent drive with intensity \(P_{X,i}\), where the label \(X\) is \(A\) or \(B\) denoting the sublattice. The dissipative regime is one where the two sublattices have independent dissipation rates \(\gamma_{X}\) where again \(X = A,B\), and each site is dissipatively coupled to its own independent bath. The model is shown diagrammatically in \cref{fig:dim1-1}.
+The model is a sawtooth lattice -- consisting of two one-dimensional sublattices, labelled \(A\) and \(B\). Each site in the \(B\) sublattice is coupled to its two adjacent sites with some tunneling rate \(t\). Each site in the \(A\) sublattice is connected to its two adjacent sites in the \(B\) sublattice with some tunneling rate \(t'\), but is \emph{not} connected to other sites in the \(A\) sublattice. Both sublattices have an interaction energy \(U_{X}\) and each site has a coherent drive with amplitude \(\Omega_{X,i}\), where the label \(X\) is \(A\) or \(B\) denoting the sublattice. The dissipative regime is one where the two sublattices have independent dissipation rates \(\gamma_{X}\) where again \(X = A,B\), and each site is dissipatively coupled to its own independent bath. The model is shown diagrammatically in \cref{fig:dim1-1}.
 
 \begin{figure}[ht!]
 \centering
@@ -24,20 +24,17 @@ where,
 		H_{t} &= \sum_{i} \left[ t(\hat{b}_{i-1}^{\dagger}\hat{b}_{i} + \hat{b}_{i-1}\hat{b}_{i}^{\dagger}) + t'(\hat{b}_{i}^{\dagger}\hat{a}_{i} + \hat{b}_{i}^{\dagger}\hat{a}_{i-1} + \hat{b}_{i}\hat{a}_{i-1}^{\dagger} + \hat{b}_{i}\hat{a}_{i}^{\dagger})\right], \label{eq:dim1-3} \\
 		H_{U} &= \sum_{i} \left[ U_{A}\hat{a}_{i}^{\dagger}\hat{a}_{i}^{\dagger}\hat{a}_{i}\hat{a}_{i} + U_{B}\hat{b}_{i}^{\dagger}\hat{b}_{i}^{\dagger}\hat{b}_{i}\hat{b}_{i}\right], \label{eq:dim1-4}
 	\end{align}
-	where \(\omega_{0}\) is some on-site energy (setting \(\hbar=1\) and working in terms of frequencies, as is common in this field), and \(\hat{a}_{i} (\hat{b}_{i})\) is the bosonic annihilation operator for the site \(i\) on sublattice \(A(B)\). We defer specification of the driving Hamiltonian, \(H_{D}\), until after we have introduced the Wannier basis The master equation then has the standard Lindblad form, with additional terms to account for the possible presence of an incoherent pump,
+	where \(\omega_{0}\) is some on-site energy (setting \(\hbar=1\) and working in terms of frequencies, as is common in this field), and \(\hat{a}_{i} (\hat{b}_{i})\) is the bosonic annihilation operator for the site \(i\) on sublattice \(A(B)\). We defer specification of the driving Hamiltonian, \(H_{D}\), until after we have introduced the Wannier basis. The master equation then has the standard Lindblad form,
 	\begin{align}
 		\dot{\rho} = -i[H, \rho] &+ \frac{\gamma_{A}}{2}\sum_{i}\left[ 2\hat{a}_{i}\rho\hat{a}_{i}^{\dagger} - \{\hat{a}_{i}^{\dagger}\hat{a}_{i}, \rho\} \right] \notag \\
-		&+ \sum_{i} \frac{P_{A,i}}{2} \left[2\hat{a}_{i}^{\dagger}\rho\hat{a}_{i} - \{\hat{a}_{i}\hat{a}_{i}^{\dagger}, \rho\} \right] \notag \\
-		&+ \frac{\gamma_{B}}{2} \sum_{i} \left[ 2\hat{b}_{i}\rho\hat{b}_{i}^{\dagger} - \{\hat{b}_{i}^{\dagger}\hat{b}_{i}, \rho\} \right] \notag \\
-		&+ \sum_{i} \frac{P_{B,i}}{2} \left[ 2\hat{b}_{i}^{\dagger}\rho\hat{b}_{i} - \{\hat{b}_{i}\hat{b}_{i}^{\dagger}, \rho\} \right], 
-		\label{eq:dim1-6}
+		&+ \frac{\gamma_{B}}{2} \sum_{i} \left[ 2\hat{b}_{i}\rho\hat{b}_{i}^{\dagger} - \{\hat{b}_{i}^{\dagger}\hat{b}_{i}, \rho\} \right].
+		\label{eq:dim1-5}
 	\end{align}
-where we again remark that we only expect one of the two pumping mechanism to be present, so if \(\Omega_{i,X}\) is non-zero, \(P_{i,X} = 0\), and vice versa.
 
 In the non-interacting regime \((U_{A} = U_{B} = 0)\), the undriven Hamiltonian given by \(H_{0} + H_{t}\) can be written in terms of decoupled Bloch modes with frequencies given by,
 \begin{equation}
 	E_{k} = \omega_{0} + t \cos k \pm \sqrt{t^{2}\cos^{2}k + 2t^{'2}(1+\cos k)}.
-	\label{eq:dim1-7}
+	\label{eq:dim1-6}
 \end{equation}
 If we take the limit \(t' \rightarrow \sqrt{2}t\) we find,
 \begin{align}
@@ -46,11 +43,62 @@ If we take the limit \(t' \rightarrow \sqrt{2}t\) we find,
 	&= \omega_{0} + t \cos k \pm \sqrt{t^{2}(\cos^{2}k + 4 + 4\cos k}, \notag \\
 	&= \omega_{0} + t \cos k \pm \sqrt{t^{2}(\cos k + 2)^{2}}, \notag \\
 	&= \omega_{0} + t \cos k \pm (t\cos k + 2t),
-	\label{eq:dim1-8}
+	\label{eq:dim1-7}
 \end{align}
-which yields a flat lower band at \(E_{0} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k} = \omega_{0} + 2t + 2t\cos k\). In this regime geometric frustration quenches the kinetic energy of the flat band. We can most easily represent (and investigate) the system in this frustrated state using Wannier states.
+which yields a flat lower band at \(E_{0} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k} = \omega_{0} + 2t + 2t\cos k\). This is the geometrically frustrated regime, in which the kinetic energy of the flat band is quenched. We can most easily represent (and investigate) the system in this frustrated state using Wannier states.
 
 \subsection{Wannier Basis} 
+The Wannier basis is an orthogonal set of states defined by the summation of bloch states for individual bands in a lattice \cite{Wannier37}. In our case the tight-binding bosonic operators can be expressed as,
+\begin{align}
+	\hat{a}_{i}^{\dagger} &= \sum_{j} w_{A}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-8} \\
+	\hat{b}_{i}^{\dagger} &= \sum_{j} w_{B}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-9}  
+\end{align}
+where,
+\begin{align}
+	w_{A}(r) &= \frac{\sqrt{2}}{2\pi} \int^{\pi}_{-\pi} \frac{\cos\left(\frac{k}{2}\right)\mathrm{e}^{-ikr}\mathrm{e}^{ik/2}}{\sqrt{\cos(k) + 2}} \mathrm{d}k, \label{eq:dim1-10} \\
+	w_{B}(r) &= \frac{-1}{2\pi} \int^{\pi}_{-\pi} \frac{\mathrm{e}^{-ikr}}{\sqrt{\cos(k) + 2}} \mathrm{d}k, \label{eq:dim1-11}
+\end{align}
+and \(W_{j}\) annihilates an excitation in the flat-band Wannier basis which is exponentially localized on the unit cell \(j\).
+
+For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. We may then write our master equation, \cref{eq:dim1-5}, as 
+\begin{equation}
+	\dot{\rho} = -i[H_{W}, \rho] + \frac{1}{2} \sum_{j,l} \gamma_{l} \left[ 2W_{j} \rho W_{j+l}^{\dagger} - \left\{W_{j+l}^{\dagger}W_{j}, \rho\right\}\right],
+	\label{eq:dim1-12}
+\end{equation}
+where the Hamiltonian is now,
+\begin{equation}
+	H_{W} = H_{0,W} + H_{\Omega,W} + H_{U,W},
+	\label{eq:dim1-13}
+\end{equation}
+and where,
+\begin{align}
+	H_{0,W} &= \sum_{i} \Delta W_{i}^{\dagger}W_{i}, \label{eq:dim1-14} \\
+	H_{\Omega,W} &= \sum_{i} \left[ \Omega_{W,i}W_{i} + \Omega_{W,i}^{*} W_{i}^{\dagger} \right], \label{eq:dim1-15}
+\end{align}
+where we have again moved into the rotating frame, such that the detuning of the drive from the flat band \(\Delta = \omega_{0} - 2t - \omega_{D}\), and neglected rapidly rotating terms in \(H_{\Omega}\). We set the coherent drive amplitude such that,
+\begin{equation}
+	\Omega_{W,i}W_{i} = \sum_{j} \left[ \Omega_{A,j}w_{A}(r_{i} - r_{j}) + \Omega_{B,j}w_{B}(r_{i} - r_{j}) \right].
+	\label{eq:dim1-16}
+\end{equation}
+The interaction term \(H_{U,W}\) is given by substituting \cref{eq:dim1-8,eq:dim1-9,eq:dim1-10,eq:dim1-11} in to \cref{eq:dim1-4} yielding,
+\begin{equation}
+	H_{U,W} = \sum_{i} \sum_{j',l',m'} \left( U_{j',l',m'}^{\mathrm{eff},A} + U_{j',l',m'}^{\mathrm{eff},B} \right)W_{i}^{\dagger}W_{i+j'}^{\dagger}W_{i+l'}W_{i+m'},
+	\label{eq:dim1-17}
+\end{equation}
+where,
+\begin{align}
+	U_{j',l',m'}^{\mathrm{eff},A} &= \frac{4U_{A}}{(2\pi)^{3}} \int^{\pi}_{-\pi} \int^{\pi}_{-\pi} \int^{\pi}_{-\pi} \mathrm{d}k' \mathrm{d}q \mathrm{d}q' \frac{\mathrm{e}^{ik'j'}\mathrm{e}^{iql'}\mathrm{e}^{iq'm'}}{\mathcal{N}(k',q,q')} \Pi\left( \frac{k'+q+q'}{2\pi} \right) \notag \\
+	&\quad \times \cos\left[(k'+q+q')/2\right]\cos(k'/2)\cos(q/2)\cos(q'/2), \label{eq:dim1-18} \\
+	U_{j',l',m'}^{\mathrm{eff},B} &= \frac{U_{B}}{(2\pi)^{3}} \int^{\pi}_{-\pi} \int^{\pi}_{-\pi} \int^{\pi}_{-\pi} \mathrm{d}k' \mathrm{d}q \mathrm{d}q' \frac{\mathrm{e}^{ik'j'}\mathrm{e}^{iql'}\mathrm{e}^{iq'm'}}{\mathcal{N}(k',q,q')} \Pi\left( \frac{k'+q+q'}{2\pi} \right) \label{eq:dim1-19}
+\end{align}
+and where,
+\begin{equation}
+	\mathcal{N}(k',q,q') = \sqrt{\left[ \cos(k'+q+q') + 2\right](\cos k'+2)(\cos q+2)(\cos q'+2)},
+	\label{eq:dim1-20}
+\end{equation}
+and \(\Pi(x)\) is the rectangle function.
+
+Having defined our model in then Wannier basis, we will first consider results from the non-interacting regime, where \(U_{A} = U_{B} = 0\).
 
 \section{Non-interacting Regime}
 
