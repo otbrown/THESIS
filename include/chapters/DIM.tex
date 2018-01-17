@@ -8,7 +8,7 @@ The model is a sawtooth lattice -- consisting of two one-dimensional sublattices
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.6\linewidth]{\figpath/DIM_model}
+\includegraphics[width=0.8\linewidth]{\figpath/DIM_lattice_diagram}
 \caption{The lattice with tunneling rates \(t\) and \(t'\) along with the labeling of the \(A\) and \(B\) sublattices and the unit cell \(i\). Excitations dissipate at a rate \(\gamma_{A(B)}\) from the individual sites of the \(A (B)\) sublattice and coherent or incoherent drives are applied with amplitude \(\Omega_{X, i}\) or intensity \(P_{X, i}(X = A,B)\). Reproduced from ref.~\cite{OBH17}.}
 \label{fig:dim1-1}
 \end{figure}
@@ -98,9 +98,62 @@ and where,
 \end{equation}
 and \(\Pi(x)\) is the rectangle function.
 
+The Wannier basis dissipation coefficient is given by,
+\begin{equation}
+	\gamma_{l} = \sum_{i} \sum_{x=A,B} \gamma_{x}w_{x}(r_{i})w_{x}(r_{i} - r_{l}),
+	\label{eq:dim1-21}
+\end{equation}
+which can be simplified to,
+\begin{align}
+	\frac{\gamma_{l}}{\gamma_{A}} &= (2f_{0} + f_{1}) - (1 - \kappa)f_{0}, &\text{ for }l=0, \label{eq:dim1-22} \\
+	\frac{\gamma_{l}}{\gamma_{A}} &= -(1-\kappa)f_{l}, &\text{ for }l \neq 0, \label{eq:dim1-23}
+\end{align}
+where \(f_{l} = (\sqrt{3}-2)^{|l|}/\sqrt{3}\), \(f_{l}=f_{-l}\) and \(\kappa = \gamma_{B}/\gamma_{A}\), so that the dissipation is entirely local when \(\kappa = 1\). 
+
 Having defined our model in then Wannier basis, we will first consider results from the non-interacting regime, where \(U_{A} = U_{B} = 0\).
 
 \section{Non-interacting Regime}
+In this regime the master equation \cref{eq:dim1-12} can be solved using Ehrenfest's theorem \cite{Ehrenfest27,BP_Ehrenfest},
+\begin{align}
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle \hat{O} \rangle &= \langle \hat{O} \dot{\rho} \rangle, \notag \\
+	&= \mathrm{Tr}\left\{ -i\hat{O}[H_{W}, \rho] + \hat{O}\mathcal{D}(W) \right\},
+	\label{eq:dim2-1}
+\end{align}
+where \(\hat{O}\) is the operator for some observable of the system, and \(\mathcal{D}(x)=(\gamma/2)\sum_{j}2x_{j}\rho x_{j}^{\dagger} - \{x_{j}^{\dagger}x_{j}, \rho\}\) is the Lindblad-form dissipator. From Ehrenfest's theorem we find the following equations of motion,
+\begin{align}
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i} \rangle &= -\frac{i}{2}\Omega_{W}^{*}\delta_{i,0} - \sum_{l} \gamma_{l}\langle W_{i+l} \rangle, \label{eq:dim2-2} \\
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i}^{\dagger}W_{i+j} \rangle &= \frac{i}{2} \langle \Omega_{W}\delta_{i,0} W_{i+j} - \Omega_{W}^{*}\delta_{i+j,0}W_{i}^{\dagger} \rangle \notag \\ 
+	&\quad - \frac{1}{2}\sum_{l} \gamma_{l} (\langle W_{i+l}^{\dagger}W_{i+j} \rangle + \langle W_{i}^{\dagger}W_{i+j-l}\rangle), \label{eq:dim2-3}
+\end{align}
+where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that the system is driven only in the Wannier state localized about site zero. \Cref{eq:dim2-2,eq:dim2-3} provide a set of coupled equations which we solve numerically. A cutoff is applied to both the nonlocal dissipation coefficient \(\gamma_{l}\), which decays exponentially with \(l\), and to the correlations which we expect to be negligible at long-range. As such we make the approximations that \(\gamma_{l} = 0\) for \(l > 10\), and that \(\langle W_{i}^{\dagger}W_{i+j} \rangle = 0\) for \(j > 10\).
+
+\subsection{Dissipation-induced mobility}
+
+\begin{figure}[ht!]
+\centering
+\subfloat{\includegraphics[width=0.32\linewidth]{\figpath/log_Wannier_dens}}%
+\subfloat{\includegraphics[width=0.32\linewidth]{\figpath/b_site_density}}%
+\subfloat{\includegraphics[width=0.32\linewidth]{\figpath/log_Wannier_dens_incoherent}}
+\caption{Results from finding the stationary state in the non-interacting regime. (a) Normalized excitation density in the Wannier basis for coherent drive with amplitude \(\Omega_{W} = \gamma_{A}\) at the \(i=0\) Wannier state. (b) Normalized density of the \(B\) sublattice. (c) Normalized density with an incoherent pump with intensity \(P_{B,i=0} = \gamma_{A}/100\).}
+\label{fig:dim2-1}
+\end{figure}
+
+In \cref{fig:dim2-1} we see results from solving \cref{eq:dim2-2,eq:dim2-3}. \Cref{fig:dim2-1}~(a) shows the density of Wannier state excitations, normalized by the density on the pumped site, \(i=0\). It can be seen that in spite of the lack of coherent transport processes, in the steady state the density is found to be non-zero away from the pumped site. This effect is also shown in \cref{fig:dim2-1}~(b) which shows the \(B\) sublattice density \(\langle \hat{b}_{i}^{\dagger}\hat{b}_{i} \rangle\). Recall that the Wannier drive amplitude is given by \cref{eq:dim1-16}, so in the lattice site basis the drive amplitudes \(\Omega_{A,i}\) and \(\Omega_{B,i}\) are non-zero for \(i \neq 0\), however the density profile widens noticeably as \(\kappa\) tends to \(0\), increasing the amount of non-local dissipation, indicating that the effect is not simply an artifact of transformation into the Wannier basis.
+
+\begin{figure}[ht!]
+\centering 
+\includegraphics[width=0.8\linewidth]{\figpath/xi_vs_kappa}
+\caption{\label{fig:dim2-2}Decay length of the density profile \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\) for \(i=4\) as a function of \(\kappa = \gamma_{B}/\gamma_{A}\). The solid line gives the results of the exact model, the dashed line of the effective drive model, and the dot-dashed line of the direct coupling model. In all three models the Wannier state \(W_{0}\) was driven with amplitude \(\Omega_{W} = \gamma_{A}\).}
+\end{figure}
+
+In the Wannier basis the density decays exponentially from the driven site, and can be approximated by,
+\begin{equation}
+	N_{i} = \mathrm{e}^{-\frac{|r_{i}|}{\xi}},
+	\label{eq:dim2-4}
+\end{equation}
+in turn allowing one to extract a decay length \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\). This decay length is shown in \cref{fig:dim2-2} for \(i=4\). Recalling \cref{eq:dim1-22,eq:dim1-23}, as \(\kappa\) decreases, the nonlocal dissipation rates \(\gamma_{l}\) increase, leading to a divergence in the decay length as \(\kappa \rightarrow 0\). In this limit, the \(B\) sublattice dissipation rate tends to zero and the dark state \(\sum_{i} (-1)^{i}W_{i}^{\dagger}|0\rangle = \sum_{i}(-1)^{i}\hat{b}_{i}^{\dagger}|0\rangle\) forms. This dark states extends over the entire lattice, hence the divergence in \(\xi\). The limit \(\kappa \rightarrow \infty\), where the \(A\) sublattice dissipation rate tends to zero, is inaccessible with the driving mechanism we use, as the corresponding dark state \(\sum_{i}(-1)^{i}\hat{a}_{i}^{\dagger}|0\rangle\) would involve contributions from the dispersive band.  
+
+\subsection{Long-range first-order coherences}
 
 \section{Strongly Interacting Regime}
 
