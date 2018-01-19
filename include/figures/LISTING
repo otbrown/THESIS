@@ -1,9 +1,15 @@
 anh_model.svg
+b_site_density.png
 crest.pdf
+DIM_lattice_diagram.png
+DIM_mobility_models.png
 effH_diagram.svg
 FPetalon.svg
+g1_incoherent_final.png
 HWLogo.jpg
 L_contract.svg
+log_Wannier_dens.png
+log_Wannier_dens_incoherent.png
 LR_blocks.svg
 model.svg
 model_2lvl.svg
@@ -15,3 +21,4 @@ open_system.svg
 state_diagram.svg
 TEBD_2siteGate.svg
 var_space.svg
+xi_vs_kappa.png
