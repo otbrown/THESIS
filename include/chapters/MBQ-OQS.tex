@@ -34,7 +34,7 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 
 \Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the Matrix Product State technique, described in detail in the next chapter, was designed to defeat. 
 
-\begin{table}[hb!]
+\begin{table}[ht!]
 	\centering
 	\begin{tabu}{lcc}
 		\hline
