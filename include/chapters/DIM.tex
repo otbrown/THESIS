@@ -154,6 +154,41 @@ In the Wannier basis the density decays exponentially from the driven site, and 
 in turn allowing one to extract a decay length \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\). This decay length is shown in \cref{fig:dim2-2} for \(i=4\). Recalling \cref{eq:dim1-22,eq:dim1-23}, as \(\kappa\) decreases, the nonlocal dissipation rates \(\gamma_{l}\) increase, leading to a divergence in the decay length as \(\kappa \rightarrow 0\). In this limit, the \(B\) sublattice dissipation rate tends to zero and the dark state \(\sum_{i} (-1)^{i}W_{i}^{\dagger}|0\rangle = \sum_{i}(-1)^{i}\hat{b}_{i}^{\dagger}|0\rangle\) forms. This dark states extends over the entire lattice, hence the divergence in \(\xi\). The limit \(\kappa \rightarrow \infty\), where the \(A\) sublattice dissipation rate tends to zero, is inaccessible with the driving mechanism we use, as the corresponding dark state \(\sum_{i}(-1)^{i}\hat{a}_{i}^{\dagger}|0\rangle\) would involve contributions from the dispersive band.  
 
 \subsection{Long-range first-order coherences}
+In the coherently driven system the first-order coherence,
+\begin{equation}
+	g^{(1)}(j,l) = \frac{\langle W_{j}^{\dagger}W_{l} \rangle}{\sqrt{\langle W_{j}^{\dagger}W_{j} \rangle \langle W_{l}^{\dagger}W_{l} \rangle}},
+	\label{eq:dim2-5}
+\end{equation}
+is perfectly correlated with \(g^{(1)}(j,l) = (-1)^{|j-l|}\) as the density matrix is a product of coherent states with alternating phases. Long-range first-order coherence therefore exists in spite of the exponentially decaying density profile. This is indicative of a condensate whose extension is the decay length \(\xi\) of the spatial density profile. 
+
+In order to check that the coherence we find is not simply inherited from the coherent drive, we replace the coherent drive in the Wannier basis (setting \(\Omega_{W} = 0\)) with an incoherent pump in the site basis of the form,
+\begin{equation}
+	\mathcal{L}_{\mathrm{pump}} = \sum_{i}\left[\frac{P_{A,i}}{2}\left(2\hat{a}_{i}^{\dagger}\rho\hat{a}_{i} - \{\hat{a}_{i}\hat{a}_{i}^{\dagger}, \rho\}\right) + \frac{P_{B,i}}{2}\left(2\hat{b}_{i}^{\dagger}\rho\hat{b}_{i} - \{\hat{b}_{i}\hat{b}_{i}^{\dagger}, \rho\}\right) \right],
+	\label{eq:dim2-6}
+\end{equation}
+where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of the \(x = A,B\) sublattice. In fact we pump only the \(B\) sublattice and, as with the coherent drive, we pump only one site, \(i=0\). This driving scheme leads to the density profile shown in \cref{fig:dim2-1}~(c), which also shows exponential decay. The resulting first-order coherences are shown in \cref{fig:dim2-3}, and we see that the dissipation-induced mobility continues to generate significant coherences, even without coherent input. In the Wannier basis the incoherent drive is still localised around site zero, and so suppresses coherence around \(g^{(1)}(0,l)\). 
+
+\begin{figure}[ht!]
+\centering 
+\includegraphics[width=0.8\linewidth]{\figpath/g1_incoherent_final}
+\caption{\label{fig:dim2-3}Spatial coherences in the steady state \(g^{(1)}(i,j)\) for an incoherent pump at \(i=0\) with \(P_{B,0} = \gamma_{A}/100\) and \(\kappa = 0.1\).}
+\end{figure}
+
+\subsection{Modeling the decay length of the dissipation-induced mobility}
+In order to clarify that the transport we observe \emph{is} the result of non-local dissipation processes, we first attempt to model it as a diffusion process, and compare the decay length of the resulting density profile. This diffusive random walk model, shown diagramatically in \cref{fig:dim2-4}~(a), has the following continuity equation,
+\begin{equation}
+	\frac{\partial N_{i}}{\partial t} = - \left.\frac{\partial N_{i}}{\partial t}\right|_{L} - \left.\frac{\partial N_{i}}{\partial t}\right|_{R} - \Gamma N_{i} + F(x_{i}),
+	\label{eq:dim2-7}
+\end{equation}
+where \(N_{i}\) is the excitation density on the site \(i\), \(\partial N_{i} / \partial t|_{L,R}\) is the number of excitations on site \(i\) moving to the left (\(L\)) and right (\(R\)), \(\Gamma\) is the dissipation rate, and \(F(x_{i})\) is a source distribution. 
+
+\begin{figure}[ht!]
+\centering 
+\includegraphics[width=0.8\linewidth]{\figpath/DIM_mobility_models}
+\caption{\label{fig:dim2-4}Diagrammatic representations of the models we consider to explain dissipation-induced mobility in the non-interacting regime. The central site is pumped with a drive of strength \(\Omega_{W,0}\) and there is a dissipation rate \(\gamma_{0}\) on each site. (a) The single-site diffusion model assumes that only tunneling between neighbouring sites is important. (b) The direct nonlocal dissipative coupling model, where each site is coupled directly to the pumped site (site 0) by a nonlocal dissipation term. (c) The effective drive model consists of a three-site model where the pumped site is not affected by the two remote, coupled, unpumped sites. Reproduced from ref.~\cite{OBH17}.}
+\end{figure}
+
+
 
 \section{Strongly Interacting Regime}
 
