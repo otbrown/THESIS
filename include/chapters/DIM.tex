@@ -175,20 +175,83 @@ where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of th
 \end{figure}
 
 \subsection{Modeling the decay length of the dissipation-induced mobility}
-In order to clarify that the transport we observe \emph{is} the result of non-local dissipation processes, we first attempt to model it as a diffusion process, and compare the decay length of the resulting density profile. This diffusive random walk model, shown diagramatically in \cref{fig:dim2-4}~(a), has the following continuity equation,
-\begin{equation}
-	\frac{\partial N_{i}}{\partial t} = - \left.\frac{\partial N_{i}}{\partial t}\right|_{L} - \left.\frac{\partial N_{i}}{\partial t}\right|_{R} - \Gamma N_{i} + F(x_{i}),
-	\label{eq:dim2-7}
-\end{equation}
-where \(N_{i}\) is the excitation density on the site \(i\), \(\partial N_{i} / \partial t|_{L,R}\) is the number of excitations on site \(i\) moving to the left (\(L\)) and right (\(R\)), \(\Gamma\) is the dissipation rate, and \(F(x_{i})\) is a source distribution. 
-
 \begin{figure}[ht!]
 \centering 
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_mobility_models}
 \caption{\label{fig:dim2-4}Diagrammatic representations of the models we consider to explain dissipation-induced mobility in the non-interacting regime. The central site is pumped with a drive of strength \(\Omega_{W,0}\) and there is a dissipation rate \(\gamma_{0}\) on each site. (a) The single-site diffusion model assumes that only tunneling between neighbouring sites is important. (b) The direct nonlocal dissipative coupling model, where each site is coupled directly to the pumped site (site 0) by a nonlocal dissipation term. (c) The effective drive model consists of a three-site model where the pumped site is not affected by the two remote, coupled, unpumped sites. Reproduced from ref.~\cite{OBH17}.}
 \end{figure}
+In order to clarify that the transport we observe \emph{is} the result of non-local dissipation processes, we first attempt to model it as a diffusion process, and compare the decay length of the resulting density profile. This diffusive random walk model, shown diagramatically in \cref{fig:dim2-4}~(a), has the following continuity equation,
+\begin{equation}
+	\frac{\partial N_{i}}{\partial t} = - \left.\frac{\partial N_{i}}{\partial t}\right|_{L} - \left.\frac{\partial N_{i}}{\partial t}\right|_{R} - \Gamma N_{i} + F(x_{i}),
+	\label{eq:dim2-7}
+\end{equation}
+where \(N_{i}\) is the excitation density on the site \(i\), \(\partial N_{i} / \partial t|_{L,R}\) is the number of excitations on site \(i\) moving to the left (\(L\)) and right (\(R\)), \(\Gamma\) is the dissipation rate, and \(F(x_{i})\) is a source distribution. The net particle flow to the right, from the site \(i\) to the site \(i+1\), in a time interval \(\Delta \tau\) is given by,
+\begin{equation}
+	\left.\frac{\partial N_{i}}{\partial t}\right|_{R} = -J\frac{\Delta x}{\Delta \tau}\frac{\partial N_{i}}{\partial x},
+	\label{eq:dim2-8}
+\end{equation}
+where \(J\) is the hopping rate between adjacent sites. The same equation holds for \(\partial N_{i}/\partial t|_{L}\). The diffusion equation is then,
+\begin{equation}
+	\frac{\partial N_{i}}{\partial t} = J\frac{\Delta x^{2}}{\Delta t}\frac{\partial^{2} N_{i}}{\partial x^{2}} - \Gamma N_{i} + F(x_{i}),	
+	\label{eq:dim2-9}
+\end{equation}
+where \(\Delta x^{2}/\Delta \tau\) is a scaled diffusion constant \(D\). Without sources, the steady-state solution of \cref{eq:dim2-9} is,
+\begin{equation}
+	N_{i} = A\mathrm{e}^{-\frac{x_{i}}{\Xi}} + B\mathrm{e}^{\frac{x_{i}}{\Xi}},
+	\label{eq:dim2-10}
+\end{equation}
+where \(\Xi = \sqrt{JD/\Gamma}\) is the decay length.
 
+If the dissipative coupling can be modelled as a diffusive process, we should be able to recover the same functional form for the decay length. Assuming \(\Gamma \propto \gamma_{0}\) and \(J \propto \gamma_{1}\) (the \(i+1\) nonlocal dissipation constant) we find,
+\begin{equation}
+	\Xi(\kappa) \propto \sqrt{\frac{\gamma_{1}}{\gamma_{0}}} \propto \left(\frac{2f_{0} + f_{1}}{f_{0}(1-\kappa)} - 1\right)^{-\frac{1}{2}},
+	\label{eq:dim2-11}
+\end{equation}
+which is plotted in \cref{fig:dim2-5}, and clearly has a different form to the decay length extracted from the exact calculation shown in \cref{fig:dim2-2}. Even if we include the direct nonlocal dissipative coupling of the pump site to remote sites as a source term in \cref{eq:dim2-9}, we find the same functional form for \(\Xi(\kappa)\). From this, we conclude that the transport we see cannot be explained by diffusion processes.
 
+\begin{figure}[ht!]
+\centering 
+\includegraphics[width=0.8\linewidth]{\figpath/DIM_DiffDecay}
+\caption{\label{fig:dim2-5}Plot of the diffusive decay constant, \(\Xi(\kappa) \propto \sqrt{\gamma_{1}/\gamma_{0}}\) against \(\kappa\).}
+\end{figure}
+
+We next consider which of the nonlocal dissipative processes contribute significantly to the mobility by comparing the predicted density distributions for two approximate models to that we find by numerically solving the exact model. First we consider an approximation in which we neglect the dissipative coupling between sites which are not pumped. Transport between the pumped site \(i=0\) to any other site, \(j\), is therefore mediated solely by the nonlocal dissipative constant \(\gamma_{j}\), a model which is shown diagramatically in \cref{fig:dim2-4}~(b). 
+
+The density distribution of this model can be calculated by solving the Ehrenfest equations \cref{eq:dim2-2,eq:dim2-3} for a two-site system consisting of site zero and site \(j\), where site zero is pumped with a drive strength \(\Omega_{W}\). Doing so yields,
+\begin{align}
+	\langle W_{j}^{\dagger}W_{j} \rangle &= \frac{\gamma_{j}^{2}|\Omega_{W}|^{2}}{4(\gamma_{0}^{2} - \gamma_{j}^{2})^{2}}, \label{eq:dim2-12} \\
+	&\approx \frac{\gamma_{j}^{2}|\Omega_{W}|^{2}}{4\gamma_{0}^{4}}, \label{eq:dim2-13}
+\end{align}
+where we justify the approximation \(\gamma_{0} \gg \gamma_{j}\) by recalling that the Wannier states are exponentially localised. The decay length in this model is then given by,
+\begin{equation}
+	\xi_{\Omega} \approx \left[ \log_{10}\left(\frac{\gamma_{j+1}^{2}}{\gamma_{j}^{2}}\right)\right]^{-1} \approx 0.38,
+	\label{eq:dim2-14}
+\end{equation}
+which is plotted as the dot-dashed line in \cref{fig:dim2-2}. It can be seen that in the limit \(\kappa \rightarrow 1\) the nonlocal dissipation rates vanish, and this model predicts the density distribution well.
+
+As an improved approximation we consider a three-site model with nearest-neighbour hopping, and sites 0, \(j\), and \(j+1\), where \(j > 1\) so that the \(j,j+1\) sites are not directly coupled to the pumped site. This model is shown diagramatically in \cref{fig:dim2-4}~(c). We are again solving the Ehrenfest equations of motion, and make the assumption that for \(i=\{j,j+1\}\) only the contribution from the pumped site is relevant in \cref{eq:dim2-2}, such that,
+\begin{equation}
+	\sum_{l \neq \{0,1\}} \gamma_{l} \langle W_{j+l} \rangle \approx \gamma_{-j} \langle W_{0} \rangle.
+	\label{eq:dim2-15}
+\end{equation}
+We also assume that the two unpumped sites \(j, j+1\) do not affect the field amplitude of site zero. This means that it is a constant determined by evaluating the three-site system \(i=\{-1,0,1\}\). Doing so, we find that
+\begin{equation}
+	\langle W_{0} \rangle \approx \frac{-i\gamma_{0}\Omega_{W}^{*}}{2(\gamma_{0}^{2} - 2\gamma_{1}^{2}},
+	\label{eq:dim2-16}
+\end{equation}
+which we can substitute back in to \cref{eq:dim2-2} in order to solve the the \(i=\{0,j,j+1\}\) model. We find that the pumped site acts as an effective drive for the two-site system with coefficients,
+\begin{align}
+	\Omega_{W,j}^{*} &= \frac{\gamma_{0}\gamma_{j}\Omega_{W}^{*}}{\gamma_{0}^{2} - 2\gamma_{1}^{2}}, \label{eq:dim2-17} \\
+	\Omega_{W,j+1}^{*} &= \frac{\gamma_{0}\gamma_{j+1}\Omega_{W}^{*}}{\gamma_{0}^{2} - 2\gamma_{1}^{2}}, \label{eq:dim2-18}
+\end{align}
+which we this time substitute in to \cref{eq:dim2-3} to determine the approximate density profile of this model. From this we calculate the approximate decay length,
+\begin{equation}
+	\xi \approx \left[ 2\log_{10}\left(\frac{\gamma_{0}\gamma_{j} - \gamma_{1}\gamma_{j+1}}{\gamma_{1}\gamma_{j} - \gamma_{0}\gamma_{j+1}}\right)\right]^{-1},
+	\label{eq:dim2-19}
+\end{equation}
+which is plotted as the dashed line in \cref{fig:dim2-2}. This approximation works well for a wide range of nonlocal dissipation strengths, but breaks down as \(\kappa \rightarrow 0\). This is due to multiple hopping processes not being included in the model. 
+
+We conclude that for \(\kappa \approx 1\), where the Wannier states are decoupled, direct dissipative coupling between the pumped site and each other site plays the most significant role. As \(\kappa\) decreases transfer of particles from neighbouring sites plays an increasing role, and as \(\kappa\) decreases further the extent of these significant interactions increases to next-nearest neighbour and beyond. 
 
 \section{Strongly Interacting Regime}
 
