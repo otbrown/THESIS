@@ -254,5 +254,12 @@ which is plotted as the dashed line in \cref{fig:dim2-2}. This approximation wor
 We conclude that for \(\kappa \approx 1\), where the Wannier states are decoupled, direct dissipative coupling between the pumped site and each other site plays the most significant role. As \(\kappa\) decreases transfer of particles from neighbouring sites plays an increasing role, and as \(\kappa\) decreases further the extent of these significant interactions increases to next-nearest neighbour and beyond. 
 
 \section{Strongly Interacting Regime}
+We next consider the interacting regime, which in the Wannier basis results in nonlocal terms, like those in the dissipator. The exact form of the interaction term in the Wannier basis Hamiltonian is given in \cref{eq:dim1-17,eq:dim1-18,eq:dim1-19,eq:dim1-20}. Such nonlocal terms can also result in transport, a phenomenon which has been explored in detail \cite{HA10,TVNH13,TKWA13,PCOV15,PM15}. This is suppressed in the limit of very strong interaction, and so it is this limit we explore in order to explore the effect of the dissipation. The very strong interaction limit is also advantageous as it allows us to truncate to the single excitation subspace. To facilitate this truncation we calculated the second-order correlation function for the pumped site \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle\) under the assumption that the pumped site is completely decoupled. This gives an upper bound on the probability that the pumped site, which will always have the highest density, has at least two excitations. This correlation function can be calculated exactly using an approach by Drummond and Walls \cite{DW80,BOC13}, the result of which is plotted in \cref{fig:dim3-1} as a function of \(U_{0}/\Omega_{W,0}\) and \(\gamma_{0}/\Omega_{W,0}\) where \(U_{0} = U_{0,0,0}^{\mathrm{eff},A} + U_{0,0,0}^{\mathrm{eff},B}\). This allows us to select a regime where the double-excitation probability on site zero is much lower than the density on the adjacent sites, \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle < \langle W_{1}^{\dagger}W_{1} \rangle\), validating the truncation to the single-excitation subspace.
+
+\begin{figure}[ht!]
+\centering 
+\includegraphics[width=0.8\linewidth]{\figpath/doubleocc_prob}
+\caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero.}
+\end{figure}
 
 \subsection{MPO Design}
