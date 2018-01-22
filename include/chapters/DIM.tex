@@ -110,7 +110,7 @@ which can be simplified to,
 \end{align}
 where \(f_{l} = (\sqrt{3}-2)^{|l|}/\sqrt{3}\), \(f_{l}=f_{-l}\) and \(\kappa = \gamma_{B}/\gamma_{A}\), so that the dissipation is entirely local when \(\kappa = 1\). 
 
-Having defined our model in then Wannier basis, we will first consider results from the non-interacting regime, where \(U_{A} = U_{B} = 0\).
+Having defined our model in the Wannier basis, we will first consider results from the non-interacting regime, where \(U_{A} = U_{B} = 0\).
 
 \section{Non-interacting Regime}
 In this regime the master equation \cref{eq:dim1-12} can be solved using Ehrenfest's theorem \cite{Ehrenfest1927,BP_Ehrenfest},
@@ -262,4 +262,123 @@ We next consider the interacting regime, which in the Wannier basis results in n
 \caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero.}
 \end{figure}
 
+In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across the lattice, but clearly it is computationally infeasible to include all of them. To facilitate a truncation we calculated the coefficients \(U^{\mathrm{eff},A}_{j',l',m'}\) and \(U^{\mathrm{eff},B}_{j',l',m'}\) for all Wannier interaction terms in the single-excitation subspace. After doing so, we find the leading order values given in \cref{tab:dim3-1} below. It is clear from doing so that interactions on the \(B\) sublattice make a much more significant contribution to interactions in the Wannier basis than those on the \(A\) sublattice. For this reason, we choose \(U_{A} = 0\). Additionally we have applied a cut-off at \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B} < 0.001\) which allows us to truncate nonlocal interactions to an extent of two lattice sites. Finally, to determine the coefficients for implementation we must take in to account multiplicity due to symmetries in \(U^{\mathrm{eff},B}_{j',l',m'}\). Specifically there is a fourfold multiplicity in the cross-Kerr interactions with \(\{j',l',m'\} = \{1,1,0\}, \{2,2,0\}\), and a twofold multiplicity in the density-assisted tunneling term with \(\{j',l',m'\} = \{-1,0,1\}\).
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabu}{ll|ll}
+		\firsthline \hline 
+		\(\{j',l',m'\}\) & \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) & \(\{j',l',m'\}\) & \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B}\) \\
+		\hline
+		\{0,0,0\} & 0.028032 & \{0,0,0\} & 0.191937 \\
+		\{1,1,0\} & 0.007568 & \{1,1,0\} & 0.033196 \\
+		\{2,1,0\} & 0.000748 & \{2,2,0\} & 0.013613 \\
+		\{2,2,0\} & 0.000582 & \{-1,0,1\}& 0.011298 \\
+		\lasthline \hline
+	\end{tabu}
+	\caption{\label{tab:dim3-1} The leading order values of the Wannier lattice interaction coefficients \(U^{\mathrm{eff},A}_{j',l',m'}\) and \(U^{\mathrm{eff},B}_{j',l',m'}\) in terms of the site basis coefficients for the \(A\) and \(B\) sublattices, \(U_{A}\) and \(U_{B}\). It is clear that interaction in the \(B\) sublattice makes a more significant contribution.}
+\end{table}
+
+The Wannier basis interaction term we intend to implement is then given by,
+\begin{align}
+	H_{W,U} \approx &\sum_{i} \left[ 0.192U_{B}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 0.133U_{B}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\ 
+	&\qquad+ 0.054U_{B}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\ 
+	&\qquad+ \left. 0.023U_{B}\left(W_{i-1}^{\dagger}W_{i}^{\dagger}W_{i}W_{i+1} + W_{i-1}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}\right)\right],
+	\label{eq:dim3-1}
+\end{align}
+where we note that we require \(U_{B} \gtrapprox 10\) to make out single-excitation subspace truncation, as from \cref{fig:dim3-1} this takes us into the region where \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle \lessapprox 10^{-3}\).
+
 \subsection{MPO Design}
+Now that we have the complete form of the master equation for the strongly interacting regime,
+\begin{equation}
+	\dot{\rho} = -i\left[H, \rho\right] + \frac{1}{2}\sum_{j,l=0}^{l=3}\gamma_{l}\left[2W_{j}\rho W_{j+l}^{\dagger} - \{W_{j+l}^{\dagger}W_{j}, \rho\}\right],
+	\label{eq:dim3-2}
+\end{equation}
+where we note that we have explicitly truncated the non-local dissipators to \(l=3\), and where,
+\begin{align}
+	H = &\sum_{i}\left[\Delta W_{i}^{\dagger}W_{i} + \frac{\Omega_{W,i}}{2}W_{i} + \frac{\Omega_{W,i}^{*}}{2}W_{i}^{\dagger}\right] \notag \\
+	&+ \sum_{i}\left[ U^{\mathrm{eff},B}_{0,0,0}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 4U^{\mathrm{eff},B}_{1,1,0}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\ 
+	&+ 4U^{\mathrm{eff},B}_{2,2,0}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\ 
+	&+ \left.2U^{\mathrm{eff},B}_{-1,0,1}\left(W_{i-1}^{\dagger}W_{i}^{\dagger}W_{i}W_{i+1} + W_{i-1}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}\right) \right],
+	\label{eq:dim3-3}
+\end{align}
+which, as a consequence of the nonlocal terms in both the Hamiltonian and the dissipator, is highly non-trivial to represent as an MPO. Designing the MPO for this system, as well as writing the variational stationary state code, was my most significant contribution to this publication. 
+
+To begin the process of designing the MPO we recall that we in fact require an MPO representation of the Liouvillian matrix,
+\begin{align}
+	\mathcal{L} = &\mathbb{I} \otimes -iH + iH^{T} \otimes \mathbb{I} \notag \\ 
+	&+ \frac{1}{2}\sum_{j,l=0}^{l=3}\gamma_{l}\left[ W_{j+l}^{*} \otimes 2W_{j} - \mathbb{I} \otimes W_{j+l}^{\dagger}W_{j} - W_{j}^{T}W_{j+l}^{*} \otimes \mathbb{I} \right],
+	\label{eq:dim3-4}
+\end{align}
+which contains 22 unique operator combinations which must be accounted for. Before continuing we recall that \((AB)^{T} = B^{T}A^{T})\), and that since the operator \(W_{j}\) is a normal bosonic creation operator we expect it to be real, and therefore \(W^{T} = W^{\dagger}\) and \(W^{*} = W\). Since it is relatively unusual to see conjugate and transpose operators, we will stick to \(W, W^{\dagger}\) for clarity. 
+
+We state the bulk-site matrix product operator in full below in \cref{tab:dim3-2}, in a sparse notation, due to the large size. In fact the MPO had a virtual dimension of \(27 \times 27\) for the representation of \(\mathcal{L}\), and hence \(729 \times 729\) for \(\mathcal{L}^{\dagger}\mathcal{L}\) which proved more effective in spite of the additional computational effort. In part the large size was due to the inclusion of interaction terms with \(\{j',l',m'\} = \{2,1,0\}\), which appears in the leading order values for \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) in \cref{tab:dim3-1}, and was close to appearing in the \(B\) sublattice coefficients, with \(U^{\mathrm{eff},B}_{2,1,0} / U_{B} = 0.009605\). It was therefore included in some initial calculations to check that both setting \(U_{A} = 0\), and neglecting \(U^{\mathrm{eff},B}_{2,1,0}\) did not have a significant effect on the results. These terms inclusion created an additional 8 unique operator combinations, which were later excluded simply by setting their coefficients to zero.
+
+\begin{longtable}{ccc}
+	\hline
+	Row & Col & Value \\
+	\hline
+	1 & 1 & \(\mathbb{I} \otimes \mathbb{I}\)  \\
+	2 & 1 & \(W^{\dagger}W \otimes \mathbb{I}\)  \\
+	3 & 1 & \(\mathbb{I} \otimes W^{\dagger}W\)  \\
+	12 & 1 & \(\mathbb{I} \otimes W\)  \\
+	13 & 1 & \(W \otimes \mathbb{I}\)  \\
+	18 & 1 & \(\frac{\gamma_{1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
+	19 & 1 & \(-\frac{\gamma_{1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	20 & 1 & \(W \otimes \mathbb{I}\)  \\
+	21 & 1 & \(W^{\dagger} \otimes \mathbb{I}\)  \\
+	22 & 1 & \(\mathbb{I} \otimes W^{\dagger}\)  \\
+	23 & 1 & \(\frac{\gamma_{2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
+	24 & 1 & \(-\frac{\gamma_{2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	25 & 1 & \(\frac{\gamma_{3}}{2}\left( 2*W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
+	26 & 1 & \(-\frac{\gamma_{3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
+	\hline
+	27 & 1 & \(iH_{W}^{T} \otimes \mathbb{I} - \mathbb{I} \otimes iH_{W}\) \\ 
+	   &   & \(+ \frac{\gamma_{0}}{2}\left(2W \otimes W - \mathbb{I} \otimes W^{\dagger}W - W^{\dagger}W \otimes \mathbb{I}\right)\) \\
+	\hline
+	27 & 2  & \(4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 3  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W\) \\
+	27 & 4  & \(4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 5  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W\) \\
+	27 & 6  & \(iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 7  & \(\mathbb{I} \otimes -iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W\) \\
+	27 & 8  & \(iW^{\dagger} \otimes \mathbb{I}\) \\
+	27 & 9  & \(\mathbb{I} \otimes -iW^{\dagger}\) \\
+	27 & 10 & \(iW \otimes \mathbb{I}\) \\
+	27 & 11 & \(\mathbb{I} \otimes -iW\) \\
+	27 & 12 & \(\frac{\gamma_{1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
+	27 & 13 & \(-\frac{\gamma_{1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\ 
+	27 & 14 & \(\frac{\gamma_{2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
+	27 & 15 & \(-\frac{\gamma_{2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	27 & 16 & \(\frac{\gamma_{3}}{2}\left( 2*W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
+	27 & 17 & \(-\frac{\gamma_{3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
+	27 & 18 & \(\mathbb{I} \otimes W\) \\
+	27 & 19 & \(W \otimes \mathbb{I}\) \\
+	\hline
+	27 & 27 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	\hline
+	4  & 2  & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	5  & 3  & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	6  & 20 & \(W^{\dagger} \otimes \mathbb{I}\) \\
+	6  & 21 & \(W \otimes \mathbb{I}\) \\
+	7  & 12 & \(\mathbb{I} \otimes W^{\dagger}\) \\
+	7  & 22 & \(\mathbb{I} \otimes W\) \\
+	8  & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W \otimes \mathbb{I}\) \\
+	8  & 20 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
+	9  & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W\) \\
+	9  & 12 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
+	10 & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger} \otimes \mathbb{I}\) \\
+	10 & 21 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
+	11 & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger}\) \\
+	11 & 22 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
+	14 & 12 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	15 & 13 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	16 & 14 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	17 & 15 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	18 & 23 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	19 & 24 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	23 & 25 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	24 & 26 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	\hline
+	\caption{\label{tab:dim3-2}} 	
+\end{longtable}
