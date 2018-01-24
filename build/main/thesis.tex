@@ -6,10 +6,11 @@
 \newcommand*{\refpath}{../../include/refs}
 
 % packages
-\usepackage[square,numbers]{natbib}		
+\usepackage[square,numbers,compress]{natbib}		
 \usepackage{amsmath}						
 \usepackage{amssymb}						
-\usepackage{graphicx}					
+\usepackage{graphicx}
+\usepackage{subfig}					
 \usepackage{hyperref}					
 \usepackage{cleveref}					
 \usepackage[section]{placeins}	
@@ -22,7 +23,7 @@
 
 \tabulinesep=2mm
 
-\spacing{1.66}
+\spacing{1.25}
 
 \lstset{
 	basicstyle=\ttfamily,
@@ -41,11 +42,11 @@
 
 % title info
 \author{Oliver Thomson Brown}
-\title{Stationary States of Dissipative Many-Body Quantum Systems via Matrix Product States}
+\title{Stationary States of Dissipative Many-Body Quantum Systems via Matrix Product Operators}
 \degree{Doctor of Philosophy in Physics}
 \department{Engineering \& Physical Sciences}
-\gmonth{December}
-\gyear{2017}
+\gmonth{March}
+\gyear{2018}
 
 \begin{document}
 
@@ -58,7 +59,7 @@ Thank you, coffee.
 \end{acknowledgements}
 
 \begin{abstract}
-Abstractly speaking, what even.
+Abstract
 \end{abstract}
 
 \tableofcontents
@@ -66,20 +67,28 @@ Abstractly speaking, what even.
 \chapter{Introduction}
 \pagenumbering{arabic}
 \setcounter{page}{1}
-You ain't gotta like it, 'cause the hood gon' love it.
 
-\chapter{Many-Body Quantum Theory \& Open Quantum Systems}
+This thesis will...
+
+\chapter[MBQT \& OQS]{Many-Body Quantum Theory \& Open Quantum Systems}
 \input{\chappath/MBQ-OQS}
 
 \chapter{Numerical Methods}
 
 \input{\chappath/NumericalMethods}
 
-\chapter{Dissipation-induced mobility and coherence in frustrated lattices}
+\chapter[Frustrated lattices]{Dissipation-induced mobility and coherence in frustrated lattices}
 
-\chapter{Localization to delocalization transition in a driven nonlinear cavity array}
+\input{\chappath/DIM}
+
+\chapter[Driven nonlinear cavity array]{Localization to delocalization transition in a driven nonlinear cavity array}
 
 \chapter{Further Work}
+
+\appendix
+\chapter{Stationary State Search Implementation}
+
+\input{\chappath/mpostat}
 
 \bibliographystyle{apsrev4-1-title}
 \bibliography{\refpath/literature,\refpath/web,\refpath/book}
