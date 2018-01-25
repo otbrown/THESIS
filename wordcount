@@ -61,17 +61,17 @@ Subcounts:
 
 File: include/chapters/DNLCA.tex
 Encoding: ascii
-Words in text: 253
+Words in text: 835
 Words in headers: 17
-Words outside text (captions, etc.): 0
+Words outside text (captions, etc.): 51
 Number of headers: 8
-Number of floats/tables/figures: 0
-Number of math inlines: 1
+Number of floats/tables/figures: 1
+Number of math inlines: 12
 Number of math displayed: 0
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   253+0+0 (0/0/1/0) _top_
-  0+1+0 (1/0/0/0) Section: Introduction
+  582+1+51 (1/1/11/0) Section: Introduction
   0+2+0 (1/0/0/0) Section: The model
   0+2+0 (1/0/0/0) Section: Mean-field approach
   0+3+0 (1/0/0/0) Section: Small anharmonic system
@@ -125,12 +125,12 @@ Subcounts:
   142+3+0 (3/0/7/0) Section: SVDNorm
 
 Total
-Words in text: 17050
+Words in text: 17632
 Words in headers: 167
-Words outside text (captions, etc.): 1192
+Words outside text (captions, etc.): 1243
 Number of headers: 118
-Number of floats/tables/figures: 20
-Number of math inlines: 1062
+Number of floats/tables/figures: 21
+Number of math inlines: 1073
 Number of math displayed: 93
 Files: 5
 Subcounts:
@@ -138,6 +138,6 @@ Subcounts:
   2929+21+243 (8/3/84/20) File(s) total: include/chapters/MBQ-OQS.tex
   3145+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
   3867+29+430 (11/10/287/36) File(s) total: include/chapters/DIM.tex
-  253+17+0 (8/0/1/0) File(s) total: include/chapters/DNLCA.tex
+  835+17+51 (8/1/12/0) File(s) total: include/chapters/DNLCA.tex
   6856+88+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
 
