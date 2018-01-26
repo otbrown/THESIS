@@ -1,0 +1,19 @@
+In the reference frame, the Hamiltonian for a driven nonlinear cavity is,
+\begin{equation}
+	\mathcal{H}_{\mathrm{ref}} = \omega\hat{a}^{\dagger}\hat{a} + \frac{U}{2}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{1}{\sqrt{2}} \left(\Omega\mathrm{e}^{-i\omega_{L}t} + \tilde{\Omega}\mathrm{e}^{i\omega_{L}t}\right) \hat{a}^{\dagger}\hat{a}^{\dagger} + \frac{1}{\sqrt{2}} \left( \Omega^{*}\mathrm{e}^{i\omega_{L}t} + \tilde{\Omega}^{*}\mathrm{e}^{-i\omega_{L}t} \right)\hat{a}\hat{a},
+	\label{eq:rot1}
+\end{equation}
+where \(\omega\) is the cavity frequency, \(U\) is the interaction strength, \(\Omega\) is the amplitude of the drive laser, \(\omega_{L}\) is the frequency of the drive laser, and \(\hbar = 1\). Our aim is to transform this in to a rotating frame such that the time dependence of the drive terms is eliminated from the Hamiltonian.
+
+To achieve this the frame must rotate at the frequency of the driving laser. The appropriate transformation is,
+\begin{equation}
+	\mathcal{H}_{\mathrm{RF}} = \hat{V}^{\dagger}\mathcal{H}_{\mathrm{ref}}\hat{V} - \hat{A},
+	\label{eq:rot2}
+\end{equation}
+where,
+\begin{align}
+	\hat{V} &= \mathrm{e}^{-i\hat{A}t}, \label{eq:rot3} \\
+	\hat{A} &= \frac{\omega_{L}}{2} \hat{a}^{\dagger}\hat{a}, \label{eq:rot4}
+\end{align}
+where we note that \(\hat{A}\) is a diagonal operator, so its exponentiation is simple.
+	
