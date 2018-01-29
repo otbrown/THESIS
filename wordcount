@@ -61,18 +61,18 @@ Subcounts:
 
 File: include/chapters/DNLCA.tex
 Encoding: ascii
-Words in text: 835
+Words in text: 1069
 Words in headers: 17
 Words outside text (captions, etc.): 51
 Number of headers: 8
 Number of floats/tables/figures: 1
-Number of math inlines: 12
-Number of math displayed: 0
+Number of math inlines: 33
+Number of math displayed: 4
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   253+0+0 (0/0/1/0) _top_
-  582+1+51 (1/1/11/0) Section: Introduction
-  0+2+0 (1/0/0/0) Section: The model
+  610+1+51 (1/1/11/0) Section: Introduction
+  206+2+0 (1/0/21/4) Section: The model
   0+2+0 (1/0/0/0) Section: Mean-field approach
   0+3+0 (1/0/0/0) Section: Small anharmonic system
   0+3+0 (1/0/0/0) Section: Large anharmonic system
@@ -124,20 +124,36 @@ Subcounts:
   218+3+0 (3/0/19/0) Section: RCan
   142+3+0 (3/0/7/0) Section: SVDNorm
 
+File: include/chapters/DNLCA_rotframe.tex
+Encoding: ascii
+Words in text: 652
+Words in headers: 4
+Words outside text (captions, etc.): 0
+Number of headers: 2
+Number of floats/tables/figures: 0
+Number of math inlines: 22
+Number of math displayed: 26
+Subcounts:
+  text+headers+captions (#headers/#floats/#inlines/#displayed)
+  43+0+0 (0/0/0/0) _top_
+  401+2+0 (1/0/18/19) Section: Single cavity
+  208+2+0 (1/0/4/7) Section: Coupled cavities
+
 Total
-Words in text: 17632
-Words in headers: 167
+Words in text: 18518
+Words in headers: 171
 Words outside text (captions, etc.): 1243
-Number of headers: 118
+Number of headers: 120
 Number of floats/tables/figures: 21
-Number of math inlines: 1073
-Number of math displayed: 93
-Files: 5
+Number of math inlines: 1116
+Number of math displayed: 123
+Files: 6
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   2929+21+243 (8/3/84/20) File(s) total: include/chapters/MBQ-OQS.tex
   3145+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
   3867+29+430 (11/10/287/36) File(s) total: include/chapters/DIM.tex
-  835+17+51 (8/1/12/0) File(s) total: include/chapters/DNLCA.tex
+  1069+17+51 (8/1/33/4) File(s) total: include/chapters/DNLCA.tex
   6856+88+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
+  652+4+0 (2/0/22/26) File(s) total: include/chapters/DNLCA_rotframe.tex
 
