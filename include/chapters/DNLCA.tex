@@ -65,7 +65,7 @@ where \(|\rho\rangle\rangle\) is the vectorised density matrix, and \(\bar{S}\) 
 
 The equilibrium phase diagram for the Bose-Hubbard model is typically parameterized by the chemical potential and the hopping rate between sites. In our non-equilibrium case, the drive strength and dissipation rates balance out to create an effective chemical potential, so we explore a phase diagram parameterized by the drive strength and hopping rate. 
 
-\Cref{fig:dnlca3-1} shows the density \(\langle \hat{n}_{2} \rangle\), and its variance \(\langle \hat{n}_{2}^{2} \rangle - \langle \hat{n}_{2} \rangle^{2}\) for the second site in this translation invariant system. Both are plotted against the drive strength \(\Omega\), and the hopping rate \(J\), for the reasons given above. In \cref{fig:dnlca3-1a} there is a region bounded by a black line, in which the density is unity, and the density variance is much less than one. This means there is a stationary state phase of our model with very similar properties to the Mott insulator phase, though the shape differs somewhat from that found in equilibrium systems \cite{Rossini2007}.
+\Cref{fig:dnlca3-1} shows the density \(\langle \hat{n}_{2} \rangle\), and its variance \(\langle \hat{n}_{2}^{2} \rangle - \langle \hat{n}_{2} \rangle^{2}\) for the second site in this translation invariant system. Both are plotted against the drive strength \(\Omega\), and the hopping rate \(J\), for the reasons given above. In \cref{fig:dnlca3-1a} there is a region bounded by a black line, in which the density is unity, and the density variance is much less than one. This means there is a stationary state phase of our model with very similar properties to the Mott insulator phase, though the shape differs somewhat from that found in equilibrium systems \cite{Rossini2007}. We note that even at the strongest driving we consider here, the density barely exceeds unity, validating our decision to truncate to the subspace of at most two excitations per site in calculations on larger systems.
 
 \begin{figure}[ht]
 	\subfloat[\label{fig:dnlca3-1a}]{\includegraphics[width=0.49\linewidth]{\figpath/threeSiteDensity_int100}} \hfill
@@ -77,7 +77,45 @@ To further explore the boundaries of this phase and its predicted crossover to a
 
 \section{Large anharmonic system}
 
+Here we consider a fifteen site lattice with open boundaries, and up to two excitations per site. We find the stationary state by representing the system with a density matrix product operator, then time-evolving it using the TEBD method \cite{Vidal2004} until convergence. \Cref{fig:dnlca4-1} shows the density of the middle site and its variance plotted against drive strength and hopping rate. It can be seen that for strong enough drive density is near unity, and as with the small system, the variance is much less than one at low hopping rates. The non-equilibrium Mott insulator-like phase survives the increase in system size.
 
+\begin{figure}[ht]
+	\subfloat[\label{fig:dnlca4-1a}]{\includegraphics[width=0.49\linewidth]{\figpath/anhDensity}} \hfill
+	\subfloat[\label{fig:dnlca4-1b}]{\includegraphics[width=0.49\linewidth]{\figpath/anhDensityVar}}
+	\caption{\label{fig:dnlca4-1} (a) The density of the middle site in a fifteen site system, plotted against drive strength \(\Omega\), and coupling strength \(J\). (b) The variance in the density over the same parameter range. For this calculation \(\gamma_{1} = 1\), \(\gamma_{0} = 0.1\), \(U = 20\), and so \(\Delta = -10\).}
+\end{figure}
+
+In the region where the local density fluctuations are larger we are interested in determining if a transition to a superfluid state occurs, as is the case in equilibrium systems. Such a transition would be signified by an increase in long range first order coherence. Since the single excitation state in our system is populated by incoherent decay from the upper state, this state is insensitive to the coherence of the drive. The combination of the coherent drive to the upper state and incoherent decay creates an effective incoherent pump process to the middle state. This interpretation is borne out by an adiabatic elimination of the upper state, which is shown in detail in \cref{chp:adelim}. We can therefore attribute any first-order correlations we observe to the formation of a superfluid component. Such correlations are quantified by the normalised \(g^{(1)}\)-function,
+\begin{equation}
+	g^{(1)}(i,j) = \frac{\langle \hat{a}_{i}^{\dagger} \hat{a}_{j} \rangle}{\sqrt{\langle \hat{n}_{i} \rangle \langle \hat{n}_{j} \rangle}}.
+	\label{eq:dnlca4-1}
+\end{equation}
+
+\begin{figure}[ht]
+	\subfloat[\label{fig:dnlca4-2a}]{\includegraphics[width=0.49\linewidth]{\figpath/anhG1}} \hfill
+	\subfloat[\label{fig:dnlca4-2b}]{\includegraphics[width=0.49\linewidth]{\figpath/anhCorrLength}}
+	\caption{\label{fig:dnlca4-2} The first order correlation \(g^{(1)}(i,j)\) and the correlation length $\lambda$. For this calculation, \(\gamma_{1} = 1\), and \(\gamma_{0} = 0.1\). The interaction strength, \(U = 20\), and so \(\Delta = -10\). The first order correlation is plotted for a range of coupling strengths at a fixed drive strength, \(\Omega = 5\). The correlation length was determined by an \(\exp(- |j-j_{0}|/\lambda)\) fit to the \(g^{(1)}\) data.}
+\end{figure}
+
+It can be seen in \cref{fig:dnlca4-2a} that the build up of first order correlations occurs as the hopping rate increases. On the other hand, the range of these correlations does not increase monotonically with \(J\), but instead reaches a peak, and then decreases. We performed an exponential fit to the \(g^{(1)}\) data of the form,
+\begin{equation}
+	g^{(1)}(j) = \mathrm{e}^{-\frac{|j-j_{0}|}{\lambda}},
+	\label{eq:dnlca4-2}
+\end{equation}
+where \(j\) labels each lattice site, \(j_{0}\) is the site on which correlations with other sites are measured (chosen to be the the middle site of the system), and \(\lambda\) is the correlation length. The result of this fit is shown in \cref{fig:dnlca4-2b}. We attribute the non-monotonic behaviour of the correlation length to competition between tunneling processes and dephasing processes. An increase in the hopping rate \(J\) enhances the long range coherence, but also enhances the local density fluctuations, resulting in more occupation of the doubly excited state. As double occupation increases, so does the contribution of the fast dissipation mechanism governed by the fast decay rate \(\gamma_{1}\), thus the ehanced dephasing.
+
+Another characteristic of the equilibrium Mott insulator state is incompressibility -- the suppression of two-excitation coincidences. This effect can be quantified by the normalised \(g^{(2)}\)-function,
+\begin{equation}
+	g^{(2)}(i,j) = \frac{\langle \hat{a}_{i}^{\dagger}\hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{i} \rangle}{\sqrt{\langle \hat{n}_{i} \rangle \langle \hat{n}_{j} \rangle}}.
+	\label{eq:dnlca4-3}
+\end{equation}
+\Cref{fig:dnlca4-3} shows that the on-site density correlations are fully suppressed in the low hopping rate regime, and increase monotonically across the region.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.49\linewidth]{\figpath/anhG2}
+	\caption{\label{fig:dnlca4-3} Second order correlation between sites, \(g^{(2)}(i,j)\) plotted against coupling strength. For this calculation, drive strength \(\Omega = 5\), \(\gamma_{1} = 1\), and \(\gamma_{0} = 0.1\). The interaction strength, \(U=20\), and so \(\Delta = -10\).}
+\end{figure}
 
 \section{Large harmonic system}
 
