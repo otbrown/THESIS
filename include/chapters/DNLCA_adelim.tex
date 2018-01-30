@@ -1,7 +1,60 @@
 Here we perform an adiabatic elimination of the doubly-excited state from the master equation for a driven nonlinear cavity array, resulting in an effective model for the system truncated to the subspace of at most one excitation per site. To do this, we follow the prescription given in Ref.~\cite{Garcia-Ripoll2009}, beginning by separating our initial three-level master equation \cref{eq:dnlca2-5} in to two components,
 \begin{equation}
-	\mathcal{L} = \mathcal{L}_{0} + \nu,
+	\mathcal{L}\rho = (\mathcal{L}_{0} + \nu)\rho,
 	\label{eq:adelim1}
 \end{equation}
-where the subspace dynamics of interest takes place in the stationary states of \(\mathcal{L}_{0}\), and \(\nu\) contains all other terms of the master equation.
-	
+where the subspace dynamics of interest takes place in the stationary states of \(\mathcal{L}_{0}\), and \(\nu\) contains all other terms of the master equation. In our case,
+\begin{align}
+	\mathcal{L}_{0}\rho &= D_{1}\left[\rho\right], \label{eq:adelim2} \\
+	\nu\rho &= -i\left[\mathcal{H}, \rho\right] + \mathcal{D}_{0}\left[\rho\right], \label{eq:adelim3}
+\end{align}
+where,
+\begin{align}
+	\mathcal{H} &= \sum_{j}\left[ \frac{\Omega}{\sqrt{2}}\hat{a}_{j}^{\dagger}\hat{a}_{j}^{\dagger} + \frac{\Omega^{*}}{\sqrt{2}}\hat{a}_{j}\hat{a}_{j} - J\left(\hat{a}_{j}\hat{a}_{j+1}^{\dagger} + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}\right) \right], \label{eq:adelim4} \\
+	\mathcal{D}_{m}\left[\rho\right] &= \sum_{m,j} \frac{\gamma_{m}}{2} \left[ 2\kappa_{m,j}\rho\kappa_{m,j}^{\dagger} - \left\{\kappa_{m,j}^{\dagger}\kappa_{m,j}, \rho\right\} \right], \label{eq:adelim5}
+\end{align}
+\(\kappa_{m,j} = |m_{j} \rangle\langle m +1_{j}|\), and we have set the on-site energy and interaction terms in the Hamiltonian \(\Delta = -U/2 = 0\) for simplicity. Those terms will only modify the energy of the two levels we retain, and we are primarily interested in seeing how the drive and dissipation interact in the two level approximation. We will treat \(\nu\) as a perturbation to \(\mathcal{L}_{0}\), and project it on to the single excitation subspace. This approximation is valid in the limit where the fast decay rate \(\gamma_{1}\) dominates (\(\gamma_{1} \gg \Omega, J, \gamma_{0}\)).
+
+\section{Definitions}
+The truncated density matrix, which contains only the subspace we are interested in, is given by, 
+\begin{equation}
+	\rho_{0} = Q_{0}\rho_{0}Q_{0},
+	\label{eq:adelim6}
+\end{equation}
+where the projector,
+\begin{equation}
+	Q_{0} = q_{0}^{\otimes N},
+	\label{eq:adelim7}
+\end{equation}
+and the subspace identity, \(q_{0} = (|0 \rangle \langle 0| + |1 \rangle \langle 1|)^{\otimes N}\). We then define a series of pseudo-projectors, 
+\begin{align}
+	\mathcal{P}_{0}X &= Q_{0}XQ_{0} + \sum_{j} \kappa_{1,j}Q_{1}XQ_{1}\kappa_{1,j}^{\dagger}, \label{eq:adelim8} \\
+	\mathcal{P}_{1a}X &= Q_{1}XQ_{0}, \label{eq:adelim9} \\
+	\mathcal{P}_{1b}X &= Q_{0}XQ_{1}, \label{eq:adelim10}
+\end{align}
+where the projector,
+\begin{equation}
+	Q_{1} = \sum_{j} q_{0}^{j-1} \otimes |2 \rangle \langle 2| \otimes q_{0}^{N-j},
+	\label{eq:adelim11}
+\end{equation}
+so it is the sum of all configurations of the system, with one and only one doubly occupied site. To second order, the two-level effective master equation will be given by,
+\begin{equation}
+	\dot{\rho} = \left(\mathcal{L}_{1} + \mathcal{L}_{2}\right)\rho_{0},
+	\label{eq:adelim12}
+\end{equation}
+where,
+\begin{align}
+	\mathcal{L}_{1} &= \mathcal{P}_{0}\nu\mathcal{P}_{0}, \label{eq:adelim13} \\
+	\mathcal{L}_{2} &= \sum_{c \in \{1a, 1b\}} \frac{-1}{\lambda_{c}} \mathcal{P}_{0}\nu\mathcal{P}_{c}\nu\mathcal{P}_{0}, \label{eq:adelim14}
+\end{align}
+and where \(\lambda_{c} = -\gamma_{1}/2\). During the derivation, to make it obvious when we have truncated an operator we will replace it with,
+\begin{equation}
+	\hat{\sigma} = Q_{0}\hat{a}Q_{0}.
+	\label{eq:adelim15}
+\end{equation}
+
+\section{First order}
+
+\section{Second order}
+
+\section{Effective master equation}
