@@ -119,4 +119,39 @@ Another characteristic of the equilibrium Mott insulator state is incompressibil
 
 \section{Large harmonic system}
 
+To further explore this class of systems we considered a lattice with \(\Delta = -U/2 = 0\), the harmonic regime. Though this weakens the case for truncation to the subspace of at most two excitations per site, we note that the dissipative regime ensures that we may reasonably assume that no significant population will gather in energy levels above the doubly excited state in the steady state. As such, we again make this truncation, and use a TEBD code to find the steady state of an 11-site system with open boundary conditions.
+
+In \cref{fig:dnlca5-1} we show the density and density variance of the middle site plotted, as with the anharmonic calculations, against drive strength \(\Omega\) and hopping rate \(J\). It can be seen that we again find a region where the excitation density is commensurate with the lattice size, and the variance is much less than one, indicative of the Mott insulator state. In contrast to the anharmonic results, this region is shifted in parameter space to a higher drive strength.
+
+\begin{figure}[ht]
+	\subfloat[\label{fig:dnlca5-1a}]{\includegraphics[width=0.49\linewidth]{\figpath/DensityScan}} \hfill
+	\subfloat[\label{fig:dnlca5-1b}]{\includegraphics[width=0.49\linewidth]{\figpath/DensityVarScan}}
+	\caption{\label{fig:dnlca5-1} Plots of the density on the middle site of an eleven site system, and its variance, plotted against drive strength \(\Omega\), and coupling strength \(J\). For this calculation, \(\gamma_{1} = 1\), and \(\gamma_{0} = 0.1\).}
+\end{figure} 
+
+In \cref{fig:dnlca5-2,fig:dnlca5-3} we show the correlation length, and first and second order correlations for a fixed drive strength. The principle difference between the correlations in the harmonic and anharmonic case is the presence of peaks and troughs on alternating sites in the first-order correlations in the harmonic case. This can be understood from the momentum basis representation of the master equation,
+\begin{align}
+	\mathcal{H}_{b} = &\sum_{k=0}^{N-1} \left[ \frac{\Omega}{\sqrt{2}}\hat{b}_{k}^{\dagger}\hat{b}_{N-k}^{\dagger} + \frac{\Omega^{*}}{\sqrt{2}}\hat{b}_{k}\hat{b}_{N-k} \right] + \sum_{k=0}^{N-1} \left[\Delta - 2J\cos\left(\frac{2\pi k}{N}\right)\right]\hat{b}_{k}^{\dagger}\hat{b}_{k} \notag \\ 
+	&+ \sum_{(j,k,l,m)} \left[ \frac{U}{N} \hat{b}_{j}^{\dagger}\hat{b}_{k}^{\dagger}\hat{b}_{l}\hat{b}_{m} \right], 
+	\label{eq:dnlca5-1}
+\end{align}
+where,
+\begin{equation}
+	\hat{a}_{n} = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \mathrm{e}^{i\frac{2\pi n}{N}k}\hat{b}_{k},
+	\label{eq:dnlca5-2}
+\end{equation}
+and we have assumed periodic boundary conditions. The notation \((j,k,l,m)\) indicates that the indices range from \(0\) to \(N-1\) and follow the condition \(l+m-j-k = nN\), where \(n\) is some integer. When \(\Delta = 0\), as it does here, the detuning \(\Delta - 2J\cos (2 \pi k/N)\) is zero for modes with \(k = nN/4\). The drive is therefore resonant to these modes, and these momenta determine the correlation profile. In the anharmonic case the detuning \(\Delta\) is large compared to \(2J\) and the mode with \(k=0\) is closest to resonance with the drive.
+
+\begin{figure}[ht]
+	\subfloat[\label{fig:dnlca5-2a}]{\includegraphics[width=0.49\linewidth]{\figpath/g1}} \hfill
+	\subfloat[\label{fig:dnlca5-2b}]{\includegraphics[width=0.49\linewidth]{\figpath/CorrLength}}
+	\caption{\label{fig:dnlca5-2} The first order correlation \(g^{(1)}(i,j)\) and the correlation length $\lambda$. For this calculation, \(\gamma_{1} = 1\), and \(\gamma_{0} = 0.1\). The first order correlation is plotted for a range of coupling strengths at a fixed drive strength, \(\Omega = 5.5\). The correlation length was determined by an \(\exp(- |j-j_{0}|/\lambda)\) fit to the \(g^{(1)}\) data.}
+\end{figure}
+%
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.49\linewidth]{\figpath/g2}
+	\caption{\label{fig:dnlca5-3} Second order correlation between sites, \(g^{(2)}(i,j)\), plotted against coupling strength. For this calculation, drive strength \(\Omega = 5.5\), \(\gamma_{1} = 1\), and \(\gamma_{0} = 0.1\).}
+\end{figure}
+
 \section{Conclusions}
