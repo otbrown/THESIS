@@ -34,7 +34,7 @@ and the subspace identity, \(q_{0} = (|0 \rangle \langle 0| + |1 \rangle \langle
 \end{align}
 where the projector,
 \begin{equation}
-	Q_{1} = \sum_{j} q_{0}^{j-1} \otimes |2 \rangle \langle 2| \otimes q_{0}^{N-j},
+	Q_{1} = \sum_{j} q_{0}^{\otimes j-1} \otimes |2 \rangle \langle 2| \otimes q_{0}^{\otimes N-j},
 	\label{eq:adelim11}
 \end{equation}
 so it is the sum of all configurations of the system, with one and only one doubly occupied site. To second order, the two-level effective master equation will be given by,
@@ -167,8 +167,88 @@ where we will, as before, consider the commutator first. As such,
 	&=-iQ_{0}\mathcal{H}\left( -iQ_{1}\mathcal{H}\rho_{0} \right)Q_{0} + iQ_{0}\left( -iQ_{1}\mathcal{H}\rho_{0} \right)Q_{0}, \notag \\
 	&= i^{2}Q_{0}\mathcal{H}Q_{1}\mathcal{H}Q_{0}\rho_{0} - i^{2}Q_{0}Q_{1}\mathcal{H}Q_{0}\rho_{0}, \notag \\
 	&= -Q_{0}\mathcal{H}Q_{1}\mathcal{H}Q_{0}\rho_{0}, \notag \\
-	&=  
+	&= -\biggl(\sum_{j} \bigl[ |\Omega|^{2}\hat{\sigma}_{j}\hat{\sigma}_{j}^{\dagger} - \sqrt{2}J\Omega^{*}\hat{\sigma}_{j}\hat{\sigma}_{j+1} - \sqrt{2}J\Omega^{*}\hat{\sigma}_{j-1}\hat{\sigma}_{j} \notag \\ 
+	&\quad - \sqrt{2}J\Omega\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j+1}^{\dagger} + 2J^{2}\hat{\sigma}_{j-1}\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}\hat{\sigma}_{j+1}^{\dagger} \notag \\ 
+	&\quad + 2J^{2}\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}\hat{\sigma}_{j+1}^{\dagger}\hat{\sigma}_{j+1} - \sqrt{2}J\Omega\hat{\sigma}_{j-1}^{\dagger}\hat{\sigma}_{j}^{\dagger} \notag \\ 
+	&\quad + 2J^{2}\hat{\sigma}_{j-1}^{\dagger}\hat{\sigma}_{j-1}\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j} + 2J^{2}\hat{\sigma}_{j-1}^{\dagger}\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}\hat{\sigma}_{j+1} \bigr] \biggr)\rho_{0}, \notag \\
+	&= -\frac{1}{2} \sum_{j} \alpha_{j}\alpha_{j}^{\dagger}\rho_{0},
 	\label{eq:adelim32}
 \end{align}
+where we have defined,
+\begin{equation}
+	\alpha_{j} = \sqrt{2}\Omega^{*}\hat{\sigma}_{j} - 2J\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}\left(\hat{\sigma}_{j+1}^{\dagger} + \hat{\sigma}_{j-1}^{\dagger}\right).
+	\label{eq:adelim33}
+\end{equation}
+The explicit expansion of \(Q_{0}\mathcal{H}Q_{1}\mathcal{H}Q_{0}\) in \cref{eq:adelim32} has been missed out, simply because even by the standards of this appendix it is lengthy, and furthermore it is quite trivial, requiring no special properties or assumptions.
+
+We next consider the dissipator from \cref{eq:adelim31},
+\begin{align}
+	Q_{0}&\biggl( \frac{\gamma_{0}}{2} \sum_{j}\left[2\kappa_{0,j}\mu_{1a}\kappa_{0,j}^{\dagger} - \{\kappa_{0,j}^{\dagger}\kappa_{0,j}, \mu_{1a}\} \right] \biggr) Q_{0} \notag \\
+	&= \frac{\gamma_{0}}{2} \sum_{j} \bigl[ 2\kappa_{0,j}Q_{0}\mu_{1a}Q_{0}\kappa_{0,j}^{\dagger} - \kappa_{0,j}^{\dagger}\kappa_{0,j}Q_{0}\mu_{1a}Q_{0} - Q_{0}\mu_{1a}Q_{0}\kappa_{0,j}^{\dagger}\kappa_{0,j} \bigr], \notag \\
+	&= 0,
+	\label{eq:adelim34}
+\end{align}
+where we have used that \([Q_{0}, \kappa_{0,j}] = 0\).
+
+Next, the \(Q_{1}\) terms in \cref{eq:adelim30},
+\begin{align}
+	&\sum_{j} \kappa_{1,j}Q_{1}\nu\mu_{1a}Q_{1}\kappa_{1,j}^{\dagger} \notag \\
+	&= \sum_{j}\kappa_{1,j}Q_{1}\biggl(-i\left[\mathcal{H},\mu_{1a}\right] + \frac{\gamma_{0}}{2} \sum_{k}\left[ 2\kappa_{0,k}\mu_{1a}\kappa_{0,k}^{\dagger} - \{\kappa_{0,k}^{\dagger}\kappa_{0,k}, \mu_{1a}\}\right] \biggr)Q_{1} \kappa_{1,j}^{\dagger},
+	\label{eq:adelim35}
+\end{align}
+where it should come as no surprise that we will consider the commutator first. It is,
+\begin{align}
+	&\sum_{j} \kappa_{1,j}Q_{1}\left( -i\left[\mathcal{H},\mu_{1a}\right] \right)Q_{1}\kappa_{1,j}^{\dagger} \notag \\ 
+	&= \sum_{j} \biggl[ -i\kappa_{1,j}Q_{1}\mathcal{H}\mu_{1a}Q_{1}\kappa_{1,j}^{\dagger} + i\kappa_{1,j}Q_{1}\mu_{1a}\mathcal{H}Q_{1}\kappa_{1,j}^{\dagger} \biggr], \notag \\
+	&= \sum_{j} \biggl[ -i\kappa_{1,j}Q_{1}\mathcal{H}\left(-iQ_{1}\mathcal{H}\rho_{0}\right)Q_{1}\kappa_{1,j}^{\dagger} + i\kappa_{1,j}Q_{1}\left(-iQ_{1}\mathcal{H}\rho_{0}\right)\mathcal{H}Q_{1}\kappa_{1,j}^{\dagger} \biggr], \notag \\
+	&= \sum_{j} \biggl[ i^{2}\kappa_{1,j}Q_{1}\mathcal{H}Q_{1}\mathcal{H}\rho_{0}Q_{1}\kappa_{1,j}^{\dagger} - i^{2}\kappa_{1,j}Q_{1}\mathcal{H}\rho_{0}\mathcal{H}Q_{1}\kappa_{1,j}^{\dagger} \biggr], \notag \\
+	&= \sum_{j} \kappa_{1,j}Q_{1}\mathcal{H}Q_{0}\rho_{0}Q_{0}\mathcal{H}Q_{1}\kappa_{1,j}^{\dagger}, \notag \\
+	&= \sum_{j}\left[ \left(\frac{1}{\sqrt{2}}\alpha_{j}^{\dagger}\right)\rho_{0}\left(\frac{1}{\sqrt{2}}\alpha_{j}\right)\right], \notag \\
+	&= \frac{1}{2} \sum_{j} \alpha_{j}^{\dagger} \rho_{0} \alpha_{j},
+	\label{eq:adelim36}
+\end{align}
+where we have again neglected to show the full expansion of terms, however we note that the fact that \(\kappa_{1,j}Q_{1}\mathcal{H}Q_{0} = (Q_{0}\mathcal{H}Q_{1}\kappa_{1,j}^{\dagger})^{\dagger}\) saves some time here.
+
+Next the dissipator from \cref{eq:adelim35}, 
+\begin{align}
+	&\sum_{j} \kappa_{1,j}Q_{1}\left( \frac{\gamma_{0}}{2} \sum_{k}\left[ 2\kappa_{0,k}\mu_{1a}\kappa_{0,k}^{\dagger} - \{\kappa_{0,k}^{\dagger}\kappa_{0,k}, \mu_{1a}\}\right]  \right)Q_{1}\kappa_{1,j}^{\dagger} \notag \\
+	&= \sum_{j} \frac{\gamma_{0}}{2} \kappa_{1,j} \Biggl(\sum_{k} \biggl[ 2\kappa_{0}Q_{1}\mu_{1a}Q_{1}\kappa_{0,k}^{\dagger} - \kappa_{0,k}^{\dagger}\kappa_{0,k}Q_{1}\mu_{1a}Q_{1} \notag \\
+	&\qquad - Q_{1}\mu_{1a}Q_{1}\kappa_{0,k}^{\dagger}\kappa_{0,k} \bigg] \Biggr)\kappa_{1,j}^{\dagger}, \notag \\
+	&= 0,
+	\label{eq:adelim37}
+\end{align}
+where we have again used that \([Q_{1}, \kappa_{0,j}] = 0\) and \(Q_{0}Q_{1} = 0\).
+
+We are now able to piece together the results from \cref{eq:adelim32,eq:adelim34,eq:adelim36,eq:adelim37}, and substitute them in to \cref{eq:adelim30} to find,
+\begin{equation}
+	\mathcal{P}_{0}\nu\mu_{1a} = \sum_{j} \left[ \frac{1}{2} \alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \frac{1}{2}\alpha_{j}\alpha_{j}^{\dagger}\rho_{0} \right].
+	\label{eq:adelim38}
+\end{equation}
+Furthermore, since \(\mu_{1b} = \mu_{1a}^{\dagger}\) we may surmise that,
+\begin{equation}
+	\mathcal{P}_{0}\nu\mu_{1b} = \sum_{j} \left[ \frac{1}{2} \alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \frac{1}{2}\rho_{0}\alpha_{j}\alpha_{j}^{\dagger} \right].
+	\label{eq:adelim39}
+\end{equation}
+
+Finally, we may substitute the results from \cref{eq:adelim38,eq:adelim39} back in to \cref{eq:adelim25} and state the form of the second-order Liouvillian,
+\begin{align}
+	\mathcal{L}_{2}\rho_{0} &= \frac{2}{\gamma_{1}} \left(\sum_{j} \left[ \frac{1}{2} \alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \frac{1}{2}\alpha_{j}\alpha_{j}^{\dagger}\rho_{0} \right] + \sum_{j} \left[ \frac{1}{2} \alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \frac{1}{2}\rho_{0}\alpha_{j}\alpha_{j}^{\dagger} \right]\right), \notag \\
+	&= \frac{2}{\gamma_{1}} \sum_{j} \left[ \alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \frac{1}{2}\alpha_{j}\alpha_{j}^{\dagger}\rho_{0} - \frac{1}{2}\rho_{0}\alpha_{j}\alpha_{j}^{\dagger}\right], \notag \\
+	&= \frac{1}{\gamma_{1}}\sum_{j} \left[ 2\alpha_{j}^{\dagger}\rho_{0}\alpha_{j} - \left\{ \alpha_{j}\alpha_{j}^{\dagger}, \rho_{0}\right\} \right].
+	\label{eq:adelim40}
+\end{align} 
 
 \section{Effective master equation}
+
+Combining results from \cref{eq:adelim24,eq:adelim40} we find the form of the two-level effective master equation to second order is,
+\begin{align}
+	\dot{\rho} &= -i\left[ \mathcal{H}_{J}, \rho \right] + \frac{\gamma_{0}}{2} \sum_{j}\left[2\hat{\sigma}_{j}\rho\hat{\sigma}_{j}^{\dagger} - \{\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}, \rho\} \right] \notag \\
+	&\qquad + \frac{1}{\gamma_{1}} \sum_{j} \left[ 2\alpha_{j}^{\dagger}\rho\alpha_{j} - \{\alpha_{j}\alpha_{j}^{\dagger}, \rho \}\right],
+	\label{eq:adelim41}
+\end{align}
+where,
+\begin{align}
+	\mathcal{H}_{J} &= -J \sum_{j} \left[\hat{\sigma}_{j}\hat{\sigma}_{j+1}^{\dagger} + \hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j+1}\right], \label{eq:adelim42} \\
+	\alpha_{j} &= \sqrt{2}\Omega^{*}\hat{\sigma}_{j} - 2J\hat{\sigma}_{j}^{\dagger}\hat{\sigma}_{j}\left(\hat{\sigma}_{j+1}^{\dagger} + \hat{\sigma}_{j-1}^{\dagger}\right). \label{eq:adelim43}
+\end{align}
+We note that in this model the drive term now appears as an incoherent pump, and hopping transitions between upper level on neighbouring sites appear as a density activated nonlocal dissipation.
