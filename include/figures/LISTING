@@ -5,6 +5,9 @@ anhG1.eps
 anhG2.eps
 b_site_density.png
 crest.pdf
+CorrLength.eps
+DensityScan.eps
+DensityVarScan.eps
 DIM_DiffDecay.eps
 DIM_interDensity.png
 DIM_lattice_diagram.png
@@ -13,6 +16,8 @@ DNLCA_model.eps
 doubleocc_prob.png
 effH_diagram.svg
 FPetalon.svg
+g1.eps
+g2.eps
 g1_incoherent_final.png
 g1_quantum_final.png
 HWLogo.jpg
