@@ -9,7 +9,8 @@
 \usepackage[square,numbers,compress]{natbib}		
 \usepackage{amsmath}						
 \usepackage{amssymb}						
-\usepackage{graphicx}					
+\usepackage{graphicx}
+\usepackage{subfig}					
 \usepackage{hyperref}					
 \usepackage{cleveref}					
 \usepackage[section]{placeins}	
@@ -52,9 +53,19 @@
 \maketitle
 \tableofcontents
 
-\chapter{Many-body quantum physics and open quantum systems}
+\chapter[Driven nonlinear cavity array]{\label{chp:DNLCA}Localization to delocalization crossover in a driven nonlinear cavity array}
 
-\input{\chappath/MBQ-OQS}
+\input{\chappath/DNLCA}
+
+\appendix
+
+\chapter[Rotating frame]{\label{chp:rotframe}Rotating frame transformation}
+
+\input{\chappath/DNLCA_rotframe}
+
+\chapter{\label{chp:adelim}Two-level effective master equation}
+
+\input{\chappath/DNLCA_adelim}
 
 \bibliographystyle{apsrev4-1-title}
 \bibliography{\refpath/literature,\refpath/web,\refpath/book}
