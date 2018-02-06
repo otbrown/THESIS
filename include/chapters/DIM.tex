@@ -1,7 +1,7 @@
 In this chapter we will discuss the article `Dissipation-induced mobility and coherence in frustrated lattices' \cite{Owen2017}. We will begin by discussing the motivation and theoretical background to the investigation, and results from the non-interacting regime. Then we will discuss the strongly-interacting regime, focusing in some detail on the design of the matrix product operator for variational search calculations, which was complex due to the presence of long-range nonlocal terms in this model, and was my primary contribution to the article.
 
 \section{Introduction}
-In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson1958,Lee1985,Segev2013}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating stationary states of the system. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{Guzman-Silva2014,Vicencio2015,Mukherjee2015,Mukherjee2015a}, polaritons in etched semiconductor heterostructures \cite{Jacqmin2014,Baboux2016}, ultracold atomic gases in optical lattices \cite{Taie2015}, surface plasmons \cite{Nakata2012,Kajiwara2016}, and they have been proposed in superconducting resonators \cite{Yang2016}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.  
+In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson1958,Lee1985,Segev2013}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{Guzman-Silva2014,Vicencio2015,Mukherjee2015,Mukherjee2015a}, polaritons in etched semiconductor heterostructures \cite{Jacqmin2014,Baboux2016}, ultracold atomic gases in optical lattices \cite{Taie2015}, surface plasmons \cite{Nakata2012,Kajiwara2016}, and they have been proposed in superconducting resonators \cite{Yang2016}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.  
 
 \subsection{The model}
 The model is a sawtooth lattice -- consisting of two one-dimensional sublattices, labelled \(A\) and \(B\). Each site in the \(B\) sublattice is coupled to its two adjacent sites with some tunneling rate \(t\). Each site in the \(A\) sublattice is connected to its two adjacent sites in the \(B\) sublattice with some tunneling rate \(t'\), but is \emph{not} connected to other sites in the \(A\) sublattice. Both sublattices have an interaction energy \(U_{X}\) and each site has a coherent drive with amplitude \(\Omega_{X,i}\), where the label \(X\) is \(A\) or \(B\) denoting the sublattice. The dissipative regime is one where the two sublattices have independent dissipation rates \(\gamma_{X}\) where again \(X = A,B\), and each site is dissipatively coupled to its own independent bath. The model is shown diagrammatically in \cref{fig:dim1-1}.
@@ -37,18 +37,14 @@ In the non-interacting regime \((U_{A} = U_{B} = 0)\), the undriven Hamiltonian 
 	\label{eq:dim1-6}
 \end{equation}
 If we take the limit \(t' \rightarrow \sqrt{2}t\) we find,
-\begin{align}
-	E_{k} &= \omega_{0} + t \cos k \pm \sqrt{t^{2}\cos^{2}k + 2(\sqrt{2}t)^{2}(1+\cos k)}, \notag \\
-	&= \omega_{0} + t \cos k \pm \sqrt{t^{2}\cos^{2}k + 4t^{2} + 4t^{2}\cos k}, \notag \\
-	&= \omega_{0} + t \cos k \pm \sqrt{t^{2}(\cos^{2}k + 4 + 4\cos k}, \notag \\
-	&= \omega_{0} + t \cos k \pm \sqrt{t^{2}(\cos k + 2)^{2}}, \notag \\
-	&= \omega_{0} + t \cos k \pm (t\cos k + 2t),
+\begin{equation}
+	E_{k} = \omega_{0} + t \cos k \pm (t\cos k + 2t),
 	\label{eq:dim1-7}
-\end{align}
+\end{equation}
 which yields a flat lower band at \(E_{0} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k} = \omega_{0} + 2t + 2t\cos k\). This is the geometrically frustrated regime, in which the kinetic energy of the flat band is quenched. We can most easily represent (and investigate) the system in this frustrated state using Wannier states.
 
 \subsection{Wannier basis} 
-The Wannier basis is an orthogonal set of states defined by the summation of bloch states for individual bands in a lattice \cite{Wannier1937}. In our case the tight-binding bosonic operators can be expressed as,
+The Wannier basis is an orthogonal set of states defined by the summation of bloch states for individual bands in a lattice \cite{Wannier1937}. For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. In which case the tight-binding bosonic operators can then be expressed as,
 \begin{align}
 	\hat{a}_{i}^{\dagger} &= \sum_{j} w_{A}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-8} \\
 	\hat{b}_{i}^{\dagger} &= \sum_{j} w_{B}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-9}  
@@ -60,7 +56,7 @@ where,
 \end{align}
 and \(W_{j}\) annihilates an excitation in the flat-band Wannier basis which is exponentially localized on the unit cell \(j\).
 
-For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. We may then write our master equation, \cref{eq:dim1-5}, as 
+We may then write our master equation, \cref{eq:dim1-5}, as 
 \begin{equation}
 	\dot{\rho} = -i[H_{W}, \rho] + \frac{1}{2} \sum_{j,l} \gamma_{l} \left[ 2W_{j} \rho W_{j+l}^{\dagger} - \left\{W_{j+l}^{\dagger}W_{j}, \rho\right\}\right],
 	\label{eq:dim1-12}
@@ -75,7 +71,7 @@ and where,
 	H_{0,W} &= \sum_{i} \Delta W_{i}^{\dagger}W_{i}, \label{eq:dim1-14} \\
 	H_{\Omega,W} &= \sum_{i} \left[ \Omega_{W,i}W_{i} + \Omega_{W,i}^{*} W_{i}^{\dagger} \right], \label{eq:dim1-15}
 \end{align}
-where we have again moved into the rotating frame, such that the detuning of the drive from the flat band \(\Delta = \omega_{0} - 2t - \omega_{D}\), and neglected rapidly rotating terms in \(H_{\Omega}\). We set the coherent drive amplitude such that,
+where we have again moved into the rotating frame, such that the detuning of the drive from the flat band is \(\Delta = \omega_{0} - 2t - \omega_{D}\), and neglected rapidly rotating terms in \(H_{\Omega}\). We set the coherent drive amplitude such that,
 \begin{equation}
 	\Omega_{W,i}W_{i} = \sum_{j} \left[ \Omega_{A,j}w_{A}(r_{i} - r_{j}) + \Omega_{B,j}w_{B}(r_{i} - r_{j}) \right].
 	\label{eq:dim1-16}
@@ -96,7 +92,16 @@ and where,
 	\mathcal{N}(k',q,q') = \sqrt{\left[ \cos(k'+q+q') + 2\right](\cos k'+2)(\cos q+2)(\cos q'+2)},
 	\label{eq:dim1-20}
 \end{equation}
-and \(\Pi(x)\) is the rectangle function.
+and \(\Pi(x)\) is the rectangle function. It is given by,
+\begin{equation}
+	\Pi(x) = \begin{cases}
+	0, & |x| > \frac{1}{2}, \\
+	1, & |x| < \frac{1}{2}, \\
+	\frac{1}{2} & |x| = \frac{1}{2},
+	\end{cases}
+	\label{eq:dim1-24}
+\end{equation}
+so in \cref{eq:dim1-20} it serves to ensure that only values of \( k' + q + q' \) between \(-\pi\) and \(\pi\) are counted. 
 
 The Wannier basis dissipation coefficient is given by,
 \begin{equation}
@@ -125,7 +130,7 @@ where \(\hat{O}\) is the operator for some observable of the system, and \(\math
 	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i}^{\dagger}W_{i+j} \rangle &= \frac{i}{2} \langle \Omega_{W}\delta_{i,0} W_{i+j} - \Omega_{W}^{*}\delta_{i+j,0}W_{i}^{\dagger} \rangle \notag \\ 
 	&\quad - \frac{1}{2}\sum_{l} \gamma_{l} (\langle W_{i+l}^{\dagger}W_{i+j} \rangle + \langle W_{i}^{\dagger}W_{i+j-l}\rangle), \label{eq:dim2-3}
 \end{align}
-where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that the system is driven only in the Wannier state localized about site zero. \Cref{eq:dim2-2,eq:dim2-3} provide a set of coupled equations which we solve numerically. A cutoff is applied to both the nonlocal dissipation coefficient \(\gamma_{l}\), which decays exponentially with \(l\), and to the correlations which we expect to be negligible at very long range. As such we make the approximations that \(\gamma_{l} = 0\) for \(l > 10\), and that \(\langle W_{i}^{\dagger}W_{i+j} \rangle = 0\) for \(j > 10\).
+where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that the system is driven only in a single Wannier state which we label zero. \Cref{eq:dim2-2,eq:dim2-3} provide a set of coupled equations which we solve numerically. A cutoff is applied to both the nonlocal dissipation coefficient \(\gamma_{l}\), which decays exponentially with \(l\), and to the correlations which we expect to be negligible at very long range. As such we make the approximations that \(\gamma_{l} = 0\) for \(l > 10\), and that \(\langle W_{i}^{\dagger}W_{i+j} \rangle = 0\) for \(j > 10\).
 
 \subsection{Dissipation-induced mobility}
 
@@ -171,7 +176,7 @@ where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of th
 \begin{figure}[ht!]
 \centering 
 \includegraphics[width=0.8\linewidth]{\figpath/g1_incoherent_final}
-\caption{\label{fig:dim2-3}Spatial coherences in the steady state \(g^{(1)}(i,j)\) for an incoherent pump at \(i=0\) with \(P_{B,0} = \gamma_{A}/100\) and \(\kappa = 0.1\).}
+\caption{\label{fig:dim2-3}Spatial coherences in the steady state \(g^{(1)}(i,j)\) for an incoherent pump at \(i=0\) with \(P_{B,0} = \gamma_{A}/100\) and \(\kappa = 0.1\). These results were again obtained by numerical solution of the Ehrenfest equations (\ref{eq:dim2-2}) and (\ref{eq:dim2-3}).}
 \end{figure}
 
 \subsection{Modeling the decay length of the dissipation-induced mobility}
@@ -259,14 +264,16 @@ We next consider the interacting regime, which in the Wannier basis results in n
 \begin{figure}[ht!]
 \centering 
 \includegraphics[width=0.8\linewidth]{\figpath/doubleocc_prob}
-\caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero.}
+\caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero. Excitations cannot leave the pumped site, so we the second order correlation function gives the maximum possible probability of double occupation.}
 \end{figure}
 
-In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across the lattice, but clearly it is computationally infeasible to include all of them. Therefore we calculated the coefficients \(U^{\mathrm{eff},A}_{j',l',m'}\) and \(U^{\mathrm{eff},B}_{j',l',m'}\) for all Wannier interaction terms in the single-excitation subspace. After doing so, we find the leading order values given in \cref{tab:dim3-1} below. It is clear that interactions on the \(B\) sublattice make a much more significant contribution to interactions in the Wannier basis than those on the \(A\) sublattice. For this reason, we choose \(U_{A} = 0\). Additionally we have applied a cut-off at \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B} < 0.01\) which allows us to truncate nonlocal interactions to an extent of two lattice sites. Finally, to determine the coefficients for implementation we must take in to account multiplicity due to symmetries in \(U^{\mathrm{eff},B}_{j',l',m'}\). Specifically there is a fourfold multiplicity in the cross-Kerr interactions with \(\{j',l',m'\} = \{1,1,0\}, \{2,2,0\}\), and a twofold multiplicity in the density-assisted tunneling term with \(\{j',l',m'\} = \{-1,0,1\}\).
+In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across the lattice, but clearly it is computationally infeasible to include all of them. Therefore we calculated the coefficients \(U^{\mathrm{eff},A}_{j',l',m'}\) and \(U^{\mathrm{eff},B}_{j',l',m'}\) for all Wannier interaction terms in the single-excitation subspace. After doing so, we find the leading order values given in \cref{tab:dim3-1} below. It is clear that interactions on the \(B\) sublattice make a much more significant contribution to interactions in the Wannier basis than those on the \(A\) sublattice. For this reason, we choose \(U_{A} = 0\). Additionally we have applied a cut-off at \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B} < 0.01\) which allows us to truncate nonlocal interactions to an extent of two lattice sites. Finally, to determine the coefficients for implementation we must take in to account multiplicity due to symmetries in \(U^{\mathrm{eff},B}_{j',l',m'}\). There is a fourfold multiplicity in the cross-Kerr interactions with \(\{j',l',m'\} = \{1,1,0\}, \{2,2,0\}\), and a twofold multiplicity in the density-assisted tunneling term with \(\{j',l',m'\} = \{-1,0,1\}\).
 
 \begin{table}[ht!]
 	\centering
 	\begin{tabu}{ll|ll}
+		\\
+		\\
 		\firsthline \hline 
 		\(\{j',l',m'\}\) & \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) & \(\{j',l',m'\}\) & \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B}\) \\
 		\hline
@@ -286,7 +293,7 @@ The Wannier basis interaction term we intend to implement is then given by,
 	&\qquad+ \left. 0.023U_{B}\left(W_{i-1}^{\dagger}W_{i}^{\dagger}W_{i}W_{i+1} + W_{i-1}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}\right)\right],
 	\label{eq:dim3-1}
 \end{align}
-where we note that we require \(U_{B} \gtrapprox 10\) to make the single-excitation subspace truncation, as from \cref{fig:dim3-1} this takes us into the region where \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle \lessapprox 10^{-3}\).
+where we note that we require \(U_{B} \gtrapprox 10\) to make the single-excitation subspace truncation, as from \cref{fig:dim3-1} this takes us into the region where \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle \lessapprox 10^{-3}\), when we have set \(\Omega_{W,0} = \gamma_{0} = 1\).
 
 \subsection{MPO design}
 Now that we have the complete form of the master equation for the strongly interacting regime,
@@ -312,84 +319,12 @@ To begin the process of designing the MPO we recall that we in fact require an M
 \end{align}
 which contains 22 unique operator combinations which must be accounted for. Here we have used the relation \((AB)^{T} = B^{T}A^{T})\), and since the operator \(W_{j}\) is a normal bosonic creation operator we expect it to be real, and therefore \(W^{T} = W^{\dagger}\) and \(W^{*} = W\).
 
-We state the bulk-site matrix product operator in full below in \cref{tab:dim3-2}, in a sparse notation, due to the large size. In fact the MPO had a virtual dimension of \(27 \times 27\) for the representation of \(\mathcal{L}\), and hence \(729 \times 729\) for \(\mathcal{L}^{\dagger}\mathcal{L}\) which proved more effective in spite of the additional computational effort. In part the large size was due to the inclusion of interaction terms with \(\{j',l',m'\} = \{2,1,0\}\), which appear in the leading order values for \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) in \cref{tab:dim3-1}, and were close to appearing in the \(B\) sublattice coefficients, with \(U^{\mathrm{eff},B}_{2,1,0} / U_{B} = 0.009605\). It was therefore included in some initial calculations to check that both setting \(U_{A} = 0\), and neglecting \(U^{\mathrm{eff},B}_{2,1,0}\) did not have a significant effect on the results. These terms inclusion created an additional 8 unique operator combinations, which were later excluded simply by setting their coefficients to zero. The correctness of the MPO was tested by comparing results from exact calculations and variational searches on a small system.
-
-\begin{longtable}{ccc}
-	\hline
-	Row & Col & Value \\
-	\hline
-	1 & 1 & \(\mathbb{I} \otimes \mathbb{I}\)  \\
-	2 & 1 & \(W^{\dagger}W \otimes \mathbb{I}\)  \\
-	3 & 1 & \(\mathbb{I} \otimes W^{\dagger}W\)  \\
-	12 & 1 & \(\mathbb{I} \otimes W\)  \\
-	13 & 1 & \(W \otimes \mathbb{I}\)  \\
-	18 & 1 & \(\frac{\gamma_{-1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
-	19 & 1 & \(-\frac{\gamma_{-1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
-	20 & 1 & \(W \otimes \mathbb{I}\)  \\
-	21 & 1 & \(W^{\dagger} \otimes \mathbb{I}\)  \\
-	22 & 1 & \(\mathbb{I} \otimes W^{\dagger}\)  \\
-	23 & 1 & \(\frac{\gamma_{-2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
-	24 & 1 & \(-\frac{\gamma_{-2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
-	25 & 1 & \(\frac{\gamma_{-3}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
-	26 & 1 & \(-\frac{\gamma_{-3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
-	\hline
-	27 & 1 & \(iH_{\mathrm{local}}^{T} \otimes \mathbb{I} - \mathbb{I} \otimes iH_{\mathrm{local}}\) \\ 
-	   &   & \(+ \frac{\gamma_{0}}{2}\left(2W \otimes W - \mathbb{I} \otimes W^{\dagger}W - W^{\dagger}W \otimes \mathbb{I}\right)\), \\
-	   &   & \(H_{\mathrm{local}} = U^{\mathrm{eff},B}_{0,0,0}W^{\dagger}W^{\dagger}WW + \frac{\Omega_{W,i}}{2}W + \frac{\Omega_{W,i}^{*}}{2}W^{\dagger}\) \\  
-	\hline
-	27 & 2  & \(4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
-	27 & 3  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W\) \\
-	27 & 4  & \(4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W \otimes \mathbb{I}\) \\
-	27 & 5  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W\) \\
-	27 & 6  & \(iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
-	27 & 7  & \(\mathbb{I} \otimes -iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W\) \\
-	27 & 8  & \(iW^{\dagger} \otimes \mathbb{I}\) \\
-	27 & 9  & \(\mathbb{I} \otimes -iW^{\dagger}\) \\
-	27 & 10 & \(iW \otimes \mathbb{I}\) \\
-	27 & 11 & \(\mathbb{I} \otimes -iW\) \\
-	27 & 12 & \(\frac{\gamma_{1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
-	27 & 13 & \(-\frac{\gamma_{1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\ 
-	27 & 14 & \(\frac{\gamma_{2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
-	27 & 15 & \(-\frac{\gamma_{2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
-	27 & 16 & \(\frac{\gamma_{3}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
-	27 & 17 & \(-\frac{\gamma_{3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
-	27 & 18 & \(\mathbb{I} \otimes W\) \\
-	27 & 19 & \(W \otimes \mathbb{I}\) \\
-	\hline
-	27 & 27 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	\hline
-	4  & 2  & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	5  & 3  & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	6  & 20 & \(W^{\dagger} \otimes \mathbb{I}\) \\
-	6  & 21 & \(W \otimes \mathbb{I}\) \\
-	7  & 12 & \(\mathbb{I} \otimes W^{\dagger}\) \\
-	7  & 22 & \(\mathbb{I} \otimes W\) \\
-	8  & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W \otimes \mathbb{I}\) \\
-	8  & 20 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
-	9  & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W\) \\
-	9  & 12 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
-	10 & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger} \otimes \mathbb{I}\) \\
-	10 & 21 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
-	11 & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger}\) \\
-	11 & 22 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
-	14 & 12 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	15 & 13 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	16 & 14 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	17 & 15 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	18 & 23 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	19 & 24 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	23 & 25 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	24 & 26 & \(\mathbb{I} \otimes \mathbb{I}\) \\
-	\hline
-	\caption{\label{tab:dim3-2}The MPO for the strongly interacting frustrated lattice system, truncated to the single-excitation subspace in the Wannier basis. Listed in a sparse notation with the two virtual dimensions and the operator given. Note that to match the data structure for MPOs used in \lstinline$mpostat$, the operator would need to be appropriately reshaped. } 	
-\end{longtable}
-
-I will discuss some features of the MPO in the hope that it is helpful to someone hoping to design one similar. First of all, note that as it is a Liouvillian MPO, all operators in the Hamiltonian are duplicated on both sides of the tensor space, to account for the commutator \(\mathbb{I} \otimes -iH + iH^{T} \otimes \mathbb{I}\). I have broken from the previously stated convention that all coefficients would be placed in the bottom row, and the first column limited to dimensionless operators. This was done simply to keep the appearance of the dissipator terms consistent, which made the code cleaner during the actual implementation. Those dissipator terms in the first column all correspond to the `negative \(l\)' dissipator terms, however in practice they did not need unique coefficients as \(\gamma_{-l} = \gamma_{l}\). Such practical considerations also explain the inclusion of a site index on the drive amplitude \(\Omega_{W,i}\), although we know well that only site zero will be driven. The approach of including an array of such coefficients that is the length of the system, and pulling the correct element for each site allows more flexibility at almost no computational cost. The large gap in the first column from row 4 to row 11 (which I tend to refer to as a `passing lane') facilitates nonlocal terms beyond nearest-neighbours. Inspection of the bottom row will reveal that these elements are landing sites for nonlocal terms from the previous site, and they must be kept away from the first column until the operator chain is complete. It is a feature of MPO construction, that once an operator chain reaches a non-zero term in the first column of the following MPO site, it will thereafter only be multiplied by identities. It is the job of the interior elements of the MPO to correctly handle the nonlocal terms until an operator chain is completed. Consider for example the next-nearest neighbour cross-Kerr interaction. On some site \(j\) the chain begins with element \((27,5)\) which contains \(\mathbb{I}_{j} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\). Note that I have included the site index on the operators here to help illustrate my point, but the operators are still the strictly local \(W^{\dagger}, W\), and \(\mathbb{I}\) -- the tensor product between sites is handled by the way observables are calculated using matrix product states and operators. On multiplication in to the next site (again, something that never actually happens, but is notionally useful for MPO design) the operator encounters nothing but zeroes until it reaches interior element \((5,3)\) which contains the double identity \(\mathbb{I}_{j+1} \otimes \mathbb{I}_{j+1}\) and the operator chain \(\mathbb{I}_{j}\mathbb{I}_{j+1} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\mathbb{I}_{j+1}\) is formed. Next the operator chain finds the only non-zero value in element \((3,1)\) of the following site, which contains \(\mathbb{I}_{j+2} \otimes W_{j+2}^{\dagger}W_{j+2}\), resulting in the chain \(\mathbb{I}_{j}\mathbb{I}_{j+1}\mathbb{I}_{j+2} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\mathbb{I}_{j+1}W_{j+2}^{\dagger}W_{j+2}\), and the next-nearest neighbour cross-Kerr interaction term is complete. Residing now in the first column, the operator chain will only encounter identities as it progresses through the rest of the system. This method of designing MPOs is described in detail in section 6 of Schollw\"{o}ck's incomparable review article \cite{Schollwock2011}.
+The bulk-site matrix product operator is stated in full in \cref{tab:dim3-2} in \cref{chp:dimmpo}. The MPO had a virtual dimension of \(27 \times 27\) for the representation of \(\mathcal{L}\), and hence \(729 \times 729\) for \(\mathcal{L}^{\dagger}\mathcal{L}\) which proved more effective in spite of the additional computational effort. In part the large size was due to the inclusion of interaction terms with \(\{j',l',m'\} = \{2,1,0\}\), which appear in the leading order values for \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) in \cref{tab:dim3-1}, and were close to appearing in the \(B\) sublattice coefficients, with \(U^{\mathrm{eff},B}_{2,1,0} / U_{B} = 0.009605\). It was therefore included in some initial calculations to check that both setting \(U_{A} = 0\), and neglecting \(U^{\mathrm{eff},B}_{2,1,0}\) did not have a significant effect on the results. These terms inclusion created an additional 8 unique operator combinations, which were later excluded simply by setting \(U_{A} = U^{\mathrm{eff,B}}_{2,1,0} = 0\) rather than modifying the form of the MPO. The correctness of the MPO was tested by comparing results from exact calculations and variational searches on a small system.
 
 \subsection{Density and coherence}
 Having designed and tested the MPO we were able to begin using the \lstinline$mpostat$ code to find the stationary state. It is worth remarking that these calculations were performed in late 2016, and consequently performed using a much earlier version of the code. Notably the approach, due to Mascarenhas \cite{Mascarenhas2015}, of beginning with some very small matrix dimension \(\chi\) and steadily increasing it while decreasing the convergence threshold had yet to be implemented. This is now precisely what the top-level function \lstinline$PhasedSearch$ does, but at the time we had to make do with simply setting the matrix dimensions large enough. I do not doubt the veracity of these results -- testing has existed in \lstinline$mpostat$ for as long as a working version has, but I suspect that the current version of the code would make lighter work of these calculations.
 
-The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a system driven on site \(i=0\) with drive amplitude \(\Omega_{W,0} = \gamma_{A} = 1\), and \(\kappa = \gamma_{B}/\gamma_{A} = 0.2\), for three different values of the nearest-neighbour cross-Kerr interaction strength \(U_{1} \approx 0.133U_{B}\). In contrast to results from the non-interacting regime, the density distribution does not decay exponentially away from the pumped site. This means we can no longer consider the density decay length, so to study how interactions affect the dissipation-induced mobility we now instead use the fraction of excitations in the unpumped Wannier states as the figure of merit. This value, \(f = (\sum_{i \neq 0} N_{i}) / (\sum_{i} N_{i})\) is shown in \cref{fig:dim3-2}~(b) as a function of \(\kappa\), again for a range of \(U_{1}\) values. Note that for completely uncoupled Wannier states, \(f=0\). We find that for some fixed \(\kappa\) mobility decreases with increasing interaction strength, which we attribute to the cross-Kerr interactions which shift the energy of the neighbouring site, detuning the nonlocal dissipative transition and preventing transport between sites. We find that the density assisted tunneling term is insignificant, as removing it from the calculation leads to a variation in \(f\) only of order \(10^{-2}\). It is also clear from \cref{fig:dim3-2}~(b) that the dependence of mobility on the cross-Kerr interaction strength \(U_{1}\) is significantly weaker than its dependence on \(\kappa\). This indicates that nonlocal dissipation is the dominant contributor in the steady state of the system in the strongly-interacting limit. 
+The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a system driven on site \(i=0\) with drive amplitude \(\Omega_{W,0} = \gamma_{A} = 1\), and \(\kappa = \gamma_{B}/\gamma_{A} = 0.2\), for three different values of the nearest-neighbour cross-Kerr interaction strength \(U_{1} \approx 0.133U_{B}\). In contrast to results from the non-interacting regime, the density distribution does not decay exponentially away from the pumped site. This means we can no longer consider the density decay length, so to study how interactions affect the dissipation-induced mobility we now instead use the fraction of excitations in the unpumped Wannier states as the figure of merit. This value, \(f = (\sum_{i \neq 0} N_{i}) / (\sum_{i} N_{i})\) is shown in \cref{fig:dim3-2}~(b) as a function of \(\kappa\), again for a range of \(U_{1}\) values. We find that for some fixed \(\kappa\) mobility decreases with increasing interaction strength, which we attribute to the cross-Kerr interactions which shift the energy of the neighbouring site, detuning the nonlocal dissipative transition and preventing transport between sites. We find that the density assisted tunneling term is insignificant, as removing it from the calculation leads to a variation in \(f\) only of order \(10^{-2}\). It is also clear from \cref{fig:dim3-2}~(b) that the dependence of mobility on the cross-Kerr interaction strength \(U_{1}\) is significantly weaker than its dependence on \(\kappa\). This indicates that nonlocal dissipation is the dominant contributor in the steady state of the system in the strongly-interacting limit. 
 
 \begin{figure}[ht!]
 \centering 

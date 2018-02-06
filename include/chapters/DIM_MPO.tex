@@ -1,0 +1,73 @@
+I begin by stating the MPO in full. Due to the large size this is done in a sparse notation. The virtual dimension \(\chi = 27\).
+
+\begin{longtable}{ccc}
+	\hline
+	Row & Col & Value \\
+	\hline
+	1 & 1 & \(\mathbb{I} \otimes \mathbb{I}\)  \\
+	2 & 1 & \(W^{\dagger}W \otimes \mathbb{I}\)  \\
+	3 & 1 & \(\mathbb{I} \otimes W^{\dagger}W\)  \\
+	12 & 1 & \(\mathbb{I} \otimes W\)  \\
+	13 & 1 & \(W \otimes \mathbb{I}\)  \\
+	18 & 1 & \(\frac{\gamma_{-1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
+	19 & 1 & \(-\frac{\gamma_{-1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	20 & 1 & \(W \otimes \mathbb{I}\)  \\
+	21 & 1 & \(W^{\dagger} \otimes \mathbb{I}\)  \\
+	22 & 1 & \(\mathbb{I} \otimes W^{\dagger}\)  \\
+	23 & 1 & \(\frac{\gamma_{-2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
+	24 & 1 & \(-\frac{\gamma_{-2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	25 & 1 & \(\frac{\gamma_{-3}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
+	26 & 1 & \(-\frac{\gamma_{-3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
+	\hline
+	27 & 1 & \(iH_{\mathrm{local}}^{T} \otimes \mathbb{I} - \mathbb{I} \otimes iH_{\mathrm{local}}\) \\ 
+	   &   & \(+ \frac{\gamma_{0}}{2}\left(2W \otimes W - \mathbb{I} \otimes W^{\dagger}W - W^{\dagger}W \otimes \mathbb{I}\right)\), \\
+	   &   & \(H_{\mathrm{local}} = U^{\mathrm{eff},B}_{0,0,0}W^{\dagger}W^{\dagger}WW + \frac{\Omega_{W,i}}{2}W + \frac{\Omega_{W,i}^{*}}{2}W^{\dagger}\) \\  
+	\hline
+	27 & 2  & \(4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 3  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{1,1,0}W^{\dagger}W\) \\
+	27 & 4  & \(4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 5  & \(\mathbb{I} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W^{\dagger}W\) \\
+	27 & 6  & \(iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W \otimes \mathbb{I}\) \\
+	27 & 7  & \(\mathbb{I} \otimes -iU^{\mathrm{eff},B}_{2,1,0}W^{\dagger}W\) \\
+	27 & 8  & \(iW^{\dagger} \otimes \mathbb{I}\) \\
+	27 & 9  & \(\mathbb{I} \otimes -iW^{\dagger}\) \\
+	27 & 10 & \(iW \otimes \mathbb{I}\) \\
+	27 & 11 & \(\mathbb{I} \otimes -iW\) \\
+	27 & 12 & \(\frac{\gamma_{1}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger}\right)\)  \\
+	27 & 13 & \(-\frac{\gamma_{1}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\ 
+	27 & 14 & \(\frac{\gamma_{2}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\)  \\
+	27 & 15 & \(-\frac{\gamma_{2}}{2}W^{\dagger} \otimes \mathbb{I}\)  \\
+	27 & 16 & \(\frac{\gamma_{3}}{2}\left( 2W \otimes \mathbb{I} - \mathbb{I} \otimes W^{\dagger} \right)\) \\
+	27 & 17 & \(-\frac{\gamma_{3}}{2}W^{\dagger} \otimes \mathbb{I} \)  \\
+	27 & 18 & \(\mathbb{I} \otimes W\) \\
+	27 & 19 & \(W \otimes \mathbb{I}\) \\
+	\hline
+	27 & 27 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	\hline
+	4  & 2  & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	5  & 3  & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	6  & 20 & \(W^{\dagger} \otimes \mathbb{I}\) \\
+	6  & 21 & \(W \otimes \mathbb{I}\) \\
+	7  & 12 & \(\mathbb{I} \otimes W^{\dagger}\) \\
+	7  & 22 & \(\mathbb{I} \otimes W\) \\
+	8  & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W \otimes \mathbb{I}\) \\
+	8  & 20 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
+	9  & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W\) \\
+	9  & 12 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
+	10 & 2  & \(U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger} \otimes \mathbb{I}\) \\
+	10 & 21 & \(2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W \otimes \mathbb{I}\) \\
+	11 & 3  & \(\mathbb{I} \otimes U^{\mathrm{eff},B}_{-2,-1,0}W^{\dagger}\) \\
+	11 & 22 & \(\mathbb{I} \otimes 2U^{\mathrm{eff},B}_{-1,0,1}W^{\dagger}W\) \\
+	14 & 12 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	15 & 13 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	16 & 14 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	17 & 15 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	18 & 23 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	19 & 24 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	23 & 25 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	24 & 26 & \(\mathbb{I} \otimes \mathbb{I}\) \\
+	\hline
+	\caption{\label{tab:dim3-2}The MPO for the strongly interacting frustrated lattice system, truncated to the single-excitation subspace in the Wannier basis. Listed in a sparse notation with the two virtual dimensions and the operator given. Note that to match the data structure for MPOs used in \lstinline$mpostat$, the operator would need to be appropriately reshaped. } 	
+\end{longtable}
+
+I will now discuss some features of the MPO in the hope that it is helpful to someone hoping to design one similar. First of all, note that as it is a Liouvillian MPO, all operators in the Hamiltonian are duplicated on both sides of the tensor space, to account for the commutator \(\mathbb{I} \otimes -iH + iH^{T} \otimes \mathbb{I}\). I have broken from the previously stated convention that all coefficients would be placed in the bottom row, and the first column limited to dimensionless operators. This was done simply to keep the appearance of the dissipator terms consistent, which made the code cleaner during the actual implementation. Those dissipator terms in the first column all correspond to the `negative \(l\)' dissipator terms, however in practice they did not need unique coefficients as \(\gamma_{-l} = \gamma_{l}\). Such practical considerations also explain the inclusion of a site index on the drive amplitude \(\Omega_{W,i}\), although we know well that only site zero will be driven. The approach of including an array of such coefficients that is the length of the system, and pulling the correct element for each site allows more flexibility at almost no computational cost. The large gap in the first column from row 4 to row 11 (which I tend to refer to as a `passing lane') facilitates nonlocal terms beyond nearest-neighbours. Inspection of the bottom row will reveal that these elements are landing sites for nonlocal terms from the previous site, and they must be kept away from the first column until the operator chain is complete. It is a feature of MPO construction, that once an operator chain reaches a non-zero term in the first column of the following MPO site, it will thereafter only be multiplied by identities. It is the job of the interior elements of the MPO to correctly handle the nonlocal terms until an operator chain is completed. Consider for example the next-nearest neighbour cross-Kerr interaction. On some site \(j\) the chain begins with element \((27,5)\) which contains \(\mathbb{I}_{j} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\). Note that I have included the site index on the operators here to help illustrate my point, but the operators are still the strictly local \(W^{\dagger}, W\), and \(\mathbb{I}\) -- the tensor product between sites is handled by the way observables are calculated using matrix product states and operators. On multiplication in to the next site (again, something that never actually happens, but is notionally useful for MPO design) the operator encounters nothing but zeroes until it reaches interior element \((5,3)\) which contains the double identity \(\mathbb{I}_{j+1} \otimes \mathbb{I}_{j+1}\) and the operator chain \(\mathbb{I}_{j}\mathbb{I}_{j+1} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\mathbb{I}_{j+1}\) is formed. Next the operator chain finds the only non-zero value in element \((3,1)\) of the following site, which contains \(\mathbb{I}_{j+2} \otimes W_{j+2}^{\dagger}W_{j+2}\), resulting in the chain \(\mathbb{I}_{j}\mathbb{I}_{j+1}\mathbb{I}_{j+2} \otimes -4iU^{\mathrm{eff},B}_{2,2,0}W_{j}^{\dagger}W_{j}\mathbb{I}_{j+1}W_{j+2}^{\dagger}W_{j+2}\), and the next-nearest neighbour cross-Kerr interaction term is complete. Residing now in the first column, the operator chain will only encounter identities as it progresses through the rest of the system. This method of designing MPOs is described in detail in section 6 of Schollw\"{o}ck's incomparable review article \cite{Schollwock2011}.
