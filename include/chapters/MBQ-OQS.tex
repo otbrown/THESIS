@@ -103,7 +103,37 @@ The physical origin of the drive strength is trivial to consider -- it parameter
 Finally, we must consider how to introduce and control non-linearity in our cavity array system, and thus define the interaction strength, \(U\). In principle a term of the form \(\hat{a}^{\dagger 2}\hat{a}^{2}\) appears as a result of the optical Kerr effect in certain materials \cite{Kitagawa1986}, however this effect is third order in the electric susceptibility and therefore requires a high intensity electromagnetic field to become a relevant phenomenon \cite{Boyd_KerrNL}. Another way to introduce nonlinearity is by considering cavities which contain atoms with a four-level structure. Such systems can produce large Kerr-like nonlinearities, as first shown by Schmidt and Imamo\u{g}lu \cite{Schmidt1996}. In fact if we move to considering polaritons (which are photon-atom quasiparticles) then we can construct a full Bose-Hubbard Hamiltonian with even stronger nonlinearity, as detailed in Ref~\cite{Hartmann2008}.
 
 \subsubsection{Superconducting circuits}
-Having described how our model of interest may be realised in an optical cavity array, we next consider an alternative superconducting circuit implementation. The fundamental building block of this implementation is an LC circuit which is sufficiently small that both the charge in the capacitor and magnetic flux in the inductor become quantised. Resistance in the circuit would mask quantum effects, so it must be cooled to superconducting temperatures -- on the order of tens of millikelvin. In this regime charge is quantised to units of \(2e\) (where \(e\) is the elementary charge) as the electrons form Cooper pairs \cite{Vool2017,Cooper1956}. However, a quantum LC circuit is still just a quantum harmonic oscillator. To introduce anharmonicity, a Josephson junction must be added to the circuit. 
+Having described how our model of interest may be realised in an optical cavity array, we next consider an alternative superconducting circuit implementation. The fundamental building block of this implementation is an LC circuit which is sufficiently small that both the charge in the capacitor and magnetic flux in the inductor become quantised. Resistance in the circuit would mask quantum effects, so it must be cooled to superconducting temperatures -- on the order of tens of millikelvin. In this regime charge is quantised to units of \(2e\) (where \(e\) is the elementary charge) as the electrons form Cooper pairs \cite{Vool2017,Cooper1956}. However, a quantum LC circuit is still just a quantum harmonic oscillator. To introduce anharmonicity, a Josephson junction must be added to the circuit. Named for Brian David Josephson who first predicted in 1962 that Cooper pairs could tunnel just as single electrons can, a Josephson junction consists of two superconductors separated by a thin insulating barrier \cite{Josephson1962,Schoelkopf2008}. They were first demonstrated by Anderson and Rowell in 1963 \cite{Anderson1963}. 
+
+The Hamiltonian of the LCJ circuit shown in \cref{fig:mbq2-2} is,
+\begin{equation}
+	\mathcal{H} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi) + \frac{E_{L}}{2} (\varphi - \varphi_{\mathrm{ext}})^{2},
+	\label{eq:mbq2-6}
+\end{equation}
+where \(\hat{n}\) is the number of Cooper pairs on the Josephson junction, \(n_{g}\) is an offset charge which can be controlled by an externally applied voltage, \(\varphi\) is the phase difference in the superconducting order parameter across the Josephson junction, and \(\varphi_{\mathrm{ext}}\) is proportional to the external flux \(\Phi_{\mathrm{ext}}\) which threads the superconducting loops \cite{Vool2017}. The charging energy \(E_{C}\), Josephson energy \(E_{J}\), and inductive energy \(E_{L}\) are given by,
+\begin{align}
+	E_{C} &= \frac{e^{2}}{2C}, \label{eq:mbq2-7} \\
+	E_{J} &= \frac{\hbar}{2e}I_{0}, \label{eq:mbq2-8} \\
+	E_{L} &= \frac{\phi_{0}^{2}}{L}, \label{eq:mbq2-9}
+\end{align}
+where \(e\) is the elementary charge, \(C\) is the total shunt capacitance, \(I_{0}\) is the critical current of the Josephson junction, \(\phi_{0} = \hbar/2e\) is the reduced flux quantum, and \(L\) is the total shunt inductance \cite{Vool2017,Wendin2017}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.8\linewidth]{\figpath/JosephsonCircuit}
+\caption{\label{fig:mbq2-2}Equivalent circuit for all forms of superconducting circuit qubit. The circuit consists of a Josephon junction (depicted by a box with a cross through it), connected to some shunt capacitor \(C\), and some shunt inductor \(L\). An external flux, \(\Phi_{\mathrm{ext}}\) threads the superconducting loops. \(E_{C}, E_{J},\) and \(E_{L}\) are given by \cref{eq:mbq2-7,eq:mbq2-8,eq:mbq2-9}.}
+\end{figure}
+
+The particular quanta of interest in fact depend on the energy parameters in \cref{eq:mbq2-6}, at one extreme when the charging energy is much larger than the Josephson energy, and there is no inductor \((E_{J} / E_{C} \ll 1,\, E_{L} = 0)\) the system forms a `Cooper pair box' or charge qubit, where the relevant degree of freedom is the number of Cooper pairs on one side of the Josephson junction. On the other hand, when the charging energy is small, and the Josephson energy and inductive energy are both large \(( E_{J} / E_{C} \gg 1,\, E_{L} / (E_{J}-E_{L}) \gg 1 )\) the system forms a `flux qubit', where the relevant degree of freedom is the number of flux quanta in the superconducting ring. We will consider in particular one of the possibilities that lies in between these two, the \emph{transmon}.
+
+The transmon is a modification of the Cooper pair box, formed in the regime where again there is no inductor, but unlike the CPB, the Josephson energy is much larger than the charging energy \((E_{J} / E_{C} \gg 1,\, E_{L} = 0)\). The transmon Hamiltonian is then given by,
+\begin{equation}
+	\mathcal{H}_{\mathrm{transmon}} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi),
+	\label{eq:mbq2-10}
+\end{equation}
+where we recall that the value of \(n_{g}\) can be controlled through the application of a bias voltage, and that since we intend to use the number of Cooper pairs as our basis (we are still considering a charge qubit) we may ignore the impact of the cosine term. In any case, with more sophisticated set-ups, it is possible to tune the phase parameter with an external flux \cite{Koch2007,Wendin2017}. The principle advantage of the transmon is its relative insensitivity to charge noise compared to the Cooper pair box, although this does come at the cost of a loss of nonlinearity as the bands flatten as \(E_{J}/E_{C} \rightarrow \infty\). Still, it provides the harmonic and anharmonic terms of our desired Hamiltonian \cref{eq:mbq2-3}.
+
+Hopping between sites is achieved by
 
 \section{\label{sec:OQS}Open Quantum Systems}
 
