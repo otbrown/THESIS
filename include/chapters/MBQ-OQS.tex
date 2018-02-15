@@ -126,12 +126,17 @@ where \(e\) is the elementary charge, \(C\) is the total shunt capacitance, \(I_
 
 The particular quanta of interest in fact depend on the energy parameters in \cref{eq:mbq2-6}, at one extreme when the charging energy is much larger than the Josephson energy, and there is no inductor \((E_{J} / E_{C} \ll 1,\, E_{L} = 0)\) the system forms a `Cooper pair box' or charge qubit, where the relevant degree of freedom is the number of Cooper pairs on one side of the Josephson junction. On the other hand, when the charging energy is small, and the Josephson energy and inductive energy are both large \(( E_{J} / E_{C} \gg 1,\, E_{L} / (E_{J}-E_{L}) \gg 1 )\) the system forms a `flux qubit', where the relevant degree of freedom is the number of flux quanta in the superconducting ring. We will consider in particular one of the possibilities that lies in between these two, the \emph{transmon}.
 
-The transmon is a modification of the Cooper pair box, formed in the regime where again there is no inductor, but unlike the CPB, the Josephson energy is much larger than the charging energy \((E_{J} / E_{C} \gg 1,\, E_{L} = 0)\). The transmon Hamiltonian is then given by,
+The transmon is a modification of the Cooper pair box, formed in the regime where again there is no inductor, but unlike the CPB, the Josephson energy is much larger than the charging energy \((E_{J} / E_{C} \gg 1,\, E_{L} = 0)\). The Hamiltonian is then given by,
 \begin{equation}
-	\mathcal{H}_{\mathrm{transmon}} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi),
+	\mathcal{H} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi),
 	\label{eq:mbq2-10}
 \end{equation}
-where we recall that the value of \(n_{g}\) can be controlled through the application of a bias voltage, and that since we intend to use the number of Cooper pairs as our basis (we are still considering a charge qubit) we may ignore the impact of the cosine term. In any case, with more sophisticated set-ups, it is possible to tune the phase parameter with an external flux \cite{Koch2007,Wendin2017}. The principle advantage of the transmon is its relative insensitivity to charge noise compared to the Cooper pair box, although this does come at the cost of a loss of nonlinearity as the bands flatten as \(E_{J}/E_{C} \rightarrow \infty\). Still, it provides the harmonic and anharmonic terms of our desired Hamiltonian \cref{eq:mbq2-3}.
+where we recall that the value of \(n_{g}\) can be controlled through the application of a bias voltage. In the limit where \(E_{J}/E_{C} \gg 1\) this results in an anharmonic ladder of transmon states with the Hamiltonian,
+\begin{equation}
+	\mathcal{H}_{\mathrm{transmon}} = \sqrt{8E_{C}E_{J}}\hat{a}^{\dagger}\hat{a} - \frac{E_{C}}{12}\left(\hat{a} + \hat{a}^{\dagger}\right)^{4},
+	\label{eq:mbq2-11}
+\end{equation}
+where we have neglected constant terms \cite{Koch2007}. The principle advantage of the transmon is its relative insensitivity to charge noise compared to the Cooper pair box.
 
 Hopping between sites can be achieved by directly coupling transmon sites together with a capacitor \cite{Wendin2007}, or indirectly via a transmission line cavity \cite{Majer2007}, or a Josephson junction \cite{Chen2014}. The drive term is trivial to consider, as in the optical system, the only difference being that the superconducting circuit is driven at microwave frequencies. Specific dissipative environments can again be engineered through exploitation of the Purcell effect \cite{Purcell1946,Fox_Purcell}.
 
