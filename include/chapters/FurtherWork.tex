@@ -1,5 +1,33 @@
 In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. We will also consider future applications of the variational stationary state search code.
 
 \section{Biased chain}
+In this project we will consider an \(N\)-site biased spin chain, governed by the Hamiltonian,
+\begin{equation}
+	\mathcal{H} = \sum_{j}^{N}\left[ -j \Delta E \hat{a}_{j}^{\dagger}\hat{a}_{j} + t\left( \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right)\right],
+	\label{eq:fw1-1}
+\end{equation}
+where \(\Delta E\) is the bias energy, and \(t\) is the hopping rate between sites. The Lindblad form master equation for the system is, 
+\begin{align}
+	\dot{\rho} = -i[\mathcal{H}, \rho] &+ \frac{\gamma_{d}}{2} \sum_{j} \left[2\kappa_{j}\rho\kappa_{j}^{\dagger} - \{\kappa_{j}^{\dagger}\kappa_{j}, \rho\}\right] \notag \\
+	&+ \frac{\gamma_{P}}{2}\left[2\hat{a}_{1}^{\dagger}\rho\hat{a}_{1} - \{\hat{a}_{1}\hat{a}_{1}^{\dagger}, \rho\}\right] \notag \\
+	&+ \frac{\gamma_{D}}{2}\left[2\hat{a}_{N}\rho\hat{a}_{N}^{\dagger} - \{\hat{a}_{N}^{\dagger}\hat{a}_{N}, \rho\}\right],
+	\label{eq:fw1-2}
+\end{align}
+where \(\gamma_{d}\) is the dissipation rate, \(\gamma_{P}\) is the pump rate of an incoherent pump on the first site, and \(\gamma_{D}\) is the drain rate on the last site. The system (excluding the dissipator) is sketched in \cref{fig:fw1-1}.
+
+We have neglected to explain the dissipative operator \(\kappa_{j}\) so far, as the dissipative environment is complicated. We discuss it in detail next.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.95\linewidth]{\figpath/BiasedChain}
+	\caption{\label{fig:fw1-1}A sketch of a seven site system. The Hamiltonian for the system is given in \cref{eq:fw1-1}, and the sketch shows the bias energy \(\Delta E\), the hopping interaction with rate \(t\), and the incoherent pump and drain terms with rates \(\gamma_{P}\) and \(\gamma_{D}\). For simplicity, the dissipative interactions are not shown.}
+\end{figure}
+
+\subsection{Dissipative environment}
+Each of the sites in this system is coupled to an independent dissipative environment. 
+
+\subsection{Initial results}
+
+\subsection{Next steps}
 
 \section{Future applications} 
