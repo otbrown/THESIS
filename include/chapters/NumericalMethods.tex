@@ -120,7 +120,7 @@ E = \frac{\langle \psi (\mathbf{x}^{*}) | \hat{H} | \psi (\mathbf{x}) \rangle}{\
 \end{equation}
 with respect to some \(x\), where E is the energy of the system, \(\hat{H}\) is a Hamiltonian, \(\psi\) is an approximation to the ground state, and \( \mathbf{x} \) is a set of \emph{variational parameters}. Equally, we can find an approximation to the stationary state of an open quantum system by minimising the expression,
 \begin{equation}
-\frac{\mathrm{d}\rho}{\mathrm{d}t} = \langle \langle \rho(\mathbf{x}^{*}) | \hat{\mathcal{L}^{\dagger}} \hat{\mathcal{L}} | \rho(\mathbf{x}) \rangle \rangle,
+\frac{\mathrm{d}}{\mathrm{d}t}\langle \langle \rho|\rho \rangle \rangle = \langle \langle \rho(\mathbf{x}^{*}) | \hat{\mathcal{L}^{\dagger}} \hat{\mathcal{L}} | \rho(\mathbf{x}) \rangle \rangle,
 \label{eq:vs1-2}
 \end{equation}
 with respect to some \(x\), where \(\hat{\mathcal{L}}\) is a Liouvillian matrix, \(\rho\) is an approximation to the stationary state, and \(\mathbf{x}\) is again some set of variational parameters. We will discuss here the generic case in which we have some observable \(O\) we wish to minimise, which has an operator \(\hat{O}\). As such we seek to use matrix product states to minimise the expression,
@@ -160,7 +160,7 @@ which is shown diagramatically in \cref{fig:vsTMP}.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.9\linewidth]{\figpath/L_contract}
+\includegraphics[width=0.49\linewidth]{\figpath/L_contract}
 \caption{A tensor network diagram which, when contracted, yields the `left block' for the site \(n\), \(L^{[n]}\). This is the operation described in \cref{eq:vs1-4}. The un-contracted indices \(c\), \(q\), and \(r'\), form the three dimensions of \(L^{[n]}\).}
 \label{fig:vsTMP}
 \end{figure}
@@ -201,8 +201,8 @@ which seems simple enough, and indeed would be except that we have an eigenvalue
 	\begin{tabu} to \linewidth{l | c | c | c}
 		Problem & Operator & Eigenspectrum & Optimal Eigenvalue \\ \hline
 		Ground state & Hamiltonian, \(\hat{H}\) & \(\lambda\in\mathbb{R}\) & min(\(\lambda\)) \\
-		Stationary state & Liouvillian, \(\hat{\mathcal{L}}\) & \(\lambda \in\) & max(Re(\(\lambda\))) \\
-		 & & \(\{a + ib: a \in \mathbb{R}^{-}, b \in \mathbb{R}\}\) & \\
+		Stationary state & Liouvillian, \(\hat{\mathcal{L}}\) & \(\lambda = a + ib\) & max(Re(\(\lambda\))) \\
+		 & & \(\{a \in \mathbb{R}^{-}, b \in \mathbb{R}\}\) & \\
 		Stationary state & \(\hat{\mathcal{L}}^{\dagger}\hat{\mathcal{L}}\) & \(\lambda \in \mathbb{R}^{+}\) & min(\(\lambda\))
 	\end{tabu}
 	\caption{Examples of appropriate optimal eigenvalues for different variational problems.}

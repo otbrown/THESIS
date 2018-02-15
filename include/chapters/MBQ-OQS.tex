@@ -1,4 +1,4 @@
-In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad fields, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by the word `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will introduce the driven-dissipative Bose-Hubbard model, and physically motivate its terms in the photonic setting, in order to make later chapters more transparent. Then we will discuss what is meant by `open' quantum systems, and discuss how the dynamics of such a system are calculated. Finally we shall discuss how to reformulate these dynamics as a system of coupled linear equations.  
+In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad fields, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by the word `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will introduce the driven-dissipative Bose-Hubbard model, and physically motivate its terms in two relevant settings, in order to make later chapters more transparent. Then we will discuss what is meant by `open' quantum systems, and discuss how the dynamics of such a system are calculated. Finally we shall discuss how to reformulate these dynamics as a system of coupled linear equations.  
 
 \section{Many-Body Quantum Physics}
 
@@ -50,51 +50,99 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 \end{table}
 
 \FloatBarrier
-\subsection{Strongly Interacting Light}
-The research presented in this thesis deals exclusively with photonic systems in the strongly interacting regime, however the origins of photonic interaction are not immediately obvious. Photons follow boson statistics, so are inherently non-interacting and furthermore, as they travel at the speed of light, opportunities for interaction are limited. In spite of this, systems can be engineered to trap light and then mediate strong interaction between photons. We will consider one such system as an example -- non-linear cavity arrays. We will discuss how they can be engineered to fit the driven-dissipative Bose-Hubbard type model we mostly consider in the research presented in this thesis. 
+\subsection{Driven-dissipative Bose-Hubbard model}
+The theme that connects the research presented in this thesis is, of course, the use of matrix product state methods, however it is also true that each of the models is essentially a variant of a driven-dissipative Bose-Hubbard model. As such we will introduce that model here, and then explore two example systems where it \emph{could} be physically implemented. We will pay particular attention to the introduction of an anharmonic energy spectrum, and a carefully engineered dissipative regime, which are of particular importance to the work presented in Ref.~\cite{Brown2018}. The work we present is intended to be independent of implementation, but it can nevertheless be instructive to consider physical systems. Note that the above emphasis on `could' is intentional, we expect actual implementation to be highly challenging. Certainly it would be quite beyond my personal abilities in the laboratory.
 
-\subsubsection{Non-Linear Cavity Array}
-We begin by stating the model we intend to show is physically realisable,
+The Bose-Hubbard model is a bosonic variant of the electronic Hubbard model first described by John Hubbard in 1963 \cite{Hubbard1963}, and it was first considered by Fisher et al. \cite{Fisher1989}. In the generic case of a one-dimensional lattice of coupled anharmonic oscillators the Bose-Hubbard Hamiltonian is,
 \begin{equation}
-	\mathcal{H} = \sum_{j} \left[\mu\hat{a}_{j}^{\dagger}\hat{a}_{j} + \frac{U}{2}\hat{a}_{j}^{\dagger 2}\hat{a}_{j}^{2} + J(\hat{a}_{j}\hat{a}_{j+1}^{\dagger} + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}) + \frac{\Omega}{\sqrt{2}}\hat{a}_{j}^{\dagger} + \frac{\Omega^{*}}{\sqrt{2}}\hat{a}_{j} \right],
+	\mathcal{H}_{\text{B-H}} = \sum_{j} \left[ \omega\hat{a}_{j}^{\dagger}\hat{a}_{j} + \frac{U}{2}\hat{a}_{j}^{\dagger}\hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j} - t\left(\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right) \right],
 	\label{eq:mbq2-1}
 \end{equation}
-where \(\hat{a}_{j} (\hat{a}_{j}^{\dagger})\) is the bosonic annihilation (creation) operator on the lattice site \(j\), \(\mu\) is the chemical potential, \(U\) is the interaction energy, \(J\) is the hopping rate between sites, and \(\Omega\) is the coherent drive strength, including a time-dependent phase, however we will typically neglect that by moving in to the rotating frame. In the rotating frame \(\mu\) will be replaced by a detuning of the drive from the energy levels of the system \(\Delta\), which we shall often neglect. Additionally we consider a standard Lindblad-form dissipator. We leave discussion of precisely what that means to the following section, however for now we do intend to show that we can control the dissipation rate \(\gamma\). This is the bosonic form of the fermionic Hubbard model \cite{Hubbard1963} from solid-state physics, first considered by Fisher et al. in the context of cold-atom systems \cite{Fisher1989,Hartmann2008}. We modify it with the inclusion of a drive and a dissipator, as both are necessary for the generation of non-trivial dynamics -- a bosonic system with drive and no dissipation will trivially fill to infinity, while a bosonic system with dissipation and no drive will be trivially empty. So then, how do we trap light?
+where \(\omega\) is the harmonic oscillator energy, \(U\) is an interaction energy which introduces anharmonicity to the energy spectrum, \(t\) is a hopping rate between sites, the operator \(\hat{a}_{j} (\hat{a}_{j}^{\dagger})\) annihilates (creates) an excitation on the lattice site \(j\), and where we have set \(\hbar = 1\) so that energy is described in units of frequency. We then add a generic coherent drive term,
+\begin{equation}
+	\mathcal{H}_{\Omega} = \sum_{j} \left[ \left(\Omega\mathrm{e}^{-i\omega_{D}t} + \tilde{\Omega}\mathrm{e}^{i\omega_{D}t}\right) \hat{a}_{j}^{\dagger} + \left(\Omega^{*}\mathrm{e}^{i\omega_{D}t} + \tilde{\Omega}^{*}\mathrm{e}^{-i\omega_{D}t}\right)\hat{a}_{j}\right],
+	\label{eq:mbq2-2}
+\end{equation}
+where \(\Omega\) and \(\tilde{\Omega}\) are drive amplitudes, and \(\omega_{D}\) is the drive frequency. To eliminate the explicit time-dependence of the drive Hamiltonian we would then transform the whole Hamiltonian in to a rotating frame, and make use of the rotating wave approximation which yields,
+\begin{equation}
+	\mathcal{H} = \sum_{j} \biggl[\Delta\hat{a}_{j}^{\dagger}\hat{a}_{j} + \frac{U}{2}\hat{a}_{j}^{\dagger}\hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j} - t\left(\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right) + \Omega\hat{a}_{j}^{\dagger} + \Omega^{*}\hat{a}_{j} \biggr],
+	\label{eq:mbq2-3}
+\end{equation}
+where \(\Delta = \omega - \omega_{D}\) is the detuning of the drive frequency from the harmonic oscillator frequency. Note that in \cref{chp:rotframe} the rotating frame transformation is shown in detail for the specific parametric driving scheme used in Ref~\cite{Brown2018}, and the procedure here would be the same. Dissipation is introduced to the model through a standard Lindblad form dissipator, which is discussed in the following \cref{sec:OQS}.
+
+Having expressed the model of interest in the most general way possible, we now discuss two possible physical systems.
+
+\subsubsection{Non-linear optical cavity array}
+A photonic implementation of the Hamiltonian given in \cref{eq:mbq2-3} necessitates the trapping of light, a feat achieved with an optical cavity. The simplest such system is the Fabry-P\'{e}rot Etalon, a planar cavity consisting of two mirrors with some medium of refractive index \(n\) between \cite{Perot1899,Fox_OC}. Such a system is shown diagramatically in \cref{fig:mbq2-1}. In the limit where the mirrors are perfectly reflective on the sides facing in to the cavity, and there are no absorption or scattering losses in the cavity medium, the light will travel an infinite number of round trips through the cavity and will be totally annihilated unless it is precisely resonant with the cavity length. That is,
+\begin{equation}
+	\lambda = \frac{2nL_{\mathrm{cav}}}{m},
+	\label{eq:mbq2-4}
+\end{equation}
+where \(m\) is some integer. Under these conditions, the light will be trapped indefinitely in the cavity. This is the canonical `particle in a box' problem, and of course can be treated as a quantum harmonic oscillator. The requirement that there is no absorption or scattering, and perfect reflectivity is physically unrealistic, so it is quite natural to consider such systems in the dissipative regime.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.8\linewidth]{\figpath/FPetalon}
+\includegraphics[width=0.6\linewidth]{\figpath/FPetalon}
 \caption{Diagram of a simple planar cavity. Light enters through the mirror \(M_{1}\) and is then reflected between the two mirrors through some medium with a refractive index \(n\). Here we have assumed that \(M_{1}\) transmits perfectly in to the cavity and then light is perfectly reflected by both \(M_{1}\) and \(M_{2}\). Under this approximation the light is confined indefinitely and travels an infinite distance within the cavity. Only light whose wavelength is resonant with the cavity length, \(\lambda = 2nL_{\mathrm{cav}} / m\) where \(m\) is some integer, will survive under these conditions. Over an infinite number of round trips through the cavity even a small amount of destructive interference will result in total elimination of that wavelength of light. Obviously, real systems have losses in the form of absorption, transmission, and scattering, and will therefore neither perfectly isolate a single wavelength (and its harmonics), nor trap light indefinitely.}
 \label{fig:mbq2-1}
 \end{figure}
 
-An optical cavity is any physical system in which light can be contained. The simplest such system is the Fabry-P\'{e}rot Etalon, a planar cavity consisting of two mirrors with some medium of refractive index \(n\) between \cite{Perot1899,Fox_OC}. Such a system is shown diagramatically in \cref{fig:mbq2-1}. In the limit where the mirrors are perfectly reflective on the sides facing in to the cavity, and there are no absorption or scattering losses in the cavity medium, the light will travel an infinite number of round trips through the cavity and will be totally annihilated unless it is precisely resonant with the cavity length. That is,
-\begin{equation}
-	\lambda = \frac{2nL_{\mathrm{cav}}}{m},
-	\label{eq:mbq2-2}
-\end{equation}
-where \(m\) is some integer. Under these conditions, the light will be trapped indefinitely in the cavity. Obviously, the requirement that there is no absorption or scattering, and perfect reflectivity is physically unrealistic, so it is quite natural to consider such systems in the dissipative regime.
-
 In fact whether the physical origin of the photon loss is absorption or scattering by a mirror or the cavity medium, or by transmission from the cavity is essentially irrelevant to our dynamical equations. All three processes result in a photon leaving the system. In optics the ability of a cavity to retain light is usually referred to as its `quality factor', defined as
 \begin{equation}
 	\mathcal{Q} = \frac{4\pi L_{\mathrm{cav}}}{\lambda} \frac{1}{-\ln(p)},
-	\label{eq:mbq2-3}
+	\label{eq:mbq2-5}
 \end{equation}
 where \(p\) is the fraction of initial power remaining in the cavity after one round trip \cite{Siegman_chp11}. This measure includes loss from all possible sources, and can be exceedingly high in optical microcavities (\(>200\) million \cite{Yang2017}). This is important, as it allows us to reasonably neglect these losses \emph{which we cannot control}. Dissipation which we \emph{can} control is introduced through the Purcell effect.
 
-First presented to the American Physical Society by Edward Purcell in 1946 \cite{Purcell1946}, the Purcell effect is the phenomenon in which spontaneous emission is enhanced (or suppressed) by the presence of a resonant cavity \cite{Fox_Purcell}. The \emph{Purcell factor} is the ratio of spontaneous emission rate in the presence of a second cavity to the original rate, so a purcell factor greater than one implies an enhancement to the spontaneous emission rate. The Purcell factor is proportional to the Q factor of the cavity, and inversely proportional to its modal volume, so smaller cavities with higher Q factors generate larger Purcell factors. In sum, this means that we can \emph{in principle} envision systems in which we are able to tune the dissipation rate on specific transitions. Naturally fabrication of such a device while possible \cite{Gerard1998}, is undoubtedly challenging. Be thankful then, that we are theorists.   
+First presented to the American Physical Society by Edward Purcell in 1946 \cite{Purcell1946}, the Purcell effect is the phenomenon in which spontaneous emission is enhanced (or suppressed) by the presence of a resonant cavity \cite{Fox_Purcell}. The \emph{Purcell factor} is the ratio of spontaneous emission rate in the presence of a second cavity to the original rate, so a purcell factor greater than one implies an enhancement to the spontaneous emission rate. The Purcell factor is proportional to the Q factor of the cavity, and inversely proportional to its modal volume, so smaller cavities with higher Q factors generate larger Purcell factors. In sum, this means that we can \emph{in principle} envision systems in which we are able to tune the dissipation rate on specific transitions -- a key feature of the system we investigate in Ref.~\cite{Brown2018}. Naturally fabrication of such a device while possible \cite{Gerard1998}, is undoubtedly challenging. Be thankful then, that we are theorists.   
 
-Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with four parameters still to be accounted for -- the drive strength \(\Omega\), chemical potential \(\mu\), hopping rate \(J\), and interaction strength \(U\).
+Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with four parameters still to be accounted for -- the drive strength \(\Omega\), detuning \(\Delta\), hopping rate \(J\), and interaction strength \(U\).
 
-The physical origin of the drive strength is trivial to consider -- the drive strength parameterise the field strength of whatever pump source is used to introduce photons into the system. The chemical potential is a little more complicated. In general it does not exist for photons, as they are bosons, however it is possible to create an effective chemical potential in some systems \cite{Hafezi2015,Ma2017,Lebreuilly2017} and this will be of some importance to our work in Ref.~\cite{Brown2018}. Finally we note that under the transformation in to a frame that rotates with a coherent drive (i.e. a laser) the chemical potential term is replaced with \(\Delta\), a detuning of the drive from the un-driven system's local eigenstates. 
+The physical origin of the drive strength is trivial to consider -- it parameterise the field strength of whatever pump source is used to introduce photons into the system, and is proportional to the amplitude of the incident electromagnetic wave \cite{Fox_Omega}. As noted above \(\Delta = \omega - \omega_{D}\), and in this system \(\omega\) is simply the frequency of the fundamental cavity mode, while \(\omega_{D}\) is the frequency of the pump source. Hopping between cavities (or sites in our lattice) is again easily understood. Confinement perpendicular to the cavity mode is limited and the wavefunction of the trapped light will extend somewhat beyond the cavity boundaries. Placing the cavities in close enough proximity to one another will result in an overlap between the wavefunctions and consequently tunnelling between sites \cite{Hartmann2006,Hartmann2008}. 
 
-Hopping between cavities (or sites in our lattice) is again easily understood. Confinement perpendicular to the cavity mode is limited and the wavefunction of the trapped light will extend somewhat beyond the cavity boundaries. Placing the cavities in close enough proximity to one another will result in an overlap between the wavefunctions and consequently tunnelling between sites \cite{Hartmann2006,Hartmann2008}. It is also possible to create stronger couplings between sites by constructing explicit couplings, as has been demonstrated for example in superconducting circuits \cite{Majer2007}.
+Finally, we must consider how to introduce and control non-linearity in our cavity array system, and thus define the interaction strength, \(U\). In principle a term of the form \(\hat{a}^{\dagger 2}\hat{a}^{2}\) appears as a result of the optical Kerr effect in certain materials \cite{Kitagawa1986}, however this effect is third order in the electric susceptibility and therefore requires a high intensity electromagnetic field to become a relevant phenomenon \cite{Boyd_KerrNL}. Another way to introduce nonlinearity is by considering cavities which contain atoms with a four-level structure. Such systems can produce large Kerr-like nonlinearities, as first shown by Schmidt and Imamo\u{g}lu \cite{Schmidt1996}. In fact if we move to considering polaritons (which are photon-atom quasiparticles) then we can construct a full Bose-Hubbard Hamiltonian with even stronger nonlinearity, as detailed in Ref~\cite{Hartmann2008}.
 
-Finally, we must consider how to introduce and control non-linearity in our cavity array system, and thus define the interaction strength, \(U\). In principle a term of the form \(\hat{a}^{\dagger 2}\hat{a}^{2}\) appears as a result of the optical Kerr effect in certain materials \cite{Kitagawa1986}, however this effect is third order in the electric susceptibility and therefore requires a high intensity electromagnetic field to become a relevant phenomenon \cite{Boyd_KerrNL}. Given that we typically consider systems with only a few photons this is not really practical. Instead we introduce nonlinearity by considering cavities which contain atoms with a four-level structure. Such systems can produce large Kerr-like nonlinearities, as first shown by Schmidt and Imamo\u{g}lu \cite{Schmidt1996}. If we move to considering polaritons (which are photon-atom quasiparticles) then we can construct a full Bose-Hubbard Hamiltonian for our coupled cavity arrays, as detailed in Ref~\cite{Hartmann2008}.
+\subsubsection{Superconducting circuits}
+Having described how our model of interest may be realised in an optical cavity array, we next consider an alternative superconducting circuit implementation. The fundamental building block of this implementation is an LC circuit which is sufficiently small that both the charge in the capacitor and magnetic flux in the inductor become quantised. Resistance in the circuit would mask quantum effects, so it must be cooled to superconducting temperatures -- on the order of tens of millikelvin. In this regime charge is quantised to units of \(2e\) (where \(e\) is the elementary charge) as the electrons form Cooper pairs \cite{Vool2017,Cooper1956}. However, a quantum LC circuit is still just a quantum harmonic oscillator. To introduce anharmonicity, a Josephson junction must be added. Named for Brian David Josephson, who first predicted in 1962 that Cooper pairs could tunnel just as single electrons can, a Josephson junction consists of two superconductors separated by a thin insulating barrier \cite{Josephson1962,Schoelkopf2008}. They were first demonstrated by Anderson and Rowell in 1963 \cite{Anderson1963}. 
 
-Having discussed the physical origins of an optical driven-dissipative Bose-Hubbard system, we will now consider the theory of open quantum systems.
+The Hamiltonian of the LCJ circuit shown in \cref{fig:mbq2-2} is,
+\begin{equation}
+	\mathcal{H} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi) + \frac{E_{L}}{2} (\varphi - \varphi_{\mathrm{ext}})^{2},
+	\label{eq:mbq2-6}
+\end{equation}
+where \(\hat{n}\) is the number of Cooper pairs on the Josephson junction, \(n_{g}\) is an offset charge which can be controlled by an externally applied voltage, \(\varphi\) is the phase difference in the superconducting order parameter across the Josephson junction, and \(\varphi_{\mathrm{ext}}\) is proportional to the external flux \(\Phi_{\mathrm{ext}}\) which threads the superconducting loops \cite{Vool2017}. The charging energy \(E_{C}\), Josephson energy \(E_{J}\), and inductive energy \(E_{L}\) are given by,
+\begin{align}
+	E_{C} &= \frac{e^{2}}{2C}, \label{eq:mbq2-7} \\
+	E_{J} &= \frac{\hbar}{2e}I_{0}, \label{eq:mbq2-8} \\
+	E_{L} &= \frac{\phi_{0}^{2}}{L}, \label{eq:mbq2-9}
+\end{align}
+where \(e\) is the elementary charge, \(C\) is the total shunt capacitance, \(I_{0}\) is the critical current of the Josephson junction, \(\phi_{0} = \hbar/2e\) is the reduced flux quantum, and \(L\) is the total shunt inductance \cite{Vool2017,Wendin2017}.
 
-\section{Open Quantum Systems}
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.8\linewidth]{\figpath/JosephsonCircuit}
+\caption{\label{fig:mbq2-2}Equivalent circuit for all forms of superconducting circuit qubit. The circuit consists of a Josephon junction (depicted by a box with a cross through it), connected to some shunt capacitor \(C\), and some shunt inductor \(L\). An external flux, \(\Phi_{\mathrm{ext}}\) threads the superconducting loops. \(E_{C}, E_{J},\) and \(E_{L}\) are given by \cref{eq:mbq2-7,eq:mbq2-8,eq:mbq2-9}.}
+\end{figure}
+
+The particular quanta of interest in fact depends on the energy parameters in \cref{eq:mbq2-6}, at one extreme when the charging energy is much larger than the Josephson energy, and there is no inductor \((E_{J} / E_{C} \ll 1,\, E_{L} = 0)\) the system forms a `Cooper pair box' or charge qubit, where the relevant degree of freedom is the number of Cooper pairs on one side of the Josephson junction. On the other hand, when the charging energy is small, and the Josephson energy and inductive energy are both large \(( E_{J} / E_{C} \gg 1,\, E_{L} / (E_{J}-E_{L}) \gg 1 )\) the system forms a `flux qubit', where the relevant degree of freedom is the number of flux quanta in the superconducting ring. We will consider in particular one of the possibilities that lies in between these two, the \emph{transmon}.
+
+The transmon is a modification of the Cooper pair box, formed in the regime where again there is no inductor, but unlike the CPB, the Josephson energy is much larger than the charging energy \((E_{J} / E_{C} \gg 1,\, E_{L} = 0)\). The Hamiltonian is then given by,
+\begin{equation}
+	\mathcal{H} = 4E_{C}(\hat{n} - n_{g})^{2} - E_{J}\cos(\varphi),
+	\label{eq:mbq2-10}
+\end{equation}
+where we recall that the value of \(n_{g}\) can be controlled through the application of a bias voltage. In the limit where \(E_{J}/E_{C} \gg 1\) this results in an anharmonic ladder of transmon states with the Hamiltonian,
+\begin{equation}
+	\mathcal{H}_{\mathrm{transmon}} = \sqrt{8E_{C}E_{J}}\hat{a}^{\dagger}\hat{a} - \frac{E_{C}}{12}\left(\hat{a} + \hat{a}^{\dagger}\right)^{4},
+	\label{eq:mbq2-11}
+\end{equation}
+where we have neglected constant terms \cite{Koch2007}. The principle advantage of the transmon is its relative insensitivity to charge noise compared to the Cooper pair box.
+
+Hopping between sites can be achieved by directly coupling transmon sites together with a capacitor \cite{Wendin2007}, or indirectly via a transmission line cavity \cite{Majer2007}, or a Josephson junction \cite{Chen2014}. The drive term is trivial to consider, as in the optical system, the only difference being that the superconducting circuit is driven at microwave frequencies. Specific dissipative environments can again be engineered through exploitation of the Purcell effect \cite{Purcell1946,Fox_Purcell}.
+
+Having considered the type of model we are interested in, and shown how it could possibly be implemented in two different systems, we will next consider some of the key elements of open quantum systems.
+
+\section{\label{sec:OQS}Open Quantum Systems}
 
 \begin{figure}[ht!]
 \centering
@@ -113,7 +161,7 @@ The state vector suffices for describing a quantum system which is known to be i
 	\rho = \sum_{j} p_{j} |\psi_{j} \rangle \langle \psi_{j}|,
 	\label{eq:oqs2-1}
 \end{equation}
-where \(p_{j} = |c_{j}|^{2}\) is the probability of finding the system in the state \(|\psi_{j}\rangle\) \cite{NielsenChuang_DM}. A valid density matrix has three important properties,
+where \(p_{j} = |c_{j}|^{2}\) is the probability of finding the system in the state \(|\psi_{j}\rangle\), and \(c_{j}\) is the complex amplitude as in \cref{eq:mbq1-4} \cite{NielsenChuang_DM}. A valid density matrix has three important properties,
 \begin{align}
 	\mathrm{Tr}[\rho] &= 1, \label{eq:oqs2-2} \\
 	\rho &= \rho^{\dagger}, \label{eq:oqs2-3} \\
@@ -126,27 +174,30 @@ Observables of the system are calculated by taking the trace of the operator pro
 	\langle \hat{O} \rangle = \mathrm{Tr}[\hat{O}\rho],
 	\label{eq:oqs2-5}
 \end{equation}
-while the system is operated on by applying the operator to `both halves' of the density matrix,
+while the system is time-evolved by applying the operator to both sides of the density matrix,
 \begin{align}
 	\rho (t) &= \hat{U}(t) \rho(0) \hat{U}^{\dagger}(t), \notag \\
 	&= \hat{U}(t) | \Psi(0) \rangle \langle \Psi(0) | \hat{U}^{\dagger}(t),
 	\label{eq:oqs2-6}
 \end{align}  
-where we have used a time evolution as an example. Finally, we can calculate the density matrix of a subsystem of a composite system by calculating the \emph{reduced density matrix},
+where the time-evolution operator \(\hat{U}(t) = \exp(-i\mathcal{H}t)\), and \(\mathcal{H}\) is the system Hamiltonian. Finally, we can calculate the density matrix of a subsystem of a composite system by calculating the \emph{reduced density matrix},
 \begin{align}
 	\rho^{A} &= \mathrm{Tr}_{B}[\rho^{AB}], \notag \\
-	&= \sum_{j,k,l,m} |a_{j} \rangle \langle a_{k}| \langle b_{m} | b_{l} \rangle,
+	&= \mathrm{Tr}_{B}\left[ c_{j}|a_{j} \rangle \langle a_{k}|c_{k}^{*} \otimes d_{l}|b_{l} \rangle \langle b_{m}|d_{m}^{*} \right], \notag \\
+	&= \sum_{n,j,k,l,m}\left[ \langle b_{n} | \left( c_{j}c_{k}^{*}d_{l}d_{m}^{*} |a_{j} \rangle \langle a_{k}| \otimes |b_{l} \rangle \langle b_{m}| \right) | b_{n} \rangle \right], \notag \\ 
+	&= \sum_{n,j,k} \left[ c_{j}c_{k}^{*}|d_{n}|^{2} |a_{j} \rangle \langle a_{k}| \otimes \langle b_{n} | b_{n} \rangle \right], \notag \\
+	&= \sum_{n,j,k} c_{j}c_{k}^{*}|d_{n}|^{2} |a_{j} \rangle \langle a_{k}|,
 	\label{eq:oqs2-7}
 \end{align}
-where \(|a_{j} \rangle\) and \(|b_{j} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively. This property in particular makes the density matrix invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment,
+where \(|a_{j} \rangle\) and \(|b_{l} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively, with corresponding complex amplitudes \(c_{j}\) and \(d_{l}\). The replacement of \(l,m,n\) with the single index \(n\), and removal of the tensor product, follows from the orthogonality condition \(\langle b_{l} | b_{m} \rangle = \delta_{lm}\). This ability to separate out subsystems is invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment,
 \begin{equation}
 	\rho = \rho_{S} \otimes \rho_{E},
 	\label{eq:oqs2-8}
 \end{equation}
 where \(\rho_{S}\) is the state of the system of interest, and \(\rho_{E}\) is the state of the environment. The environment can be traced out in order to consider the dynamics of just the system of interest. 
 
-\subsection{Lindblad Master Equation}
-Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems' \cite{BP_TMQME}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
+\subsection{\label{sec:lindblad}Lindblad Master Equation}
+Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems', or Carmichael's `An Open Systems Approach to Quantum Optics' \cite{BP_TMQME,Carmichael_OSAQO}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
 
 The Lindblad master equation, named for G\"{o}ran Lindblad but based on both his work and that of Gorini, Kossakowski, and Sudarshan \cite{Lindblad1976,Gorini1976}, is as follows,
 \begin{equation}
@@ -160,12 +211,29 @@ where \(\mathcal{H}\) is the Hamiltonian for the system, the operator \(\hat{A}_
 \end{equation}
 encodes the dissipative dynamics. Importantly, a dissipator of this form preserves both the positivity and trace of the density matrix upon which it operates, ensuring physical results. It is quite general, but does implicitly make the following two approximations.
 
-First, the Born approximation. This approximation assumes that the influence of the system of interest on the environment is weak, and that the reduced density matrix for the environment is therefore approximately constant in time. This means that the density matrix for the system-environment composite is,
+First, the Born approximation. This approximation assumes that the system-environment interaction is weak. This is reasonable, as we would typically consider anything which interacted strongly as part of the system, rather than the environment. We may therefore neglect terms which are greater than second-order in the interaction Hamiltonian during a power series expansion of the time evolution operator. Specifically we require that,
 \begin{equation}
-	\rho(t) \approx \rho_{S}(t) \otimes \rho_{E}.
+	g \ll \frac{1}{\tau},
 	\label{eq:oqs3-3}
-\end{equation} 
-This approximation is applied in order to eliminate the state of the environment from the equations of motion, and is valid provided the environment itself is very lossy, such that any excitations decay on a timescale much faster than those in the system of interest. We note that this condition conflicts with the requirements for a strong Purcell enhancement, so we should be wary of trying to model very strong dissipation rates if we are using dissipators tuned to specific transitions. Second, the Markov approximation. This approximation assumes that the system dynamics including the system-environment interactions are dependent only on the current system state, not any prior state. This approximation is made so that it is not necessary to integrate over the entire history of the system in order to determine the current interaction dynamics, and is valid provided that the system itself has no explicit dependency on its history, and again that the decay time of the environment is small compared to the timescale of system dynamics. In this way some excitation which decayed from the system to the environment at some time long ago cannot return to the system. For clarity we note that the approximation is that the time-derivative \(\mathrm{d}\rho(t)/\mathrm{d}t\) has no dependence on \(\rho(\tau \ll t)\), \emph{not} the system \(\rho(t)\) which may very well have some dependence on prior states. These two approximations are often grouped together as the \emph{Born-Markov approximation} \cite{BP_BMS}.
+\end{equation}
+where \(g\) is the interaction energy in units of frequency (when \(\hbar = 1\)), and \(\tau\) is the decay time of correlations in the environment such that,
+\begin{equation}
+	\langle \hat{a}_{E}(t \geq \tau)\hat{a}_{E}^{\dagger}(0) \rangle \approx 0,
+	\label{eq:oqs3-4}
+\end{equation}
+where \(\hat{a}_{E}(t)\) annihilates an excitation in the environment at time \(t\). 
+
+Second, the Markov approximation. This approximation assumes that the environment is very large, and therefore that any excitations from the system move quickly away from the system-environment interaction centre. Equivalently, one can say that the timescale of significant changes in the state of the system should be much longer than the decay of correlations in the environment (\(\tau\) in \cref{eq:oqs3-4}). This means that excitations cannot return from the environment to the system, and the system's future state is dependent only on its current state, not its history. Specifically, it allows us to approximate the state of the system,
+\begin{equation}
+	\rho_{S}(t) \approx \tilde{\rho}_{S}(t),
+	\label{eq:oqs3-5}
+\end{equation}
+where,
+\begin{align}
+	\rho_{S}(t) &= \mathrm{e}^{-i\mathcal{H}(t-s)}\rho_{S}(s)\mathrm{e}^{i\mathcal{H}(t-s)}, \label{eq:oqs3-6} \\
+	\tilde{\rho}_{S}(t) &= \mathrm{e}^{-i\mathcal{H_{S}}(t-s)}\rho_{S}(s)\mathrm{e}^{i\mathcal{H}_{S}(t-s)}, \label{eq:oqs3-7}
+\end{align}
+so that over the integration period the evolution of the system is \emph{approximately} equal to its evolution under only the system Hamiltonian. This approximation also clearly relies on interaction between the system and environment being weak, and is therefore wholly consistent with the Born approximation. For this reason the two are often grouped together as the \emph{Born-Markov approximation} \cite{Hartmann_BM,BP_BMS}.
 
 \subsection{The Liouvillian}
 The above section explains how we generate the dynamics of the density matrix, but not we find the stationary state,
