@@ -1,21 +1,21 @@
 File: include/chapters/MBQ-OQS.tex
 Encoding: ascii
-Words in text: 2927
-Words in headers: 21
-Words outside text (captions, etc.): 243
-Number of headers: 8
-Number of floats/tables/figures: 3
-Number of math inlines: 95
-Number of math displayed: 23
+Words in text: 3507
+Words in headers: 24
+Words outside text (captions, etc.): 294
+Number of headers: 9
+Number of floats/tables/figures: 4
+Number of math inlines: 123
+Number of math displayed: 29
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   128+0+0 (0/0/0/0) _top_
   0+3+0 (1/0/0/0) Section: Many-Body Quantum Physics
   631+2+0 (1/1/33/4) Subsection: How many?
-  1089+6+137 (2/1/27/3) Subsection: Strongly Interacting Light
-  133+3+106 (1/1/2/0) Section: Open Quantum Systems
+  1669+9+188 (3/2/55/9) Subsection: Driven-dissipative Bose-Hubbard model
+  133+3+106 (1/1/2/0) Section: \label{sec:OQS}Open Quantum Systems
   330+2+0 (1/0/17/6) Subsection: Density Matrix
-  448+3+0 (1/0/10/6) Subsection: Lindblad Master Equation
+  448+3+0 (1/0/10/6) Subsection: \label{sec:lindblad}Lindblad Master Equation
   168+2+0 (1/0/6/4) Subsection: The Liouvillian
 
 File: include/chapters/NumericalMethods.tex
@@ -165,17 +165,17 @@ Subcounts:
   53+3+0 (1/0/0/2) Section: Effective master equation
 
 Total
-Words in text: 20470
-Words in headers: 175
-Words outside text (captions, etc.): 1539
-Number of headers: 122
-Number of floats/tables/figures: 28
-Number of math inlines: 1238
-Number of math displayed: 170
+Words in text: 21050
+Words in headers: 178
+Words outside text (captions, etc.): 1590
+Number of headers: 123
+Number of floats/tables/figures: 29
+Number of math inlines: 1266
+Number of math displayed: 176
 Files: 8
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
-  2927+21+243 (8/3/95/23) File(s) total: include/chapters/MBQ-OQS.tex
+  3507+24+294 (9/4/123/29) File(s) total: include/chapters/MBQ-OQS.tex
   3145+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
   3284+29+413 (11/10/217/37) File(s) total: include/chapters/DIM.tex
   616+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex
