@@ -24,7 +24,34 @@ We have neglected to explain the dissipative operator \(\kappa_{j}\) so far, as 
 \end{figure}
 
 \subsection{Dissipative environment}
-Each of the sites in this system is coupled to an independent dissipative environment. 
+Each of the sites in this system is coupled to an independent dissipative environment. Each environment is approximated as a set of harmonic oscillators,
+\begin{equation}
+	\mathcal{H}_{E} = \sum_{j,k} \omega\hat{b}_{j,k}^{\dagger}\hat{b}_{j,k},
+	\label{eq:fw1-3}
+\end{equation}
+where the operator \(\hat{b}_{j,k}\) \((\hat{b}_{j,k}^{\dagger})\) annihilates (creates) an excitation in mode \(k\) of the reservoir connected to site \(j\) of the system of the biased spin chain. Each reservoir is then coupled to each site by the system-environment Hamiltonian,
+\begin{equation}
+	\mathcal{H}_{S\text{-}E} = \sum_{j,k} \left[ g_{j,k}\hat{a}_{j}^{\dagger}\hat{a}_{j}\left( \hat{b}_{j,k} + \hat{b}_{j,k}^{\dagger} \right)\right],
+	\label{eq:fw1-4}
+\end{equation}
+where \(g_{j,k}\) is the coupling frequency. Such an environment leads to Lindblad operators of the form,
+\begin{equation}
+	\kappa_{j} = \sum_{m,n} \alpha_{m,n}^{j} \hat{a}_{m}^{\dagger}\hat{a}_{n},
+	\label{eq:fw1-5}
+\end{equation}
+where the action of the dissipator is to transfer an excitation from site \(n\) to site \(m\) at a rate determined both by the dissipation rate \(\gamma_{d}\), and the coefficient \(\alpha_{m,n}^{j}\). The coefficients are given by,
+\begin{equation}
+	\alpha_{m,n}^{j} = \sum_{m,n} \sum_{\varepsilon - \varepsilon' = \omega} \left[ \langle \varepsilon | \hat{a}_{j}^{\dagger}\hat{a}_{j} | \varepsilon' \rangle \langle m |\varepsilon \rangle \langle \varepsilon' | m \rangle \right], 
+	\label{eq:fw1-6}
+\end{equation}
+where \(|\varepsilon \rangle\) is some state from the energy eigenbasis of the system Hamiltonian,
+\begin{equation}
+	\mathcal{H}|\varepsilon \rangle = \varepsilon|\varepsilon\rangle,
+	\label{eq:fw1-7}
+\end{equation}
+and the state \(|n\rangle\) is not a number state, but here represents the single-excitation state \(|n \rangle = | 0 \rangle_{1} \otimes \ldots \otimes | 1 \rangle_{n} \otimes \ldots \otimes |0 \rangle_{N}\). 
+
+This unusual dissipative environment, including non-local transitions, makes the model both more interesting and more challenging. 
 
 \subsection{Initial results}
 
