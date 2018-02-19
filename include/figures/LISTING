@@ -4,6 +4,7 @@ anhDensityVar.eps
 anhG1.eps
 anhG2.eps
 b_site_density.png
+BC_AbsN.eps
 BiasedChain.svg
 crest.pdf
 CorrLength.eps
@@ -13,6 +14,7 @@ DIM_DiffDecay.eps
 DIM_interDensity.png
 DIM_lattice_diagram.png
 DIM_mobility_models.png
+DissExtent.eps
 DNLCA_model.eps
 doubleocc_prob.png
 effH_diagram.svg
