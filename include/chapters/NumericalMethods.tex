@@ -180,12 +180,12 @@ We will sweep backwards and forwards through the system, updating each site tens
 \Rightarrow \hat{H} |\psi(\mathbf{x}) \rangle &= E | \psi(\mathbf{x}) \rangle,
 \label{eq:vs1-6}
 \end{align}
-which of course is an expression of the time-independent Schr\"{o}dinger equation. If we could solve that for the full many-body state \(| \psi (\mathbf{x}) \rangle\) then we would not need matrix product states at all. Unfortunately, we cannot -- the computational effort scales exponentially with the system size as the Hamiltonian has \(d^{2N}\) elements for a system with \(d\) local states, and \(N\) sites. What matrix product states allow us to do is to form an effective Hamiltonian for some particular \(| \psi(x) \rangle\), and instead solve the more limited eigenvalue problem,
+which of course is an expression of the time-independent Schr\"{o}dinger equation. If we could solve that for the full many-body state \(| \psi (\mathbf{x}) \rangle\) then we would not need matrix product states at all. Unfortunately, we cannot -- the computational effort scales exponentially with the system size as the Hamiltonian has \(d^{2N}\) elements for a system with \(d\) local states, and \(N\) sites. What matrix product states allow us to do is to form an effective Hamiltonian for some particular site \(| \psi (n) \rangle\), and instead solve the more limited eigenvalue problem,
 \begin{equation}
-\hat{H}_{\mathrm{eff}} |\psi(x) \rangle = E_{[x]} |\psi(x) \rangle,
+\hat{H}_{\mathrm{eff}}^{[n]} |\psi (n) \rangle = E_{n} |\psi (n) \rangle,
 \label{eq:vs1-7}
 \end{equation}
-from which we simply select \(|\psi(x) \rangle\) which corresponds to the lowest real value of \(E_{[x]}\). In our case \(|\psi(x) \rangle\) is \(A^{[n]}\), and \(\hat{H}_{\mathrm{eff}}\) is formed by the contraction of the \emph{environment} of \(A^{[n]}\) \cite{Orus2014}. That is we calculate,
+from which we simply select \(|\psi(n) \rangle\) which corresponds to the lowest real value of \(E_{n}\). In our case \(|\psi(x) \rangle\) is \(A^{[n]}\), and \(\hat{H}_{\mathrm{eff}}\) is formed by the contraction of the \emph{environment} of \(A^{[n]}\) \cite{Orus2014}. That is we calculate,
 \begin{equation}
 \hat{H}_{\mathrm{eff}}^{[n]} = \langle \psi(\tilde{\mathbf{x}}) | \hat{H} | \psi(\tilde{\mathbf{x}}) \rangle,
 \label{eq:vs1-8}
