@@ -54,7 +54,23 @@ and the state \(|n\rangle\) is not a number state, but here represents the singl
 This unusual dissipative environment, including non-local transitions, makes the model both more interesting and more challenging. 
 
 \subsection{Initial results}
+The dissipator given in \cref{eq:fw1-5,eq:fw1-6} extends across the whole lattice, however this is computationally impractical. As such, in order to solve the system, we apply a cutoff to the \(\alpha_{m,n}\) coefficients, \(\alpha_{m,n} < 0.01 = 0\). Note that since these coefficients are calculated in part using the eigenvectors of the system Hamiltonian \(\mathcal{H}\), they also rely on the system parameters, \(\Delta E\) and \(t\). In particular, the larger the hopping rate \(t\), the longer the range of non-zero alpha coefficents. \Cref{fig:fw1-2} shows the coefficients for the middle site of an eleven site system, \(\alpha_{6,n}^{6}\) against the extent, \(|5-n|\), for a range of values of \( t / \Delta E\). In order to limit the extent of the interactions to two sites for initial calculations, we consider only values of the hopping rate and bias energy \(t / \Delta E \leq 0.1\). 
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{\figpath/DissExtent}
+	\caption{\label{fig:fw1-2}Plot of the non-local dissipation coefficients, given by \cref{eq:fw1-6}, for the middle site of an eleven site system. The coefficients are plotted against the extent \(|6-n|\). The red dashed line marks the cutoff at \(\alpha_{m,n} = 0.01\).}
+\end{figure}
+
+With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the middle site density plot, \cref{fig:fw1-3}, shows some features of interest. The unusual behaviour of the \(t=0.01\) case is a consequence of all the non-local dissipation coefficients falling below the cutoff in this case, so there is no dissipative transport, and coherent transport is very weak. The most interesting feature is that the density profile is consistent despite the change in the hopping rate. This indicates that dissipative transport may be dominant in this parameter regime.
+ 
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{\figpath/BC_AbsN}
+	\caption{\label{fig:fw1-3}The density of an eleven site system \(\langle \hat{n}_{j} \rangle\), against the site \(j\), and hopping rate \(t\). The bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
+\end{figure}
 
 \subsection{Next steps}
+Initial results are promising, but we would certainly like to see how the steady state of the system changes with larger hopping rates.
 
-\section{Future applications} 
+\section{Conclusions and future directions} 
