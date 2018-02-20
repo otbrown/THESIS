@@ -1,4 +1,4 @@
-In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. We will also consider future applications of the variational stationary state search code.
+In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. We will also consider future applications of the variational stationary state search code, and conclude the thesis.
 
 \section{Biased chain}
 In this project we will consider an \(N\)-site biased spin chain, governed by the Hamiltonian,
@@ -62,7 +62,7 @@ The dissipator given in \cref{eq:fw1-5,eq:fw1-6} extends across the whole lattic
 	\caption{\label{fig:fw1-2}Plot of the non-local dissipation coefficients, given by \cref{eq:fw1-6}, for the middle site of an eleven site system. The coefficients are plotted against the extent \(|6-n|\). The red dashed line marks the cutoff at \(\alpha_{m,n} = 0.01\).}
 \end{figure}
 
-With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the middle site density plot, \cref{fig:fw1-3}, shows some features of interest. The unusual behaviour of the \(t=0.01\) case is a consequence of all the non-local dissipation coefficients falling below the cutoff in this case, so there is no dissipative transport, and coherent transport is very weak. The most interesting feature is that the density profile is consistent despite the change in the hopping rate. This indicates that dissipative transport may be dominant in this parameter regime.
+With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. Design of the MPO followed a similar process to that followed for the MPO in Ref.~\cite{Owen2017}, which is discussed in \cref{chp:dimmpo}. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the density plot, \cref{fig:fw1-3}, shows some features of interest. The unusual behaviour of the \(t=0.01\) case is a consequence of all the non-local dissipation coefficients falling below the cutoff in this case, so there is no dissipative transport, and coherent transport is very weak. The most interesting feature is that the density profile is consistent despite the change in the hopping rate. This indicates that dissipative transport may be dominant in this parameter regime.
  
 \begin{figure}[ht!]
 	\centering
@@ -71,6 +71,6 @@ With these parameter restrictions we calculated the steady state of an eleven si
 \end{figure}
 
 \subsection{Next steps}
-Initial results are promising, but we would certainly like to see how the steady state of the system changes with larger hopping rates.
+Most immediately we would like to carry out other calculations to verify that the results we have are accurate. The variational search method cannot guarantee physical results, but confidence can be improved by running calculations with lower convergence thresholds (and higher matrix dimensions). Beyond that we would certainly like to extend the range of the MPO, which would enable us to consider larger hopping rates, and smaller cutoffs of the alpha coefficients. This is a relatively simple case of slightly enlarging the MPO, however longer range systems also tend to be more computationally challenging. Aside from that we would also like to explicitly calculate the incoherent transport in the system, and to consider different configurations of the system. For example, will it be possible to use dissipative transport to move excitations `back up the hill' by placing the pump on site \(N\) and the drain on site 1?
 
 \section{Conclusions and future directions} 
