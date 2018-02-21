@@ -9,9 +9,7 @@
 \usepackage[square,numbers,compress]{natbib}		
 \usepackage{amsmath}						
 \usepackage{amssymb}						
-\usepackage{graphicx}
-\usepackage{subfig}					
-%\usepackage{hyperref}					
+\usepackage{graphicx}									
 \usepackage{cleveref}					
 \usepackage[section]{placeins}	
 \usepackage{listings}
@@ -45,67 +43,17 @@
 \title{Stationary States of Dissipative Many-Body Quantum Systems via Matrix Product Operators}
 \degree{Doctor of Philosophy in Physics}
 \department{Engineering \& Physical Sciences}
-\gmonth{March}
-\gyear{2018}
+\gmonth{December}
+\gyear{2017}
 
 \begin{document}
 
 \maketitle
-
-\pagenumbering{roman}
-
-\begin{acknowledgements}
-Thank you, coffee.
-\end{acknowledgements}
-
-\begin{abstract}
-Abstract
-\end{abstract}
-
 \tableofcontents
 
 \chapter{Introduction}
-\pagenumbering{arabic}
-\setcounter{page}{1}
 
 \input{\chappath/Intro}
-
-\chapter[MBQT \& OQS]{\label{chp:MBQOQS}Many-body quantum theory \& open quantum systems}
-
-\input{\chappath/MBQ-OQS}
-
-\chapter{\label{chp:NM}Numerical methods}
-
-\input{\chappath/NumericalMethods}
-
-\chapter[Frustrated lattices]{\label{chp:DIM}Dissipation-induced mobility and coherence in frustrated lattices}
-
-\input{\chappath/DIM}
-
-\chapter[Driven nonlinear cavity array]{\label{chp:DNLCA}Localization to delocalization crossover in a driven nonlinear cavity array}
-
-\input{\chappath/DNLCA}
-
-\chapter{Further work}
-
-\input{\chappath/FurtherWork}
-
-\appendix
-\chapter{\label{chp:mpostat}Stationary state search implementation}
-
-\input{\chappath/mpostat}
-
-\chapter{\label{chp:dimmpo}Wannier basis MPO}
-
-\input{\chappath/DIM_MPO}
-
-\chapter{\label{chp:rotframe}Rotating frame transformation}
-
-\input{\chappath/DNLCA_rotframe}
-
-\chapter{\label{chp:adelim}Two-level effective master equation}
-
-\input{\chappath/DNLCA_adelim}
 
 \bibliographystyle{apsrev4-1-title}
 \bibliography{\refpath/literature,\refpath/web,\refpath/book}
