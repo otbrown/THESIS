@@ -85,7 +85,7 @@ Subcounts:
 
 File: include/chapters/FurtherWork.tex
 Encoding: ascii
-Words in text: 1267
+Words in text: 1260
 Words in headers: 9
 Words outside text (captions, etc.): 104
 Number of headers: 5
@@ -97,9 +97,19 @@ Subcounts:
   49+0+0 (0/0/0/0) _top_
   94+2+47 (1/1/11/2) Section: Biased chain
   148+2+0 (1/0/12/5) Subsection: Dissipative environment
-  274+2+57 (1/2/23/0) Subsection: Initial results
+  272+2+57 (1/2/23/0) Subsection: Initial results
   147+2+0 (1/0/1/0) Subsection: Next steps
-  555+1+0 (1/0/3/0) Section: Conclusions
+  550+1+0 (1/0/3/0) Section: Conclusions
+
+File: include/chapters/Intro.tex
+Encoding: ascii
+Words in text: 747
+Words in headers: 0
+Words outside text (captions, etc.): 0
+Number of headers: 0
+Number of floats/tables/figures: 0
+Number of math inlines: 0
+Number of math displayed: 0
 
 File: include/chapters/MBQ-OQS.tex
 Encoding: ascii
@@ -183,14 +193,14 @@ Subcounts:
   380+2+46 (1/1/11/5) Section: Time evolution
 
 Total
-Words in text: 22318
+Words in text: 23058
 Words in headers: 187
 Words outside text (captions, etc.): 1694
 Number of headers: 128
 Number of floats/tables/figures: 32
 Number of math inlines: 1316
 Number of math displayed: 183
-Files: 9
+Files: 10
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   616+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex
@@ -198,7 +208,8 @@ Subcounts:
   685+8+0 (4/0/27/36) File(s) total: include/chapters/DNLCA_adelim.tex
   652+4+0 (2/0/22/26) File(s) total: include/chapters/DNLCA_rotframe.tex
   2305+13+313 (6/8/112/11) File(s) total: include/chapters/DNLCA.tex
-  1267+9+104 (5/3/50/7) File(s) total: include/chapters/FurtherWork.tex
+  1260+9+104 (5/3/50/7) File(s) total: include/chapters/FurtherWork.tex
+  747+0+0 (0/0/0/0) File(s) total: include/chapters/Intro.tex
   3507+24+294 (9/4/123/29) File(s) total: include/chapters/MBQ-OQS.tex
   6856+88+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
   3146+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
