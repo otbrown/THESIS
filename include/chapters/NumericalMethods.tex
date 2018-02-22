@@ -1,6 +1,6 @@
 In this chapter we consider the numerical methods I have used to study the dynamics of dissipative many-body quantum systems. In particular, we consider the use of Matrix Product States to approximate the state of the system. We will first discuss the theoretical underpinnings of MPS, and then consider in detail the variational search technique. I implemented a variant of the variational search which seeks stationary states in MATLAB \cite{MATLAB}, which can be found in a repository hosted at Ref~\cite{otb:gitVSSS}. The code, named \lstinline$mpostat$, is documented in \cref{chp:mpostat}. We will then briefly discuss time evolution methods, which we have made use of in some of the published work included in this thesis. 
 
- \section{Matrix Product States}
+ \section{Matrix product states}
  Matrix product states as we describe them here were first presented by Vidal \cite{Vidal2004}, but in effect grew from the understanding that Steven White's Density Matrix Renormalisation Group method \cite{White1992,White1993} could be reformulated to use a matrix product state representation which had previously been used as an analytical tool for finitely correlated states -- in particular the AKLT state \cite{Affleck1987}.
  Given some generic one-dimensional many-body state \(|\Psi \rangle\), we may decompose the state vector as a sum of basis vectors with individual coefficients,
  \begin{equation}
@@ -20,7 +20,7 @@ In this chapter we consider the numerical methods I have used to study the dynam
 
  Key to some of these techniques is the ability to represent operators in a similar way. We shall discuss Matrix Product Operators (MPOs) next.
 
- \section{Matrix Product Representation of Operators}
+ \section{Matrix product representation of operators}
  In order to make effective use of matrix product states it is helpful to write operators in a compatible format. This is achieved through the matrix product operator formalism, however, MPOs must, in general, be constructed by hand \cite{McCulloch2007,Crosswhite2008,Frowis2010,Pirvu2010,Schollwock2011}. Note that when I refer to MPOs throughout this thesis I mean matrix product representations of operators such as the Hamiltonian, Liouvillian, or observables. The distinction is necessary as the matrix product representation of a density matrix is also a matrix product operator by dint of having both input and output states. I will refer to an MPO representation of a density matrix as a Density Matrix Product Operator (DMPO), in order to distinguish it.
 
  We will now discuss the process of constructing an MPO, beginning with the following simple one-dimensional Heisenberg XXX model with open boundary conditions,
@@ -112,7 +112,7 @@ where \(|i\rangle\) is some complete set of basis states. Second, we note that f
 
  Having described matrix product states and operators in a general sense, we will now discuss one particular technique which makes use of them -- the variational search procedure.
 
- \section{Variational Search}
+ \section{Variational search}
  It is well known that one can use the Rayleigh-Ritz Variational Technique to find an approximation to the lowest eigenvalue and corresponding eigenfunction of a Hermitian operator. Given a set of variational parameters upon which the eigenfunctions depend, one can move always to a lower eigenvalue, by minimising over one parameter at a time \cite{ArfWeb_RRVT, Gasiorowicz_RVT}. Consequently, we can find an approximation to the ground state of a system by minimising the expression,
 \begin{equation}
 E = \frac{\langle \psi (\mathbf{x}^{*}) | \hat{H} | \psi (\mathbf{x}) \rangle}{\langle \psi (\mathbf{x}^{*}) | \psi (\mathbf{x}) \rangle},

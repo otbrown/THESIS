@@ -1,6 +1,6 @@
 In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad fields, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by the word `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will introduce the driven-dissipative Bose-Hubbard model, and physically motivate its terms in two relevant settings, in order to make later chapters more transparent. Then we will discuss what is meant by `open' quantum systems, and discuss how the dynamics of such a system are calculated. Finally we shall discuss how to reformulate these dynamics as a system of coupled linear equations.  
 
-\section{Many-Body Quantum Physics}
+\section{Many-body quantum physics}
 
 \subsection{How many?}
 Quantum physics has a problem. More than one actually, but the reader may safely assume that the author considers musing on the interpretation of quantum mechanics to be far above his pay-grade, and that he belongs to the ``Shut up and calculate!'' school of thought \cite{Mermin1989}. What hardship then, does quantum mechanics present to those of us interested only in crunching numbers and getting results? 
@@ -142,7 +142,7 @@ Hopping between sites can be achieved by directly coupling transmon sites togeth
 
 Having considered the type of model we are interested in, and shown how it could possibly be implemented in two different systems, we will next consider some of the key elements of open quantum systems.
 
-\section{\label{sec:OQS}Open Quantum Systems}
+\section{\label{sec:OQS}Open quantum systems}
 
 \begin{figure}[ht!]
 \centering
@@ -155,7 +155,7 @@ The study of open quantum systems involves taking a well-behaved closed quantum 
 
 In this section we will begin by reminding ourselves of the properties of density matrices, followed by discussion of the Lindblad form master equation, and the approximations inherent to it. Finally, we will discuss some practical details of solving the dynamics of open quantum systems, which will aid in understanding the next chapter on numerical methods.
 
-\subsection{Density Matrix}
+\subsection{Density matrix}
 The state vector suffices for describing a quantum system which is known to be in one particular state (a \emph{pure} state), but cannot adequately describe a quantum system which may be in one of a number of states. This \emph{ensemble} or \emph{mixed} state must be expressed using the density matrix, commonly denoted by \(\rho\). The density matrix for an ensemble state is defined as,
 \begin{equation}
 	\rho = \sum_{j} p_{j} |\psi_{j} \rangle \langle \psi_{j}|,
@@ -196,7 +196,7 @@ where \(|a_{j} \rangle\) and \(|b_{l} \rangle\) are the basis vectors of the \(A
 \end{equation}
 where \(\rho_{S}\) is the state of the system of interest, and \(\rho_{E}\) is the state of the environment. The environment can be traced out in order to consider the dynamics of just the system of interest. 
 
-\subsection{\label{sec:lindblad}Lindblad Master Equation}
+\subsection{\label{sec:lindblad}Lindblad master equation}
 Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems', or Carmichael's `An Open Systems Approach to Quantum Optics' \cite{BP_TMQME,Carmichael_OSAQO}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
 
 The Lindblad master equation, named for G\"{o}ran Lindblad but based on both his work and that of Gorini, Kossakowski, and Sudarshan \cite{Lindblad1976,Gorini1976}, is as follows,
