@@ -1,35 +1,22 @@
 In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. We will also consider future applications of the variational stationary state search code, and conclude the thesis.
 
 \section{Biased chain}
-In this project we will consider an \(N\)-site biased spin chain, governed by the Hamiltonian,
+In this project we will consider an \(N\)-site biased spin chain, governed by the full system-environment Hamiltonian,
 \begin{equation}
-	\mathcal{H} = \sum_{j}^{N}\left[ -j \Delta E \hat{a}_{j}^{\dagger}\hat{a}_{j} + t\left( \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right)\right],
+	\mathcal{H} = \mathcal{H}_{S} + \mathcal{H}_{S\text{-}E} + \mathcal{H}_{E},
+	\label{eq:fw1-0}
+\end{equation}
+where the system Hamiltonian
+\begin{equation}
+	\mathcal{H}_{S} = \sum_{j}^{N}\left[ -j \Delta E \hat{a}_{j}^{\dagger}\hat{a}_{j} + t\left( \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right)\right],
 	\label{eq:fw1-1}
 \end{equation}
-where \(\Delta E\) is the bias energy, and \(t\) is the hopping rate between sites. The Lindblad form master equation for the system is, 
-\begin{align}
-	\dot{\rho} = -i[\mathcal{H}, \rho] &+ \frac{\gamma_{d}}{2} \sum_{j} \left[2\kappa_{j}\rho\kappa_{j}^{\dagger} - \{\kappa_{j}^{\dagger}\kappa_{j}, \rho\}\right] \notag \\
-	&+ \frac{\gamma_{P}}{2}\left[2\hat{a}_{1}^{\dagger}\rho\hat{a}_{1} - \{\hat{a}_{1}\hat{a}_{1}^{\dagger}, \rho\}\right] \notag \\
-	&+ \frac{\gamma_{D}}{2}\left[2\hat{a}_{N}\rho\hat{a}_{N}^{\dagger} - \{\hat{a}_{N}^{\dagger}\hat{a}_{N}, \rho\}\right],
-	\label{eq:fw1-2}
-\end{align}
-where \(\gamma_{d}\) is the dissipation rate, \(\gamma_{P}\) is the pump rate of an incoherent pump on the first site, and \(\gamma_{D}\) is the drain rate on the last site. The system (excluding the dissipator) is sketched in \cref{fig:fw1-1}.
-
-We have neglected to explain the dissipative operator \(\kappa_{j}\) so far, as the dissipative environment is complicated. We discuss it in detail next.
-
-\begin{figure}[ht!]
-	\centering
-	\includegraphics[width=0.95\linewidth]{\figpath/BiasedChain}
-	\caption{\label{fig:fw1-1}A sketch of a seven site system. The Hamiltonian for the system is given in \cref{eq:fw1-1}, and the sketch shows the bias energy \(\Delta E\), the hopping interaction with rate \(t\), and the incoherent pump and drain terms with rates \(\gamma_{P}\) and \(\gamma_{D}\). For simplicity, the dissipative interactions are not shown.}
-\end{figure}
-
-\subsection{Dissipative environment}
-Each of the sites in this system is coupled to an independent dissipative environment. Each environment is approximated as a set of harmonic oscillators,
+where \(\Delta E\) is the bias energy, and \(t\) is the hopping rate between sites. Each of the sites in this system is coupled to an independent dissipative environment. Each environment is approximated as a set of harmonic oscillators,
 \begin{equation}
 	\mathcal{H}_{E} = \sum_{j,k} \omega\hat{b}_{j,k}^{\dagger}\hat{b}_{j,k},
 	\label{eq:fw1-3}
 \end{equation}
-where the operator \(\hat{b}_{j,k}\) \((\hat{b}_{j,k}^{\dagger})\) annihilates (creates) an excitation in mode \(k\) of the reservoir connected to site \(j\) of the system of the biased spin chain. Each reservoir is then coupled to each site by the system-environment Hamiltonian,
+where the operator \(\hat{b}_{j,k}\) \((\hat{b}_{j,k}^{\dagger})\) annihilates (creates) an excitation in mode \(k\) of the reservoir connected to site \(j\) of the system of the biased spin chain. The system-environment coupling is a dephasing interaction governed by,
 \begin{equation}
 	\mathcal{H}_{S\text{-}E} = \sum_{j,k} \left[ g_{j,k}\hat{a}_{j}^{\dagger}\hat{a}_{j}\left( \hat{b}_{j,k} + \hat{b}_{j,k}^{\dagger} \right)\right],
 	\label{eq:fw1-4}
@@ -51,7 +38,23 @@ where \(|\varepsilon \rangle\) is some state from the energy eigenbasis of the s
 \end{equation}
 and the state \(|n\rangle\) is not a number state, but here represents the single-excitation state \(|n \rangle = | 0 \rangle_{1} \otimes \ldots \otimes | 1 \rangle_{n} \otimes \ldots \otimes |0 \rangle_{N}\). 
 
-This unusual dissipative environment, including non-local transitions, makes the model both more interesting and more challenging. 
+The Lindblad form master equation for the system is, 
+\begin{align}
+	\dot{\rho} = -i[\mathcal{H}, \rho] &+ \frac{\gamma_{d}}{2} \sum_{j} \left[2\kappa_{j}\rho\kappa_{j}^{\dagger} - \{\kappa_{j}^{\dagger}\kappa_{j}, \rho\}\right] \notag \\
+	&+ \frac{\gamma_{P}}{2}\left[2\hat{a}_{1}^{\dagger}\rho\hat{a}_{1} - \{\hat{a}_{1}\hat{a}_{1}^{\dagger}, \rho\}\right] \notag \\
+	&+ \frac{\gamma_{D}}{2}\left[2\hat{a}_{N}\rho\hat{a}_{N}^{\dagger} - \{\hat{a}_{N}^{\dagger}\hat{a}_{N}, \rho\}\right],
+	\label{eq:fw1-2}
+\end{align}
+where \(\gamma_{d}\) is the dissipation rate, \(\gamma_{P}\) is the pump rate of an incoherent pump on the first site, and \(\gamma_{D}\) is the drain rate on the last site. The system (excluding the dissipator) is sketched in \cref{fig:fw1-1}.
+
+
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.95\linewidth]{\figpath/BiasedChain}
+	\caption{\label{fig:fw1-1}A sketch of a seven site system. The Hamiltonian for the system is given in \cref{eq:fw1-1}, and the sketch shows the bias energy \(\Delta E\), the hopping interaction with rate \(t\), and the incoherent pump and drain terms with rates \(\gamma_{P}\) and \(\gamma_{D}\). For simplicity, the dissipative interactions are not shown.}
+\end{figure}
+
 
 \subsection{Initial results}
 The dissipator given in \cref{eq:fw1-5,eq:fw1-6} extends across the whole lattice, however this is computationally impractical. As such, in order to solve the system, we apply a cutoff to the \(\alpha_{m,n}\) coefficients, \(\alpha_{m,n} < 0.01 = 0\). Note that since these coefficients are calculated in part using the eigenvectors of the system Hamiltonian \(\mathcal{H}\), they also rely on the system parameters, \(\Delta E\) and \(t\). In particular, the larger the hopping rate \(t\), the longer the range of non-zero alpha coefficents. \Cref{fig:fw1-2} shows the coefficients for the middle site of an eleven site system, \(\alpha_{6,n}^{6}\) against the extent, \(|6-n|\), for a range of values of \( t / \Delta E\). In order to limit the extent of interactions to two sites for initial calculations, we consider only values of the hopping rate and bias energy \(t / \Delta E \leq 0.1\). 
@@ -62,12 +65,12 @@ The dissipator given in \cref{eq:fw1-5,eq:fw1-6} extends across the whole lattic
 	\caption{\label{fig:fw1-2}Plot of the non-local dissipation coefficients, given by \cref{eq:fw1-6}, for the middle site of an eleven site system. The coefficients are plotted against the extent \(|6-n|\). The red dashed line marks the cutoff at \(\alpha_{m,n} = 0.01\).}
 \end{figure}
 
-With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. Design of the MPO followed a similar process to that followed for the MPO in Ref.~\cite{Owen2017}, which is discussed in \cref{chp:dimmpo}. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the density plot in \cref{fig:fw1-3} shows some features of interest. The unusual behaviour at \(t=0.01\) is a consequence of all the non-local dissipation coefficients falling below the cutoff in this case, so there is no dissipative transport, while coherent transport is very weak. The most interesting feature is that the density profile is consistent despite the change in the hopping rate. This indicates that dissipative transport may be dominant in this parameter regime.
+With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. Design of the MPO followed a similar process to that followed for the MPO in Ref.~\cite{Owen2017}, which is discussed in \cref{chp:dimmpo}. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the density plot in \cref{fig:fw1-3a} shows some features of interest. The unusual behaviour at \(t=0.01\) is a consequence of all the non-local dissipation coefficients falling below the cutoff in this case, so there is no dissipative transport, while coherent transport is very weak. The most interesting feature is that the density profile is consistent despite the change in the hopping rate. This indicates that dissipative transport may be dominant in this parameter regime.
  
 \begin{figure}[ht!]
-	\centering
-	\includegraphics[width=0.6\linewidth]{\figpath/BC_AbsN}
-	\caption{\label{fig:fw1-3}The density of an eleven site system \(\langle \hat{n}_{j} \rangle\), against the site \(j\), and hopping rate \(t\). The bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
+	\subfloat[\label{fig:fw1-3a}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_AbsN}} \hfill
+	\subfloat[\label{fig:fw1-3b}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_CohTrans}}
+	\caption{\label{fig:fw1-3}(a) The density of an eleven site system \(\langle \hat{n}_{j} \rangle\), against the site \(j\), and hopping rate \(t\). (b) Coherent transport between sites in the lattice, against site \(j\), and hopping rate \(t\). In both these calculations the bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
 \end{figure}
 
 \subsection{Next steps}
