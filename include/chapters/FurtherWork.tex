@@ -1,7 +1,7 @@
-In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. We will also consider future applications of the variational stationary state search code, and conclude the thesis.
+In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition. 
 
 \section{Biased chain}
-In this project we will consider an \(N\)-site biased spin chain, governed by the full system-environment Hamiltonian,
+In this project we will consider an \(N\)-site spin chain, which is biased so that the excited state on each site has a lower energy level than the excited state on all preceding sites. It is governed by the full system-environment Hamiltonian,
 \begin{equation}
 	\mathcal{H} = \mathcal{H}_{S} + \mathcal{H}_{S\text{-}E} + \mathcal{H}_{E},
 	\label{eq:fw1-0}
@@ -21,7 +21,7 @@ where the operator \(\hat{b}_{j,k}\) \((\hat{b}_{j,k}^{\dagger})\) annihilates (
 	\mathcal{H}_{S\text{-}E} = \sum_{j,k} \left[ g_{j,k}\hat{a}_{j}^{\dagger}\hat{a}_{j}\left( \hat{b}_{j,k} + \hat{b}_{j,k}^{\dagger} \right)\right],
 	\label{eq:fw1-4}
 \end{equation}
-where \(g_{j,k}\) is the coupling frequency. Following the usual procedure for deriving a Lindblad-form master equation, including application of the Born-Markov approximation, such an environment leads to relaxation of energy eigenstates of the system Hamiltonian where the energy difference matches the harmonic energy of the environment \(\varepsilon - \varepsilon' = \omega\). In the site basis the Lindblad operators are of the form,
+where \(g_{j,k}\) is the coupling frequency. Following the usual procedure for deriving a Lindblad-form master equation, including application of the Born-Markov approximation, such an environment leads to relaxation of energy eigenstates of the system Hamiltonian where the energy difference matches the harmonic energy of the environment \(\varepsilon - \varepsilon' = \omega\) \cite{Beaudoin2011}. In the site basis the Lindblad operators are of the form,
 \begin{equation}
 	\kappa_{j} = \sum_{m,n} \alpha_{m,n}^{j} \hat{a}_{m}^{\dagger}\hat{a}_{n},
 	\label{eq:fw1-5}
@@ -62,12 +62,18 @@ The dissipator given in \cref{eq:fw1-5,eq:fw1-6} extends across the whole lattic
 	\caption{\label{fig:fw1-2}Plot of the non-local dissipation coefficients, given by \cref{eq:fw1-6}, for the middle site of an eleven site system. The coefficients are plotted against the extent \(|6-n|\). The red dashed line marks the cutoff at \(\alpha_{m,n} = 0.01\).}
 \end{figure}
 
-With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. Design of the MPO followed a similar process to that followed for the MPO in Ref.~\cite{Owen2017}, which is discussed in \cref{chp:dimmpo}. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the plots in \cref{fig:fw1-3} show some features of interest. In particular, the density profile is consistent despite the change in the hopping rate, and that coherent transport undergoes an apparent phase change as hopping rate increases. The dashed line in \cref{fig:fw1-3b} demonstrates this for coherent transport through the bond between the fifth and sixth site in the system.
+With these parameter restrictions we calculated the steady state of an eleven site system, using the variational stationary state search code. Design of the MPO followed a similar process to that followed for the MPO in Ref.~\cite{Owen2017}, which is discussed in \cref{chp:dimmpo}. For these calculations the energy bias \(\Delta E = 1\), the pump rate \(\gamma_{P} = 0.05\), the drain rate \(\gamma_{D} = 0.05\), the dissipation rate \(\gamma_{d} = 0.05\), and the hopping rate \(t\) is scanned between 0.01 and 0.1. Naturally the results of these calculations are still under investigation, but the plots in \cref{fig:fw1-3,fig:fw1-4} show some features of interest. In particular, the density profile in \cref{fig:fw1-3} remains the same despite the change in the hopping rate. In \cref{fig:fw1-4} it can be seen that coherent transport undergoes an apparent phase change as hopping rate increases. The dashed line in \cref{fig:fw1-4a} demonstrates this for coherent transport through the bond between the fifth and sixth site in the system -- the same line is plotted separately in \cref{fig:fw1-4b}.
  
 \begin{figure}[ht!]
-	\subfloat[\label{fig:fw1-3a}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_AbsN}} \hfill
-	\subfloat[\label{fig:fw1-3b}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_CohTrans}}
-	\caption{\label{fig:fw1-3}(a) The density of an eleven site system \(\langle \hat{n}_{j} \rangle\), against the site \(j\), and hopping rate \(t\). (b) Coherent transport between sites in the lattice, against site \(j\), and hopping rate \(t\). In both these calculations the bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
+	\centering
+	\includegraphics[width=0.6\linewidth]{\figpath/BC_AbsN}
+	\caption{\label{fig:fw1-3}The density of an eleven site system \(\langle \hat{n}_{j} \rangle\), against the site \(j\), and hopping rate \(t\). In this calculation the bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
+\end{figure}
+
+\begin{figure}[hb!]
+	\subfloat[\label{fig:fw1-4a}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_CohTrans}} \hfill
+	\subfloat[\label{fig:fw1-4b}]{\includegraphics[width=0.49\linewidth]{\figpath/BC_CohTransHop}}
+	\caption{\label{fig:fw1-4}(a) Coherent transport between sites in the lattice, against site \(j\), and hopping rate \(t\). (b) Coherent transport between sites five and six in the lattice, against hopping rate \(t\). In this calculation the bias energy \(\Delta E = 1\), and the pump, drain, and dissipation rates \(\gamma_{P} = \gamma_{D} = \gamma_{d} = 0.05\).}
 \end{figure}
 
 \subsection{Next steps}
