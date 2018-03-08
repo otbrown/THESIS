@@ -1,4 +1,4 @@
-In this chapter we will discuss the article `Localization to delocalization crossover in a driven nonlinear cavity array' \cite{Brown2018}. In this work we studied nonlinear cavity arrays where the dissipation rate in each cavity increased with the excitation number. It was shown that with a coherent parametric drive such arrays can be driven in to states with commensurate filling -- a non-equilibrium analogue of the Mott insulating state. We explore the boundaries of this Mott insulating phase and the crossover to a delocalized phase with spontaneous first order coherence. This crossover is similar to the equilibrium Mott insulator to superfluid phase transition, but we also find marked differences in the phase-diagrams. In particular, in this system, the off-diagonal order does not become long range.  
+In this chapter we will discuss the article `Localization to delocalization crossover in a driven nonlinear cavity array' \cite{Brown2018}. In this work we studied a nonlinear cavity array where the dissipation rate in each cavity increased with the excitation number. It was shown that with a coherent parametric drive such arrays can be driven into incompressible states with commensurate filling -- a non-equilibrium analogue of the Mott insulating state. We explore the boundaries of this Mott insulating phase and the crossover to a delocalized phase with spontaneous first order coherence. This crossover is similar to the equilibrium Mott insulator to superfluid phase transition, but we also find marked differences in the phase-diagrams. In particular, in this system, the off-diagonal order does not become long range.  
 
 As ever we will begin by discussing the motivation and theoretical background to the work, followed by a thorough description of the model. We will then go through the results, mostly from TEBD calculations \cite{Vidal2003}, which are presented in the article. Finally we include a derivation of a two-level approximation to the master equation, and make our conclusions.
 
@@ -77,7 +77,7 @@ To further explore the boundaries of this phase and its predicted crossover to a
 
 \section{Large anharmonic system}
 
-Here we consider a fifteen site lattice with open boundaries, and up to two excitations per site. We find the stationary state by representing the system with a density matrix product operator, then time-evolving it using the TEBD method \cite{Vidal2004} until convergence. \Cref{fig:dnlca4-1} shows the density of the middle site and its variance plotted against drive strength and hopping rate. It can be seen that for strong enough drive density is near unity, and as with the small system, the variance is much less than one at low hopping rates. The non-equilibrium Mott insulator-like phase survives the increase in system size.
+Here we consider a fifteen site lattice with open boundaries, and up to two excitations per site. We find the stationary state by representing the system with a density matrix product operator, then time-evolving it using the TEBD method \cite{Vidal2004} until convergence. \Cref{fig:dnlca4-1} shows the density of the middle site and its variance plotted against drive strength and hopping rate. It can be seen that for strong enough drive the density is near unity, and as with the small system, the variance is much less than one at low hopping rates. The non-equilibrium Mott insulator-like phase survives the increase in system size.
 
 \begin{figure}[ht]
 	\subfloat[\label{fig:dnlca4-1a}]{\includegraphics[width=0.49\linewidth]{\figpath/anhDensity}} \hfill
@@ -131,16 +131,22 @@ In \cref{fig:dnlca5-1} we show the density and density variance of the middle si
 
 In \cref{fig:dnlca5-2,fig:dnlca5-3} we show the correlation length, and first and second order correlations for a fixed drive strength. The principle difference between the correlations in the harmonic and anharmonic case is the presence of peaks and troughs on alternating sites in the first-order correlations in the harmonic case. This can be understood from the momentum basis representation of the master equation,
 \begin{align}
+	\dot{\rho} = &-i\left[\mathcal{H}_{b}, \rho\right] + \frac{\gamma_{0}}{2}\sum_{k=0}^{N-1}\big[2\hat{b}_{k}\rho\hat{b}_{k}^{\dagger} - \{\hat{b}_{k}^{\dagger}\hat{b}_{k}, \rho\}\big] \notag \\
+	&+ \frac{\gamma_{1}}{4N^{2}} \sum_{[k,l,m,p,q,r]} \left[ 2\hat{b}_{p}^{\dagger}\hat{b}_{q}\hat{b}_{r}\rho\hat{b}_{k}^{\dagger}\hat{b}_{l}^{\dagger}\hat{b}_{m} - \{\hat{b}_{k}^{\dagger}\hat{b}_{l}^{\dagger}\hat{b}_{m}\hat{b}_{p}^{\dagger}\hat{b}_{q}\hat{b}_{r}, \rho\} \right],
+	\label{eq:dnlca5-3}
+\end{align}
+where the momentum basis Hamiltonian,
+\begin{align}
 	\mathcal{H}_{b} = &\sum_{k=0}^{N-1} \left[ \frac{\Omega}{\sqrt{2}}\hat{b}_{k}^{\dagger}\hat{b}_{N-k}^{\dagger} + \frac{\Omega^{*}}{\sqrt{2}}\hat{b}_{k}\hat{b}_{N-k} \right] + \sum_{k=0}^{N-1} \left[\Delta - 2J\cos\left(\frac{2\pi k}{N}\right)\right]\hat{b}_{k}^{\dagger}\hat{b}_{k} \notag \\ 
 	&+ \sum_{(j,k,l,m)} \left[ \frac{U}{N} \hat{b}_{j}^{\dagger}\hat{b}_{k}^{\dagger}\hat{b}_{l}\hat{b}_{m} \right], 
 	\label{eq:dnlca5-1}
 \end{align}
-where,
+and where,
 \begin{equation}
 	\hat{a}_{n} = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \mathrm{e}^{i\frac{2\pi n}{N}k}\hat{b}_{k},
 	\label{eq:dnlca5-2}
 \end{equation}
-and we have assumed periodic boundary conditions. The notation \((j,k,l,m)\) indicates that the indices range from \(0\) to \(N-1\) and follow the condition \(l+m-j-k = nN\), where \(n\) is some integer. When \(\Delta = 0\), as it does here, the detuning \(\Delta - 2J\cos (2 \pi k/N)\) is zero for modes with \(k = nN/4\). The drive is therefore resonant to these modes, and these momenta determine the correlation profile. In the anharmonic case the detuning \(\Delta\) is large compared to \(2J\) and the mode with \(k=0\) is closest to resonance with the drive.
+and we have assumed periodic boundary conditions. The notation \([k,l,m,p,q,r]\) indicates that the indices range from \(0\) to \(N-1\) and follow the condition \(m+q+r-k-l-p = nN\) where \(n\) is some integer. The notation \((j,k,l,m)\) indicates that the indices range from \(0\) to \(N-1\) and follow the condition \(l+m-j-k = nN\), where \(n\) is again some integer. When \(\Delta = 0\), as it does here, the detuning \(\Delta - 2J\cos (2 \pi k/N)\) is zero for modes with \(k = nN/4\). The drive is therefore resonant to these modes, and these momenta determine the correlation profile. In the anharmonic case the detuning \(\Delta\) is large compared to \(2J\) and the mode with \(k=0\) is closest to resonance with the drive.
 
 \begin{figure}[ht]
 	\subfloat[\label{fig:dnlca5-2a}]{\includegraphics[width=0.49\linewidth]{\figpath/g1}} \hfill
@@ -156,4 +162,4 @@ and we have assumed periodic boundary conditions. The notation \((j,k,l,m)\) ind
 
 \section{Conclusions}
 
-In conclusion, we have shown that in the model we describe, a nonlinear cavity array with a coherent parametric drive to the doubly excited state, and a dissipative regime in which higher excitation numbers decay more rapidly than lower excitation numbers, a stationary state exists with similar properties to the Mott insulator. Moreover we have shown that a crossover to a delocalized phase with spontaneous first order coherence can be found can be found by increasing the hopping rate between sites. Unlike the equilibrium case, where we would find a superfluid phase, the first order coherence does not become long range, and indeed decreases with increasing hopping rate after reaching a peak. We attribute this behaviour to dephasing processes becoming more prevalent as the number fluctuations increase as a result of the larger hopping rate. 
+In conclusion, we have shown that in this driven-dissipative nonlinear cavity array, a stationary state exists with similar properties to the Mott insulator. Moreover we have shown that a crossover to a delocalized phase with spontaneous first order coherence can be found by increasing the hopping rate between sites. Unlike the equilibrium case, where we would find a superfluid phase, the first order coherence does not become long range, and indeed decreases with increasing hopping rate after reaching a peak. We attribute this behaviour to dephasing processes becoming more prevalent as the number fluctuations increase as a result of the larger hopping rate. 
