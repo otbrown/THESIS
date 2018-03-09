@@ -206,17 +206,19 @@ where \(\mathcal{H}\) is the Hamiltonian for the system, the operator \(\hat{A}_
 \end{equation}
 encodes the dissipative dynamics. Importantly, a dissipator of this form preserves both the positivity and trace of the density matrix upon which it operates, ensuring physical results. It is quite general, but does implicitly make the following two approximations.
 
-First, the Born approximation. This approximation assumes that the system-environment interaction is weak. This is reasonable, as we would typically consider anything which interacted strongly as part of the system, rather than the environment. We may therefore neglect terms which are greater than second-order in the interaction Hamiltonian during a power series expansion of the time evolution operator, which is considered in deriving the master equation. This approximation assumes that the environment is very large, and therefore that any excitations from the system move quickly away from the system-environment interaction centre. Equivalently, one can say that the timescale of significant changes in the state of the system should be much longer than the decay of correlations in the environment (\(\tau\) in \cref{eq:oqs3-4}). This means that excitations cannot return from the environment to the system, and the system's future state is dependent only on its current state, not its history. Specifically, it allows us to approximate the state of the system,
+First, the Born approximation. This approximation assumes that the system-environment interaction is weak. This is reasonable, as we would typically consider anything which interacted strongly as part of the system, rather than the environment. We may therefore neglect terms which are greater than second-order in the interaction Hamiltonian during a power series expansion of the time evolution operator, which is considered in deriving the master equation. Specifically we require that,
 \begin{equation}
-	\rho_{S}(t) \approx \tilde{\rho}_{S}(t),
-	\label{eq:oqs3-5}
+	g \ll \frac{1}{\tau},
+	\label{eq:oqs3-3}
 \end{equation}
-where,
-\begin{align}
-	\rho_{S}(t) &= \mathrm{e}^{-i\mathcal{H}(t-s)}\rho_{S}(s)\mathrm{e}^{i\mathcal{H}(t-s)}, \label{eq:oqs3-6} \\
-	\tilde{\rho}_{S}(t) &= \mathrm{e}^{-i\mathcal{H_{S}}(t-s)}\rho_{S}(s)\mathrm{e}^{i\mathcal{H}_{S}(t-s)}, \label{eq:oqs3-7}
-\end{align}
-so that over the integration period the evolution of the system is \emph{approximately} equal to its evolution under only the system Hamiltonian. This approximation also clearly relies on interaction between the system and environment being weak, and is therefore wholly consistent with the Born approximation. For this reason the two are often grouped together as the \emph{Born-Markov approximation} \cite{Hartmann_BM,BP_BMS}.
+where \(g\) is the interaction energy in units of frequency (when \(\hbar = 1\)), and \(\tau\) is the decay time of correlations in the environment such that,
+\begin{equation}
+	\langle \hat{a}_{E}(t \geq \tau)\hat{a}_{E}^{\dagger}(0) \rangle \approx 0,
+	\label{eq:oqs3-4}
+\end{equation}
+where \(\hat{a}_{E}(t)\) annihilates an excitation in the environment at time \(t\). 
+
+Second, the Markov approximation. This approximation assumes that the environment is very large, and therefore that any excitations from the system move quickly away from the system-environment interaction centre. Equivalently, one can say that the timescale of significant changes in the state of the system should be much longer than the decay of correlations in the environment (\(\tau\) in \cref{eq:oqs3-4}). This means that excitations cannot return from the environment to the system, and the system's future state is dependent only on its current state, not its history. This approximation also clearly relies on interaction between the system and environment being weak, and is therefore wholly consistent with the Born approximation. For this reason the two are often grouped together as the \emph{Born-Markov approximation} \cite{Hartmann_BM,BP_BMS}.
 
 \subsection{The Liouvillian}
 The above section explains how we generate the dynamics of the density matrix, but not we find the stationary state,
