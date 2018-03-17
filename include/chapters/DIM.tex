@@ -9,7 +9,7 @@ The model is a sawtooth lattice -- consisting of two one-dimensional sublattices
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_lattice_diagram}
-\caption{The lattice with tunneling rates \(t\) and \(t'\) along with the labeling of the \(A\) and \(B\) sublattices and the unit cell \(i\). Excitations dissipate at a rate \(\gamma_{A(B)}\) from the individual sites of the \(A (B)\) sublattice and coherent or incoherent drives are applied with amplitude \(\Omega_{X, i}\) or intensity \(P_{X, i}\), where \(X = A,B)\). Reproduced from ref.~\cite{Owen2017}.}
+\caption{The lattice with tunneling rates \(t\) and \(t'\) along with the labeling of the \(A\) and \(B\) sublattices and the unit cell \(i\). Excitations dissipate at a rate \(\gamma_{A(B)}\) from the individual sites of the \(A (B)\) sublattice and coherent or incoherent drives are applied with amplitude \(\Omega_{X, i}\) or intensity \(P_{X, i}\), where \(X = A,B)\). Reproduced from reference~\cite{Owen2017}.}
 \label{fig:dim1-1}
 \end{figure}
 
@@ -143,7 +143,7 @@ where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that th
 \label{fig:dim2-1}
 \end{figure}
 
-In \cref{fig:dim2-1} we see results from solving \cref{eq:dim2-2,eq:dim2-3}. \Cref{fig:dim2-1}~(a) shows the density of Wannier state excitations, normalized by the density on the pumped site, \(i=0\). It can be seen that in spite of the lack of coherent transport processes, in the steady state the density is found to be non-zero away from the pumped site. This effect is also shown in \cref{fig:dim2-1}~(b) which shows the \(B\) sublattice density \(\langle \hat{b}_{i}^{\dagger}\hat{b}_{i} \rangle\). Recall that the Wannier drive amplitude is given by \cref{eq:dim1-16}, so in the lattice site basis the drive amplitudes \(\Omega_{A,i}\) and \(\Omega_{B,i}\) are non-zero for \(i \neq 0\), however the density profile widens noticeably as \(\kappa\) tends to \(0\), increasing the amount of non-local dissipation, indicating that the effect is not simply an artifact of transformation into the Wannier basis.
+In \cref{fig:dim2-1} we see results from solving \cref{eq:dim2-2,eq:dim2-3}. \Cref{fig:dim2-1}~(a) shows the density of Wannier state excitations, normalized by the density on the pumped site, \(i=0\). It can be seen that in spite of the lack of coherent transport processes, in the steady state the density is found to be non-zero away from the pumped site. This effect is also shown in \cref{fig:dim2-1}~(b) which shows the \(B\) sublattice density \(\langle \hat{b}_{i}^{\dagger}\hat{b}_{i} \rangle\). Recall that the Wannier drive amplitude is given by \cref{eq:dim1-16}, so in the lattice site basis the drive amplitudes \(\Omega_{A,i}\) and \(\Omega_{B,i}\) are non-zero for \(i \neq 0\), however the density profile widens noticeably as \(\kappa\) tends to zero, increasing the amount of nonlocal dissipation, indicating that the effect is not simply an artifact of transformation into the Wannier basis.
 
 \begin{figure}[ht!]
 \centering 
@@ -183,7 +183,7 @@ where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of th
 \begin{figure}[ht!]
 \centering 
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_mobility_models}
-\caption{\label{fig:dim2-4}Diagrammatic representations of the models we consider to explain dissipation-induced mobility in the non-interacting regime. The central site is pumped with a drive of strength \(\Omega_{W,0}\) and there is a dissipation rate \(\gamma_{0}\) on each site. (a) The single-site diffusion model assumes that only tunneling between neighbouring sites is important. (b) The direct nonlocal dissipative coupling model, where each site is coupled directly to the pumped site (site 0) by a nonlocal dissipation term. (c) The effective drive model consists of a three-site model where the pumped site is not affected by the two remote, coupled, unpumped sites. Reproduced from ref.~\cite{Owen2017}.}
+\caption{\label{fig:dim2-4}Diagrammatic representations of the models we consider to explain dissipation-induced mobility in the non-interacting regime. The central site is pumped with a drive of strength \(\Omega_{W,0}\) and there is a dissipation rate \(\gamma_{0}\) on each site. (a) The single-site diffusion model assumes that only tunneling between neighbouring sites is important. (b) The direct nonlocal dissipative coupling model, where each site is coupled directly to the pumped site (site 0) by a nonlocal dissipation term. (c) The effective drive model consists of a three-site model where the pumped site is not affected by the two remote, coupled, unpumped sites. Reproduced from reference~\cite{Owen2017}.}
 \end{figure}
 In order to clarify that the transport we observe \emph{is} the result of nonlocal dissipation processes, we first attempt to model it as a diffusion process, and compare the decay length of the resulting density profile. This diffusive random walk model, shown diagramatically in \cref{fig:dim2-4}~(a), has the following continuity equation,
 \begin{equation}
@@ -301,7 +301,7 @@ Now that we have the complete form of the master equation for the strongly inter
 	\dot{\rho} = -i\left[H, \rho\right] + \frac{1}{2}\sum_{j,l=-3}^{l=3}\gamma_{l}\left[2W_{j}\rho W_{j+l}^{\dagger} - \{W_{j+l}^{\dagger}W_{j}, \rho\}\right],
 	\label{eq:dim3-2}
 \end{equation}
-where we note that we have truncated the non-local dissipators to \(l=3\), and where,
+where we note that we have truncated the nonlocal dissipators to \(l=3\), and where,
 \begin{align}
 	H = &\sum_{i}\left[\Delta W_{i}^{\dagger}W_{i} + \frac{\Omega_{W,i}}{2}W_{i} + \frac{\Omega_{W,i}^{*}}{2}W_{i}^{\dagger}\right] \notag \\
 	&+ \sum_{i}\left[ U^{\mathrm{eff},B}_{0,0,0}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 4U^{\mathrm{eff},B}_{1,1,0}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\ 
@@ -332,7 +332,7 @@ The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a sy
 \caption{\label{fig:dim3-2}(a) Normalized steady-state density of excitations in the Wannier basis for the ineracting regime and a single driven Wannier state at \(i=0, \Omega_{W,0} = \gamma_{A},\) and \(\kappa = 0.2\) [c.f. \cref{fig:dim2-1}~(a)]. (b) Fraction of excitations not on the pumped site \(f\) as a function of the dissipation rate assymetry ratio \(\kappa\) for an interacting system with a cross-Kerr interaction strength \(U_{1}\).}
 \end{figure}
 
-Finally, we considered first-order coherence in the strongly-interacting regime. \Cref{fig:dim3-3} shows that similarly to the \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first-order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to noninteracting systems.
+Finally, we considered first-order coherence in the strongly-interacting regime. \Cref{fig:dim3-3} shows that, similarly to \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first-order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to noninteracting systems.
 
 \begin{figure}[ht!]
 \centering 
