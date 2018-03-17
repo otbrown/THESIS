@@ -365,7 +365,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  0 & B^{[n]} \end{pmatrix},
  \label{eq:vs3-7}
  \end{equation}
- which we can see leads to \(|\bar{\rho}_{C} \rangle \) having virtual dimensions which are the sum of those in \(|\bar{\rho}_{A}\rangle\) and \(\bar{\rho}_{B}\rangle\). It is also not trace normalised. For this reason it is recommended that any use of \lstinline$DMPOSum$ is followed by \lstinline$DMPOCompress$ and \lstinline$TrNorm$.
+ which we can see leads to \(|\bar{\rho}_{C} \rangle \) having virtual dimensions which are the sum of those in \(|\bar{\rho}_{A}\rangle\) and \(|\bar{\rho}_{B}\rangle\). It is also not trace normalised. For this reason it is recommended that any use of \lstinline$DMPOSum$ is followed by \lstinline$DMPOCompress$ and \lstinline$TrNorm$.
  \begin{lstlisting}
  function [sumDMPO] = DMPOSum(rhoA, rhoB) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
