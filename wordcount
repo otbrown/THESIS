@@ -1,3 +1,13 @@
+File: include/chapters/Abstract.tex
+Encoding: ascii
+Words in text: 233
+Words in headers: 0
+Words outside text (captions, etc.): 0
+Number of headers: 0
+Number of floats/tables/figures: 0
+Number of math inlines: 0
+Number of math displayed: 0
+
 File: include/chapters/Conclusion.tex
 Encoding: ascii
 Words in text: 705
@@ -202,16 +212,17 @@ Subcounts:
   380+2+46 (1/1/11/5) Section: Time evolution
 
 Total
-Words in text: 23390
+Words in text: 23623
 Words in headers: 191
 Words outside text (captions, etc.): 1737
 Number of headers: 127
 Number of floats/tables/figures: 33
 Number of math inlines: 1325
 Number of math displayed: 183
-Files: 11
+Files: 12
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
+  233+0+0 (0/0/0/0) File(s) total: include/chapters/Abstract.tex
   705+0+0 (0/0/3/0) File(s) total: include/chapters/Conclusion.tex
   3284+29+413 (11/10/217/37) File(s) total: include/chapters/DIM.tex
   616+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex

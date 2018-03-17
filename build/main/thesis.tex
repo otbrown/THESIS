@@ -18,6 +18,7 @@
 \usepackage{textcomp}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[labelfont=bf]{caption}
+\usepackage{pdfpages}
 \usepackage{longtable}
 \usepackage{tabu}
 
@@ -57,13 +58,15 @@
 
 \pagenumbering{roman}
 
+\begin{abstract}
+\input{\chappath/Abstract}
+\end{abstract}
+
 \begin{acknowledgements}
 Thank you, coffee.
 \end{acknowledgements}
 
-\begin{abstract}
-Abstract
-\end{abstract}
+\includepdf{../../include/researchthesissubmission}
 
 \tableofcontents
 

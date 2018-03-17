@@ -1,5 +1,6 @@
 # built documents
 *.pdf
+*.doc
 
 # LaTeX cruft
 *.aux
