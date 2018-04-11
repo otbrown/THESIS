@@ -62,7 +62,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  Input & \\ \hline
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than one. \\
  \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer greater than one. \\
- \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. It is important that the supplied Liouvillian matches the requested calculation variant. If the user requests the Hermitian calculation variant is requested, then the MPO should represent the hermitian product Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\), or the \lstinline$EigenSolver$ function will throw an error. \\
+ \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. It is important that the supplied Liouvillian matches the requested calculation variant. If the user requests the Hermitian calculation variant is requested, then the MPO should represent the Hermitian product Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\), or the \lstinline$EigenSolver$ function will throw an error. \\
  \lstinline$ULTIMATE_THRESHOLD$ & \emph{Double}. The desired final accuracy, as determined by the residual \(|\mathcal{L}\rho|\), or \(|\mathcal{L}^{\dagger}\mathcal{L}\rho|\) in the Hermitian case. The calculation will end and return the results once it crosses this threshold (if it crosses this threshold). \\
  \lstinline$MAX_COMPRESS$ & \emph{Double}. The maximum allowed DMPO matrix dimension, \(\chi\). Should be a positive integer greater than or equal to \(d^{2}\). \\
  \lstinline$VARIANT$ & \emph{String}. Specifies the form and method of the calculation. There are three options: `\lstinline$direct$', `\lstinline$hermitian$', and `\lstinline$primme$'. If `\lstinline$direct$' is supplied, the non-Hermitian Liouvillian \(\mathcal{L}\) is solved using MATLAB's sparse eigensolver, \lstinline$eigs$. If `\lstinline$hermitian$' or `\lstinline$primme$' is supplied, the Hermitian product of the Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\) is solved using the \lstinline$eigs$ and PRIMME eigensolvers respectively. Additionally, if `\lstinline$hermitian$' is supplied, but \lstinline$eigs$ fails to find a solution on some site, a second attempt will be made using the PRIMME eigensolver. \\
@@ -155,7 +155,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$hermDMPO$ & \emph{\(N \times 1\) cell array}. The hermitian part of the supplied density matrix product operator, in the standard format. Will have double the virtual dimensions on each site. \\ \hline
+ \lstinline$hermDMPO$ & \emph{\(N \times 1\) cell array}. The Hermitian part of the supplied density matrix product operator, in the standard format. Will have double the virtual dimensions on each site. \\ \hline
  Input & \\ \hline
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
  \hline
@@ -205,7 +205,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$eigVector$ & \emph{1 dimensional complex double array}. The eigenvector of the effective Liouvillian with the eigenvalue closest to zero. This will be reshaped to replace the site tensor, \(A^{[n]}\). \\
  \lstinline$eigValue$ & \emph{Complex double}. The eigenvalue corresponding to \lstinline$eigVector$. This is the closest to zero of all the eigenvalues of the supplied effective Liouvillian. How close it actually is to zero is used as a measure of success for the whole calculation. \\ \hline
  Input & \\ \hline
- \lstinline$effL$ & \emph{2 dimensional complex double array}. The effective Liouvillian \(\hat{L}^{[n]}_{\mathrm{eff}}\) for some site, may be formed from the Liouvillian \(\mathcal{L}\), or the hermitian product of the Liouvillian, \(\mathcal{L}^{\dagger}\mathcal{L}\). \\
+ \lstinline$effL$ & \emph{2 dimensional complex double array}. The effective Liouvillian \(\hat{L}^{[n]}_{\mathrm{eff}}\) for some site, may be formed from the Liouvillian \(\mathcal{L}\), or the Hermitian product of the Liouvillian, \(\mathcal{L}^{\dagger}\mathcal{L}\). \\
  \lstinline$HERMITIAN$ & \emph{Bool}. Should be true if the Hermitian product of the Liouvillian is being used. \\
  \lstinline$PRIMME$ & \emph{Bool}. Should be true if use of PRIMME is desired. Note that this will only have an impact if \lstinline$HERMITIAN = true$, as PRIMME's eigensolver only operates on Hermitian matrices. If \lstinline$HERMITIAN$ is false, then \lstinline$PRIMME$ should be too, but its value will be ignored. \\
  \lstinline$initVec$ & \emph{1 dimensional complex double array}. An initial guess for the eigenvector -- supplying this improves the stability and speed of the eigensolvers. In general this will be the current site tensor reshaped into a vector. \\
