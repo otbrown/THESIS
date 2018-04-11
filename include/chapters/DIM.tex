@@ -1,7 +1,7 @@
-In this chapter we will discuss the article `Dissipation-induced mobility and coherence in frustrated lattices' \cite{Owen2017}. We will begin by discussing the motivation and theoretical background to the investigation, and results from the non-interacting regime. Then we will discuss the strongly-interacting regime, focusing in some detail on the design of the matrix product operator for variational search calculations, which was complex due to the presence of long range nonlocal terms in this model, and was my primary contribution to the article.
+In this chapter we will discuss the article `Dissipation-induced mobility and coherence in frustrated lattices' \cite{Owen2017}. We will begin by discussing the motivation and theoretical background to the investigation, and results from the non-interacting regime. Then we will discuss the strongly interacting regime, focusing in some detail on the design of the matrix product operator for variational search calculations, which was complex due to the presence of long range nonlocal terms in this model, and was my primary contribution to the article.
 
 \section{Introduction}
-In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson1958,Lee1985,Segev2013}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{Guzman-Silva2014,Vicencio2015,Mukherjee2015,Mukherjee2015a}, polaritons in etched semiconductor heterostructures \cite{Jacqmin2014,Baboux2016}, ultracold atomic gases in optical lattices \cite{Taie2015}, surface plasmons \cite{Nakata2012,Kajiwara2016}, and they have been proposed in superconducting resonators \cite{Yang2016}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.  
+In a perfect crystal the wave functions are described by Bloch states, which are delocalized over the entire crystal, thus allowing transport. On the other hand, an imperfect crystal where disorder or impurities create scattering centres leads to localized wave functions, a phenomenon known as Anderson localization \cite{Anderson1958,Lee1985,Segev2013}. In fact the key to localization is destructive interference of the wave functions and this can also be induced through geometric constraints on the tunneling rates in the lattice. Such systems allow the construction of flat band states with infinite effective mass (zero kinetic energy) which are insulating. Synthetic flat band crystals have recently been demonstrated in a variety of systems including photonic lattices \cite{Guzman-Silva2014,Vicencio2015,Mukherjee2015,Mukherjee2015a}, polaritons in etched semiconductor heterostructures \cite{Jacqmin2014,Baboux2016}, ultracold atomic gases in optical lattices \cite{Taie2015}, surface plasmons \cite{Nakata2012,Kajiwara2016}, and they have been proposed in superconducting resonators \cite{Yang2016}. As remarked earlier in this thesis, the photonic systems we tend to consider are inherently lossy, and so a coherent or incoherent drive is required to repopulate the system for a non-vacuum stationary state. The aim of this work then, was to investigate the properties of a geometrically frustrated lattice in the driven-dissipative regime.
 
 \subsection{The model}
 The model is a sawtooth lattice -- consisting of two one-dimensional sublattices, labelled \(A\) and \(B\). Each site in the \(B\) sublattice is coupled to its two adjacent sites with some tunneling rate \(t\). Each site in the \(A\) sublattice is connected to its two adjacent sites in the \(B\) sublattice with some tunneling rate \(t'\), but is \emph{not} connected to other sites in the \(A\) sublattice. Both sublattices have an interaction energy \(U_{X}\) and each site has a coherent drive with amplitude \(\Omega_{X,i}\), where the label \(X\) is \(A\) or \(B\) denoting the sublattice. The dissipative regime is one where the two sublattices have independent dissipation rates \(\gamma_{X}\) where again \(X = A,B\), and each site is dissipatively coupled to its own independent bath. The model is shown diagramatically in \cref{fig:dim1-1}.
@@ -43,11 +43,11 @@ If we take the limit \(t' \rightarrow \sqrt{2}t\) we find,
 \end{equation}
 which yields a flat lower band at \(E_{0} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k} = \omega_{0} + 2t + 2t\cos k\). This is the geometrically frustrated regime, in which the kinetic energy of the flat band is quenched. We can most easily represent (and investigate) the system in this frustrated state using Wannier states.
 
-\subsection{Wannier basis} 
-The Wannier basis is an orthogonal set of states defined by the summation of bloch states for individual bands in a lattice \cite{Wannier1937}. For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. In which case the tight-binding bosonic operators can then be expressed as,
+\subsection{Wannier basis}
+The Wannier basis is an orthogonal set of states defined by the summation of Bloch states for individual bands in a lattice \cite{Wannier1937}. For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. In which case the tight-binding bosonic operators can then be expressed as,
 \begin{align}
 	\hat{a}_{i}^{\dagger} &= \sum_{j} w_{A}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-8} \\
-	\hat{b}_{i}^{\dagger} &= \sum_{j} w_{B}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-9}  
+	\hat{b}_{i}^{\dagger} &= \sum_{j} w_{B}(r_{i} - r_{j}) W_{j}^{\dagger}, \label{eq:dim1-9}
 \end{align}
 where,
 \begin{align}
@@ -56,7 +56,7 @@ where,
 \end{align}
 and \(W_{j}\) annihilates an excitation in the flat-band Wannier basis which is exponentially localized on the unit cell \(j\).
 
-We may then write our master equation, \cref{eq:dim1-5}, as 
+We may then write our master equation, \cref{eq:dim1-5}, as
 \begin{equation}
 	\dot{\rho} = -i[H_{W}, \rho] + \frac{1}{2} \sum_{j,l} \gamma_{l} \left[ 2W_{j} \rho W_{j+l}^{\dagger} - \left\{W_{j+l}^{\dagger}W_{j}, \rho\right\}\right],
 	\label{eq:dim1-12}
@@ -101,7 +101,7 @@ and \(\Pi(x)\) is the rectangle function. It is given by,
 	\end{cases}
 	\label{eq:dim1-24}
 \end{equation}
-so in \cref{eq:dim1-20} it serves to ensure that only values of \( k' + q + q' \) between \(-\pi\) and \(\pi\) are counted. 
+so in \cref{eq:dim1-20} it serves to ensure that only values of \( k' + q + q' \) between \(-\pi\) and \(\pi\) are counted.
 
 The Wannier basis dissipation coefficient is given by,
 \begin{equation}
@@ -113,7 +113,7 @@ which can be simplified to,
 	\frac{\gamma_{l}}{\gamma_{A}} &= (2f_{0} + f_{1}) - (1 - \kappa)f_{0}, &\text{ for }l=0, \label{eq:dim1-22} \\
 	\frac{\gamma_{l}}{\gamma_{A}} &= -(1-\kappa)f_{l}, &\text{ for }l \neq 0, \label{eq:dim1-23}
 \end{align}
-where \(f_{l} = (\sqrt{3}-2)^{|l|}/\sqrt{3}\), \(f_{l}=f_{-l}\) and \(\kappa = \gamma_{B}/\gamma_{A}\), so that the dissipation is entirely local when \(\kappa = 1\). 
+where \(f_{l} = (\sqrt{3}-2)^{|l|}/\sqrt{3}\), \(f_{l}=f_{-l}\) and \(\kappa = \gamma_{B}/\gamma_{A}\), so that the dissipation is entirely local when \(\kappa = 1\).
 
 Having defined our model in the Wannier basis, we will first consider results from the non-interacting regime, where \(U_{A} = U_{B} = 0\).
 
@@ -127,7 +127,7 @@ In this regime the master equation \cref{eq:dim1-12} can be solved using Ehrenfe
 where \(\hat{O}\) is the operator for some observable of the system, and \(\mathcal{D}(x)=(\gamma/2)\sum_{j}2x_{j}\rho x_{j}^{\dagger} - \{x_{j}^{\dagger}x_{j}, \rho\}\) is the Lindblad-form dissipator. From Ehrenfest's theorem we find the following equations of motion,
 \begin{align}
 	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i} \rangle &= -\frac{i}{2}\Omega_{W}^{*}\delta_{i,0} - \sum_{l} \gamma_{l}\langle W_{i+l} \rangle, \label{eq:dim2-2} \\
-	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i}^{\dagger}W_{i+j} \rangle &= \frac{i}{2} \langle \Omega_{W}\delta_{i,0} W_{i+j} - \Omega_{W}^{*}\delta_{i+j,0}W_{i}^{\dagger} \rangle \notag \\ 
+	\frac{\mathrm{d}}{\mathrm{d}t} \langle W_{i}^{\dagger}W_{i+j} \rangle &= \frac{i}{2} \langle \Omega_{W}\delta_{i,0} W_{i+j} - \Omega_{W}^{*}\delta_{i+j,0}W_{i}^{\dagger} \rangle \notag \\
 	&\quad - \frac{1}{2}\sum_{l} \gamma_{l} (\langle W_{i+l}^{\dagger}W_{i+j} \rangle + \langle W_{i}^{\dagger}W_{i+j-l}\rangle), \label{eq:dim2-3}
 \end{align}
 where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that the system is driven only in a single Wannier state which we label zero. \Cref{eq:dim2-2,eq:dim2-3} provide a set of coupled equations which we solve numerically. A cutoff is applied to both the nonlocal dissipation coefficient \(\gamma_{l}\), which decays exponentially with \(l\), and to the correlations which we expect to be negligible at very long range. As such we make the approximations that \(\gamma_{l} = 0\) for \(l > 10\), and that \(\langle W_{i}^{\dagger}W_{i+j} \rangle = 0\) for \(j > 10\).
@@ -146,7 +146,7 @@ where the Kronecker delta, \(\delta_{i,0}\), in the drive term indicates that th
 In \cref{fig:dim2-1} we see results from solving \cref{eq:dim2-2,eq:dim2-3}. \Cref{fig:dim2-1}~(a) shows the density of Wannier state excitations, normalized by the density on the pumped site, \(i=0\). It can be seen that in spite of the lack of coherent transport processes, in the steady state the density is found to be non-zero away from the pumped site. This effect is also shown in \cref{fig:dim2-1}~(b) which shows the \(B\) sublattice density \(\langle \hat{b}_{i}^{\dagger}\hat{b}_{i} \rangle\). Recall that the Wannier drive amplitude is given by \cref{eq:dim1-16}, so in the lattice site basis the drive amplitudes \(\Omega_{A,i}\) and \(\Omega_{B,i}\) are non-zero for \(i \neq 0\), however the density profile widens noticeably as \(\kappa\) tends to zero, increasing the amount of nonlocal dissipation, indicating that the effect is not simply an artifact of transformation into the Wannier basis.
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/xi_vs_kappa}
 \caption{\label{fig:dim2-2}Decay length of the density profile \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\) for \(i=4\) as a function of \(\kappa = \gamma_{B}/\gamma_{A}\). The solid line gives the results of the exact model, the dashed line of the effective drive model, and the dot-dashed line of the direct coupling model. In all three models the Wannier state \(W_{0}\) was driven with amplitude \(\Omega_{W} = \gamma_{A}\).}
 \end{figure}
@@ -156,7 +156,7 @@ In the Wannier basis the density decays exponentially from the driven site, and 
 	N_{i} = \mathrm{e}^{-\frac{|r_{i}|}{\xi}},
 	\label{eq:dim2-4}
 \end{equation}
-in turn allowing one to extract a decay length \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\). This decay length is shown in \cref{fig:dim2-2} for \(i=4\). Recalling \cref{eq:dim1-22,eq:dim1-23}, as \(\kappa\) decreases, the nonlocal dissipation rates \(\gamma_{l}\) increase, leading to a divergence in the decay length as \(\kappa \rightarrow 0\). In this limit, the \(B\) sublattice dissipation rate tends to zero and the dark state \(\sum_{i} (-1)^{i}W_{i}^{\dagger}|0\rangle = \sum_{i}(-1)^{i}\hat{b}_{i}^{\dagger}|0\rangle\) forms. This dark states extends over the entire lattice, hence the divergence in \(\xi\). The limit \(\kappa \rightarrow \infty\), where the \(A\) sublattice dissipation rate tends to zero, is inaccessible with the driving mechanism we use, as the corresponding dark state \(\sum_{i}(-1)^{i}\hat{a}_{i}^{\dagger}|0\rangle\) would involve contributions from the dispersive band.  
+in turn allowing one to extract a decay length \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\). This decay length is shown in \cref{fig:dim2-2} for \(i=4\). Recalling \cref{eq:dim1-22,eq:dim1-23}, as \(\kappa\) decreases, the nonlocal dissipation rates \(\gamma_{l}\) increase, leading to a divergence in the decay length as \(\kappa \rightarrow 0\). In this limit, the \(B\) sublattice dissipation rate tends to zero and the dark state \(\sum_{i} (-1)^{i}W_{i}^{\dagger}|0\rangle = \sum_{i}(-1)^{i}\hat{b}_{i}^{\dagger}|0\rangle\) forms. This dark states extends over the entire lattice, hence the divergence in \(\xi\). The limit \(\kappa \rightarrow \infty\), where the \(A\) sublattice dissipation rate tends to zero, is inaccessible with the driving mechanism we use, as the corresponding dark state \(\sum_{i}(-1)^{i}\hat{a}_{i}^{\dagger}|0\rangle\) would involve contributions from the dispersive band.
 
 \subsection{Long range first-order coherences}
 In the coherently driven system the first-order coherence,
@@ -164,24 +164,24 @@ In the coherently driven system the first-order coherence,
 	g^{(1)}(j,l) = \frac{\langle W_{j}^{\dagger}W_{l} \rangle}{\sqrt{\langle W_{j}^{\dagger}W_{j} \rangle \langle W_{l}^{\dagger}W_{l} \rangle}},
 	\label{eq:dim2-5}
 \end{equation}
-is perfectly correlated with \(g^{(1)}(j,l) = (-1)^{|j-l|}\) as the density matrix is a product of coherent states with alternating phases. Long range first-order coherence therefore exists in spite of the exponentially decaying density profile. This is indicative of a condensate whose extension is the decay length \(\xi\) of the spatial density profile. 
+is perfectly correlated with \(g^{(1)}(j,l) = (-1)^{|j-l|}\) as the density matrix is a product of coherent states with alternating phases. Long range first-order coherence therefore exists in spite of the exponentially decaying density profile. This is indicative of a condensate whose extension is the decay length \(\xi\) of the spatial density profile.
 
 In order to check that the coherence we find is not simply inherited from the coherent drive, we replace the coherent drive in the Wannier basis (setting \(\Omega_{W} = 0\)) with an incoherent pump in the site basis of the form,
 \begin{equation}
 	\mathcal{L}_{\mathrm{pump}} = \sum_{i}\left[\frac{P_{A,i}}{2}\left(2\hat{a}_{i}^{\dagger}\rho\hat{a}_{i} - \{\hat{a}_{i}\hat{a}_{i}^{\dagger}, \rho\}\right) + \frac{P_{B,i}}{2}\left(2\hat{b}_{i}^{\dagger}\rho\hat{b}_{i} - \{\hat{b}_{i}\hat{b}_{i}^{\dagger}, \rho\}\right) \right],
 	\label{eq:dim2-6}
 \end{equation}
-where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of the \(x = A,B\) sublattice. In fact we pump only the \(B\) sublattice and, as with the coherent drive, we pump only one site, \(i=0\). This driving scheme leads to the density profile shown in \cref{fig:dim2-1}~(c), which also shows exponential decay. The resulting first-order coherences are shown in \cref{fig:dim2-3}, and we see that the dissipation-induced mobility continues to generate significant coherences, even without coherent input. In the Wannier basis the incoherent drive is still localised around site zero, and so suppresses coherence around \(g^{(1)}(0,l)\). 
+where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of the \(x = A,B\) sublattice. In fact we pump only the \(B\) sublattice and, as with the coherent drive, we pump only one site, \(i=0\). This driving scheme leads to the density profile shown in \cref{fig:dim2-1}~(c), which also shows exponential decay. The resulting first-order coherences are shown in \cref{fig:dim2-3}, and we see that the dissipation-induced mobility continues to generate significant coherences, even without coherent input. In the Wannier basis the incoherent drive is still localized around site zero, and so suppresses coherence around \(g^{(1)}(0,l)\).
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/g1_incoherent_final}
 \caption{\label{fig:dim2-3}Spatial coherences in the steady state \(g^{(1)}(i,j)\) for an incoherent pump at \(i=0\) with \(P_{B,0} = \gamma_{A}/100\) and \(\kappa = 0.1\). These results were again obtained by numerical solution of the Ehrenfest equations (\ref{eq:dim2-2}) and (\ref{eq:dim2-3}).}
 \end{figure}
 
 \subsection{Modeling the decay length of the dissipation-induced mobility}
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_mobility_models}
 \caption{\label{fig:dim2-4}Diagramatic representations of the models we consider to explain dissipation-induced mobility in the non-interacting regime. The central site is pumped with a drive of strength \(\Omega_{W,0}\) and there is a dissipation rate \(\gamma_{0}\) on each site. (a) The single-site diffusion model assumes that only tunneling between neighbouring sites is important. (b) The direct nonlocal dissipative coupling model, where each site is coupled directly to the pumped site (site 0) by a nonlocal dissipation term. (c) The effective drive model consists of a three-site model where the pumped site is not affected by the two remote, coupled, unpumped sites. Reproduced from reference~\cite{Owen2017}.}
 \end{figure}
@@ -197,7 +197,7 @@ where \(N_{i}\) is the excitation density on the site \(i\), \(\partial N_{i} / 
 \end{equation}
 where \(J\) is the hopping rate between adjacent sites. The same equation holds for \(\partial N_{i}/\partial t|_{L}\). The diffusion equation is then,
 \begin{equation}
-	\frac{\partial N_{i}}{\partial t} = J\frac{\Delta x^{2}}{\Delta t}\frac{\partial^{2} N_{i}}{\partial x^{2}} - \Gamma N_{i} + F(x_{i}),	
+	\frac{\partial N_{i}}{\partial t} = J\frac{\Delta x^{2}}{\Delta t}\frac{\partial^{2} N_{i}}{\partial x^{2}} - \Gamma N_{i} + F(x_{i}),
 	\label{eq:dim2-9}
 \end{equation}
 where \(\Delta x^{2}/\Delta \tau\) is a scaled diffusion constant \(D\). Without sources, the steady-state solution of \cref{eq:dim2-9} is,
@@ -215,19 +215,19 @@ If the dissipative coupling can be modelled as a diffusive process, we should be
 which is plotted in \cref{fig:dim2-5}, and clearly has a different form to the decay length extracted from the exact calculation shown in \cref{fig:dim2-2}. Even if we include the direct nonlocal dissipative coupling of the pump site to remote sites as a source term in \cref{eq:dim2-9}, we find the same functional form for \(\Xi(\kappa)\). From this, we conclude that the transport we see cannot be explained by diffusion processes.
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_DiffDecay}
 \caption{\label{fig:dim2-5}Plot of the diffusive decay constant, \(\Xi(\kappa) \propto \sqrt{\gamma_{1}/\gamma_{0}}\) against \(\kappa\).}
 \end{figure}
 
-We next consider which of the nonlocal dissipative processes contribute most significantly to the mobility by comparing the predicted density distributions for two approximate models, to that which we find by numerically solving the exact model. First we consider an approximation in which we neglect the dissipative coupling between sites which are not pumped. Transport between the pumped site \(i=0\) to any other site, \(j\), is therefore mediated solely by the nonlocal dissipative constant \(\gamma_{j}\). This model is shown diagramatically in \cref{fig:dim2-4}~(b). 
+We next consider which of the nonlocal dissipative processes contribute most significantly to the mobility by comparing the predicted density distributions for two approximate models, to that which we find by numerically solving the exact model. First we consider an approximation in which we neglect the dissipative coupling between sites which are not pumped. Transport between the pumped site \(i=0\) to any other site, \(j\), is therefore mediated solely by the nonlocal dissipative constant \(\gamma_{j}\). This model is shown diagramatically in \cref{fig:dim2-4}~(b).
 
 The density distribution can be calculated by solving the Ehrenfest equations \cref{eq:dim2-2,eq:dim2-3} for a two-site system consisting of site zero and site \(j\), where site zero is pumped with a drive strength \(\Omega_{W}\). Doing so yields,
 \begin{align}
 	\langle W_{j}^{\dagger}W_{j} \rangle &= \frac{\gamma_{j}^{2}|\Omega_{W}|^{2}}{4(\gamma_{0}^{2} - \gamma_{j}^{2})^{2}}, \label{eq:dim2-12} \\
 	&\approx \frac{\gamma_{j}^{2}|\Omega_{W}|^{2}}{4\gamma_{0}^{4}}, \label{eq:dim2-13}
 \end{align}
-where we justify the approximation \(\gamma_{0} \gg \gamma_{j}\) by recalling that the Wannier states are exponentially localised. The decay length in this model is then given by,
+where we justify the approximation \(\gamma_{0} \gg \gamma_{j}\) by recalling that the Wannier states are exponentially localized. The decay length in this model is then given by,
 \begin{equation}
 	\xi_{\Omega} \approx \left[ \log_{10}\left(\frac{\gamma_{j+1}^{2}}{\gamma_{j}^{2}}\right)\right]^{-1} \approx 0.38,
 	\label{eq:dim2-14}
@@ -244,7 +244,7 @@ We also assume that the two unpumped sites \(j, j+1\) do not affect the field am
 	\langle W_{0} \rangle \approx \frac{-i\gamma_{0}\Omega_{W}^{*}}{2(\gamma_{0}^{2} - 2\gamma_{1}^{2}},
 	\label{eq:dim2-16}
 \end{equation}
-which we can substitute back in to \cref{eq:dim2-2} in order to solve the the \(i=\{0,j,j+1\}\) model. We find that the pumped site acts as an effective drive for the two-site system with coefficients,
+which we can substitute back in to \cref{eq:dim2-2} in order to solve the \(i=\{0,j,j+1\}\) model. We find that the pumped site acts as an effective drive for the two-site system with coefficients,
 \begin{align}
 	\Omega_{W,j}^{*} &= \frac{\gamma_{0}\gamma_{j}\Omega_{W}^{*}}{\gamma_{0}^{2} - 2\gamma_{1}^{2}}, \label{eq:dim2-17} \\
 	\Omega_{W,j+1}^{*} &= \frac{\gamma_{0}\gamma_{j+1}\Omega_{W}^{*}}{\gamma_{0}^{2} - 2\gamma_{1}^{2}}, \label{eq:dim2-18}
@@ -254,17 +254,17 @@ which we this time substitute in to \cref{eq:dim2-3} to determine the approximat
 	\xi \approx \left[ 2\log_{10}\left(\frac{\gamma_{0}\gamma_{j} - \gamma_{1}\gamma_{j+1}}{\gamma_{1}\gamma_{j} - \gamma_{0}\gamma_{j+1}}\right)\right]^{-1},
 	\label{eq:dim2-19}
 \end{equation}
-which is plotted as the dashed line in \cref{fig:dim2-2}. This approximation works well for a wide range of nonlocal dissipation strengths, but breaks down as \(\kappa \rightarrow 0\). This is due to multiple hopping processes not being included in the model. 
+which is plotted as the dashed line in \cref{fig:dim2-2}. This approximation works well for a wide range of nonlocal dissipation strengths, but breaks down as \(\kappa \rightarrow 0\). This is due to multiple hopping processes not being included in the model.
 
-We conclude that for \(\kappa \approx 1\), where the Wannier states are decoupled, direct dissipative coupling between the pumped site and each other site plays the most significant role. As \(\kappa\) decreases transfer of particles from neighbouring sites plays an increasing role, and as \(\kappa\) decreases further the extent of these significant interactions increases to next-nearest neighbour and beyond. 
+We conclude that for \(\kappa \approx 1\), where the Wannier states are decoupled, direct dissipative coupling between the pumped site and each other site plays the most significant role. As \(\kappa\) decreases transfer of particles from neighbouring sites plays an increasing role, and as \(\kappa\) decreases further the extent of these significant interactions increases to next-nearest neighbour and beyond.
 
 \section{Strongly interacting regime}
 We next consider the interacting regime, which in the Wannier basis results in nonlocal terms, like those in the dissipator. The exact form of the interaction term in the Wannier basis Hamiltonian is given in \cref{eq:dim1-17,eq:dim1-18,eq:dim1-19,eq:dim1-20}. Such nonlocal terms can also result in transport, a phenomenon which has been explored in detail \cite{Huber2010,Tovmasyan2013,Takayoshi2013,Phillips2015,Pudleiner2015}. This is suppressed in the limit of very strong interaction, and so it is this limit we explore in order to explore the effect of dissipation. The very strong interaction limit is also advantageous as it allows us to truncate to the single excitation subspace. To facilitate this truncation we calculated the second-order correlation function for the pumped site \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle\) under the assumption that the pumped site is completely decoupled. This gives an upper bound on the probability that the pumped site, which will always have the highest density, has at least two excitations. This correlation function can be calculated exactly using an approach by Drummond and Walls \cite{Drummond1980,LeBoite2013}, the result of which is plotted in \cref{fig:dim3-1} as a function of \(U_{0}/\Omega_{W,0}\) and \(\gamma_{0}/\Omega_{W,0}\) where \(U_{0} = U_{0,0,0}^{\mathrm{eff},A} + U_{0,0,0}^{\mathrm{eff},B}\). This allows us to select a regime where the double-excitation probability on site zero is much lower than the density on the adjacent sites, \(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0} \rangle < \langle W_{1}^{\dagger}W_{1} \rangle\), validating the truncation to the single-excitation subspace.
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/doubleocc_prob}
-\caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero. Excitations cannot leave the pumped site, so we the second order correlation function gives the maximum possible probability of double occupation.}
+\caption{\label{fig:dim3-1}Second-order correlation function for the pumped site \(\log(\langle W_{0}^{\dagger}W_{0}^{\dagger}W_{0}W_{0}\rangle )\) with coherent and incoherent transfer processes set to zero. Excitations cannot leave the pumped site, so we consider that the second order correlation function gives the maximum possible probability of double occupation.}
 \end{figure}
 
 In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across the lattice, but clearly it is computationally infeasible to include all of them. Therefore we calculated the coefficients \(U^{\mathrm{eff},A}_{j',l',m'}\) and \(U^{\mathrm{eff},B}_{j',l',m'}\) for all Wannier interaction terms in the single-excitation subspace. After doing so, we find the leading order values given in \cref{tab:dim3-1} below. It is clear that interactions on the \(B\) sublattice make a much more significant contribution to interactions in the Wannier basis than those on the \(A\) sublattice. For this reason, we choose \(U_{A} = 0\). Additionally we have applied a cut-off at \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B} < 0.01\) which allows us to truncate nonlocal interactions to an extent of two lattice sites. Finally, to determine the coefficients for implementation we must take in to account multiplicity due to symmetries in \(U^{\mathrm{eff},B}_{j',l',m'}\). There is a fourfold multiplicity in the cross-Kerr interactions with \(\{j',l',m'\} = \{1,1,0\}, \{2,2,0\}\), and a twofold multiplicity in the density-assisted tunneling term with \(\{j',l',m'\} = \{-1,0,1\}\).
@@ -274,7 +274,7 @@ In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across th
 	\begin{tabu}{ll|ll}
 		\\
 		\\
-		\firsthline \hline 
+		\firsthline \hline
 		\(\{j',l',m'\}\) & \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) & \(\{j',l',m'\}\) & \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B}\) \\
 		\hline
 		\{0,0,0\} & 0.028032 & \{0,0,0\} & 0.191937 \\
@@ -288,8 +288,8 @@ In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across th
 
 The Wannier basis interaction term we intend to implement is then given by,
 \begin{align}
-	H_{W,U} \approx &\sum_{i} \left[ 0.192U_{B}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 0.133U_{B}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\ 
-	&\qquad+ 0.054U_{B}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\ 
+	H_{W,U} \approx &\sum_{i} \left[ 0.192U_{B}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 0.133U_{B}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\
+	&\qquad+ 0.054U_{B}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\
 	&\qquad+ \left. 0.023U_{B}\left(W_{i-1}^{\dagger}W_{i}^{\dagger}W_{i}W_{i+1} + W_{i-1}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}\right)\right],
 	\label{eq:dim3-1}
 \end{align}
@@ -304,43 +304,43 @@ Now that we have the complete form of the master equation for the strongly inter
 where we note that we have truncated the nonlocal dissipators to \(l=3\), and where,
 \begin{align}
 	H = &\sum_{i}\left[\Delta W_{i}^{\dagger}W_{i} + \frac{\Omega_{W,i}}{2}W_{i} + \frac{\Omega_{W,i}^{*}}{2}W_{i}^{\dagger}\right] \notag \\
-	&+ \sum_{i}\left[ U^{\mathrm{eff},B}_{0,0,0}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 4U^{\mathrm{eff},B}_{1,1,0}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\ 
-	&+ 4U^{\mathrm{eff},B}_{2,2,0}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\ 
+	&+ \sum_{i}\left[ U^{\mathrm{eff},B}_{0,0,0}W_{i}^{\dagger}W_{i}^{\dagger}W_{i}W_{i} + 4U^{\mathrm{eff},B}_{1,1,0}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}W_{i+1} \right. \notag \\
+	&+ 4U^{\mathrm{eff},B}_{2,2,0}W_{i}^{\dagger}W_{i}W_{i+2}^{\dagger}W_{i+2} \notag \\
 	&+ \left.2U^{\mathrm{eff},B}_{-1,0,1}\left(W_{i-1}^{\dagger}W_{i}^{\dagger}W_{i}W_{i+1} + W_{i-1}W_{i}^{\dagger}W_{i}W_{i+1}^{\dagger}\right) \right],
 	\label{eq:dim3-3}
 \end{align}
-which, as a consequence of the nonlocal terms in both the Hamiltonian and the dissipator, is highly non-trivial to represent as an MPO. Designing the MPO for this system, as well as writing the variational stationary state code, was my most significant contribution to this publication. 
+which, as a consequence of the nonlocal terms in both the Hamiltonian and the dissipator, is highly non-trivial to represent as an MPO. Designing the MPO for this system, as well as writing the variational stationary state code, was my most significant contribution to this publication.
 
 To begin the process of designing the MPO we recall that we in fact require an MPO representation of the Liouvillian matrix,
 \begin{align}
-	\mathcal{L} = &\mathbb{I} \otimes -iH + iH^{T} \otimes \mathbb{I} \notag \\ 
+	\mathcal{L} = &\mathbb{I} \otimes -iH + iH^{T} \otimes \mathbb{I} \notag \\
 	&+ \frac{1}{2}\sum_{j,l=-3}^{l=3}\gamma_{l}\left[ W_{j+l}^{*} \otimes 2W_{j} - \mathbb{I} \otimes W_{j+l}^{\dagger}W_{j} - W_{j}^{T}W_{j+l}^{*} \otimes \mathbb{I} \right],
 	\label{eq:dim3-4}
 \end{align}
 which contains 22 unique operator combinations which must be accounted for. Here we have used the relation \((AB)^{T} = B^{T}A^{T})\), and since the operator \(W_{j}\) is a normal bosonic creation operator we expect it to be real, and therefore \(W^{T} = W^{\dagger}\) and \(W^{*} = W\).
 
-The bulk-site matrix product operator is stated in full in \cref{tab:dim3-2} in \cref{chp:dimmpo}. The MPO had a virtual dimension of \(27 \times 27\) for the representation of \(\mathcal{L}\), and hence \(729 \times 729\) for \(\mathcal{L}^{\dagger}\mathcal{L}\) which proved more effective in spite of the additional computational effort. In part the large size was due to the inclusion of interaction terms with \(\{j',l',m'\} = \{2,1,0\}\), which appear in the leading order values for \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) in \cref{tab:dim3-1}, and were close to appearing in the \(B\) sublattice coefficients, with \(U^{\mathrm{eff},B}_{2,1,0} / U_{B} = 0.009605\). It was therefore included in some initial calculations to check that both setting \(U_{A} = 0\), and neglecting \(U^{\mathrm{eff},B}_{2,1,0}\) did not have a significant effect on the results. These terms inclusion created an additional 8 unique operator combinations, which were later excluded simply by setting \(U_{A} = U^{\mathrm{eff,B}}_{2,1,0} = 0\) rather than modifying the form of the MPO. The correctness of the MPO was tested by comparing results from exact calculations and variational searches on a small system.
+The bulk-site matrix product operator is stated in full in \cref{tab:dim3-2} in \cref{chp:dimmpo}. The MPO had a virtual dimension of \(27 \times 27\) for the representation of \(\mathcal{L}\), and hence \(729 \times 729\) for \(\mathcal{L}^{\dagger}\mathcal{L}\) which proved more effective in spite of the additional computational effort. In part the large size was due to the inclusion of interaction terms with \(\{j',l',m'\} = \{2,1,0\}\), which appear in the leading order values for \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) in \cref{tab:dim3-1}, and were close to appearing in the \(B\) sublattice coefficients, with \(U^{\mathrm{eff},B}_{2,1,0} / U_{B} = 0.009605\). It was therefore included in some initial calculations to check that both setting \(U_{A} = 0\), and neglecting \(U^{\mathrm{eff},B}_{2,1,0}\) did not have a significant effect on the results. These terms' inclusion created an additional 8 unique operator combinations, which were later excluded simply by setting \(U_{A} = U^{\mathrm{eff,B}}_{2,1,0} = 0\) rather than modifying the form of the MPO. The correctness of the MPO was tested by comparing results from exact calculations and variational searches on a small system.
 
 \subsection{Density and coherence}
 Having designed and tested the MPO we were able to begin using the \lstinline$mpostat$ code to find the stationary state. It is worth remarking that these calculations were performed in late 2016, and consequently performed using a much earlier version of the code. Notably the approach, due to Mascarenhas \cite{Mascarenhas2015}, of beginning with some very small matrix dimension \(\chi\) and steadily increasing it while decreasing the convergence threshold had yet to be implemented. This is now precisely what the top-level function \lstinline$PhasedSearch$ does, but at the time we had to make do with simply setting the matrix dimensions large enough. I do not doubt the veracity of these results -- testing has existed in \lstinline$mpostat$ for as long as a working version has, but I suspect that the current version of the code would make lighter work of these calculations.
 
-The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a system driven on site \(i=0\) with drive amplitude \(\Omega_{W,0} = \gamma_{A} = 1\), and \(\kappa = \gamma_{B}/\gamma_{A} = 0.2\), for three different values of the nearest neighbour cross-Kerr interaction strength \(U_{1} \approx 0.133U_{B}\). In contrast to results from the non-interacting regime, the density distribution does not decay exponentially away from the pumped site. This means we can no longer consider the density decay length, so to study how interactions affect the dissipation-induced mobility we now instead use the fraction of excitations in the unpumped Wannier states as the figure of merit. This value, \(f = (\sum_{i \neq 0} N_{i}) / (\sum_{i} N_{i})\) is shown in \cref{fig:dim3-2}~(b) as a function of \(\kappa\), again for a range of \(U_{1}\) values. We find that for some fixed \(\kappa\) mobility decreases with increasing interaction strength, which we attribute to the cross-Kerr interactions which shift the energy of the neighbouring site, detuning the nonlocal dissipative transition and preventing transport between sites. We find that the density assisted tunneling term is insignificant, as removing it from the calculation leads to a variation in \(f\) only of order \(10^{-2}\). It is also clear from \cref{fig:dim3-2}~(b) that the dependence of mobility on the cross-Kerr interaction strength \(U_{1}\) is significantly weaker than its dependence on \(\kappa\). This indicates that nonlocal dissipation is the dominant contributor in the steady state of the system in the strongly-interacting limit. 
+The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a system driven on site \(i=0\) with drive amplitude \(\Omega_{W,0} = \gamma_{A} = 1\), and \(\kappa = \gamma_{B}/\gamma_{A} = 0.2\), for three different values of the nearest neighbour cross-Kerr interaction strength \(U_{1} \approx 0.133U_{B}\). In contrast to results from the non-interacting regime, the density distribution does not decay exponentially away from the pumped site. This means we can no longer consider the density decay length, so to study how interactions affect the dissipation-induced mobility we now instead use the fraction of excitations in the unpumped Wannier states as the figure of merit. This value, \(f = (\sum_{i \neq 0} N_{i}) / (\sum_{i} N_{i})\) is shown in \cref{fig:dim3-2}~(b) as a function of \(\kappa\), again for a range of \(U_{1}\) values. We find that for some fixed \(\kappa\) mobility decreases with increasing interaction strength, which we attribute to the cross-Kerr interactions which shift the energy of the neighbouring site, detuning the nonlocal dissipative transition and preventing transport between sites. We find that the density assisted tunneling term is insignificant, as removing it from the calculation leads to a variation in \(f\) only of order \(10^{-2}\). It is also clear from \cref{fig:dim3-2}~(b) that the dependence of mobility on the cross-Kerr interaction strength \(U_{1}\) is significantly weaker than its dependence on \(\kappa\). This indicates that nonlocal dissipation is the dominant contributor in the steady state of the system in the strongly interacting limit.
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/DIM_interDensity}
-\caption{\label{fig:dim3-2}(a) Normalized steady-state density of excitations in the Wannier basis for the ineracting regime and a single driven Wannier state at \(i=0, \Omega_{W,0} = \gamma_{A},\) and \(\kappa = 0.2\) [c.f. \cref{fig:dim2-1}~(a)]. (b) Fraction of excitations not on the pumped site \(f\) as a function of the dissipation rate assymetry ratio \(\kappa\) for an interacting system with a cross-Kerr interaction strength \(U_{1}\).}
+\caption{\label{fig:dim3-2}(a) Normalized steady-state density of excitations in the Wannier basis for the interacting regime and a single driven Wannier state at \(i=0, \Omega_{W,0} = \gamma_{A},\) and \(\kappa = 0.2\) [c.f. \cref{fig:dim2-1}~(a)]. (b) Fraction of excitations not on the pumped site \(f\) as a function of the dissipation rate asymmetry ratio \(\kappa\) for an interacting system with a cross-Kerr interaction strength \(U_{1}\).}
 \end{figure}
 
-Finally, we considered first-order coherence in the strongly-interacting regime. \Cref{fig:dim3-3} shows that, similarly to \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first-order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to noninteracting systems.
+Finally, we considered first-order coherence in the strongly interacting regime. \Cref{fig:dim3-3} shows that, similarly to \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first-order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to non-interacting systems.
 
 \begin{figure}[ht!]
-\centering 
+\centering
 \includegraphics[width=0.8\linewidth]{\figpath/g1_quantum_final}
 \caption{\label{fig:dim3-3}Spatial coherences in the steady state, \(g^{(1)}(j,l)\) for a coherent drive at \(i=0\) with \(\Omega_{W} = \gamma_{A}\) and \(\kappa = 0.1\), in the strongly interacting regime with \(U_{1} = 100\).}
 \end{figure}
 
 \section{Conclusions}
-Our results show that local Markovian dissipation can induce mobility and long range coherence in frustrated lattice systems in the absence of kinetic energy. This effect could be experimentally realised in any driven-dissipative lattice with a flat band, for example, a photonic waveguide lattice \cite{Mukherjee2015}. In such a system couplings between sites can be engineered to realise a flat-band system where defects and disorder are low enough to not affect lattice excitation dynamics. Neighbouring waveguides can be used to simulate local Markovian baths with a strong degree of control over the environmental dynamics, as has been recently demonstrated \cite{Mukherjee2017}. An imbalance in the dissipation rates of \(A\) and \(B\) sublattices could be engineered via Purcell enhancements. An interesting extension to this work would be to study the effect dynamically, rather than in the steady state. Varying the imbalance in dissipation rates, \(\kappa\), would change the rate at which a localised excitation would disperse across the lattice. Again, photonic waveguide lattices would be well-suited for such an experiment \cite{Mukherjee2015}. 
+Our results show that local Markovian dissipation can induce mobility and long range coherence in frustrated lattice systems in the absence of kinetic energy. This effect could be experimentally realised in any driven-dissipative lattice with a flat band, for example, a photonic waveguide lattice \cite{Mukherjee2015}. In such a system, couplings between sites can be engineered to realise a flat-band system where defects and disorder are low enough to not affect lattice excitation dynamics. Neighbouring waveguides can be used to simulate local Markovian baths with a strong degree of control over the environmental dynamics, as has been recently demonstrated \cite{Mukherjee2017}. An imbalance in the dissipation rates of \(A\) and \(B\) sublattices could be engineered via Purcell enhancements. An interesting extension to this work would be to study the effect dynamically, rather than in the steady state. Varying the imbalance in dissipation rates, \(\kappa\), would change the rate at which a localized excitation would disperse across the lattice. Again, photonic waveguide lattices would be well-suited for such an experiment \cite{Mukherjee2015}.
 
-This research represented the first real test of the \lstinline$mpostat$ code, and although not as well optimised as it is now, performance was adequate. The nonlocal terms in the model made this system challenging, but also well suited to the variational search technique. It would have been difficult to use time-evolving block decimation for example, as this relies on multi-site gates covering the extent of the interactions.
+This research represented the first real test of the \lstinline$mpostat$ code, and although not as well optimised as it is now, performance was adequate. The nonlocal terms in the model made this system challenging, but also well-suited to the variational search technique. It would have been difficult to use time-evolving block decimation for example, as this relies on multi-site gates covering the extent of the interactions.
