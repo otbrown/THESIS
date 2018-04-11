@@ -10,8 +10,7 @@
 \usepackage{amsmath}						
 \usepackage{amssymb}						
 \usepackage{graphicx}
-\usepackage{subfig}					
-%\usepackage{hyperref}					
+\usepackage{subfig}										
 \usepackage{cleveref}					
 \usepackage[section]{placeins}	
 \usepackage{listings}
@@ -26,6 +25,10 @@
 
 % set reference section title
 \renewcommand\bibname{References}
+
+% set subcaption crossref style
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+    \renewcommand\thesubfigure{ (\alph{subfigure})}
 
 \spacing{1.25}
 
