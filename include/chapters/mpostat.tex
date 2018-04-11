@@ -41,7 +41,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix productor operator in the standard format. Created by making the first element in every matrix \(A^{[n]}_{i,j}\) one, with the rest all zeroes. The DMPO is then trace normalised.  \\ \hline
+ \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix productor operator in the standard format. Created by making the first element in every matrix \(A^{[n]}_{i,j}\) one, with the rest all zeros. The DMPO is then trace normalised.  \\ \hline
  Input & \\ \hline
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
  \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer, greater than 1. \\
@@ -419,11 +419,11 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$bits$ & \emph{\lstinline$WIDTH$ \(\times 1\) double array}. Contains the big-endian, base \lstinline$BASE$ representation of \lstinline$n$. Will be padded with zeroes to ensure it reaches \lstinline$WIDTH$. \\ \hline
+ \lstinline$bits$ & \emph{\lstinline$WIDTH$ \(\times 1\) double array}. Contains the big-endian, base \lstinline$BASE$ representation of \lstinline$n$. Will be padded with zeros to ensure it reaches \lstinline$WIDTH$. \\ \hline
  Input & \\ \hline
  \lstinline$n$ & \emph{Double}. A decimal number. Should be a positive integer, if it is not, an error will be thrown. \\
  \lstinline$BASE$ & \emph{Double}. The base into which \lstinline$n$ should be converted. Should be a positive integer. \\
- \lstinline$WIDTH$ & \emph{Double}. The size of the bit string required. If it is longer than necessary for the chosen \lstinline$n$ and \lstinline$BASE$, it will be padded with leading zeroes. If it is not large enough, an error will be thrown. \\
+ \lstinline$WIDTH$ & \emph{Double}. The size of the bit string required. If it is longer than necessary for the chosen \lstinline$n$ and \lstinline$BASE$, it will be padded with leading zeros. If it is not large enough, an error will be thrown. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$FWBaseTest$. Checks that errors are thrown correctly, and that the right size arrays are created. Checks that decimal numbers are converted correctly.
