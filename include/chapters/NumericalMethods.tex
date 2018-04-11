@@ -69,7 +69,7 @@ In this chapter we consider the numerical methods I have used to study the dynam
  	&\qquad - J \mathbb{I}\sigma^{z}\sigma^{z} - h \mathbb{I}\mathbb{I}\sigma^{z},
  	\label{eq:mpo1-5}
  \end{align}
- which is indeed correct. How exactly the physical and virtual dimensions are arranged after this point is an implementation detail, which we need not concern ourselves with at the design stage. It should be noted that this formulation is not unique, but we have chosen certain conventions, such as scalar coefficients being included in the `leading' terms, and making use of the bottom row and first column in the bulk MPO. Obviously, more complex Hamiltonians require more complex MPOs -- in particular moving beyond nearest-neighbour coupling requires making use of the inner space in the bulk MPO, and the creation of `passing lanes' in the main row and column. We defer further discussion of that until later when we discuss reference~\cite{Owen2017}, which relied heavily on such techniques.
+ which is indeed correct. How exactly the physical and virtual dimensions are arranged after this point is an implementation detail, which we need not concern ourselves with at the design stage. It should be noted that this formulation is not unique, but we have chosen certain conventions, such as scalar coefficients being included in the `leading' terms, and making use of the bottom row and first column in the bulk MPO. Obviously, more complex Hamiltonians require more complex MPOs -- in particular moving beyond nearest neighbour coupling requires making use of the inner space in the bulk MPO, and the creation of `passing lanes' in the main row and column. We defer further discussion of that until later when we discuss reference~\cite{Owen2017}, which relied heavily on such techniques.
 
  We will now briefly discuss the additional complexity involved in creating an MPO for a Liouvillian, as this is directly useful for the variational stationary state code presented later. Firstly, we note that \(|\rho (\mathbf{x}) \rangle \rangle\) denotes the density matrix vectorised according to the isomorphism,
 \begin{align}
@@ -240,7 +240,7 @@ Having performed the full update and renormalisation procedure on the first site
 \section{Time evolution}
 Although the code written by myself implements the variational stationary state search, results included in this thesis were calculated using time evolution \cite{Brown2018}. As such, we will briefly discuss how a matrix product state can be time evolved, specifically using the time evolving block decimation (TEBD) method due to Vidal \cite{Vidal2003}.
 
-First of all note that in TEBD we do not use an MPO, but instead split the Hamiltonian into commuting terms. For the sake of this explanation, we shall assume that the Hamiltonian only has nearest-neighbour interactions, and can therefore be written as a sum of terms on odd and even sites,
+First of all note that in TEBD we do not use an MPO, but instead split the Hamiltonian into commuting terms. For the sake of this explanation, we shall assume that the Hamiltonian only has nearest neighbour interactions, and can therefore be written as a sum of terms on odd and even sites,
 \begin{equation}
 	\mathcal{H} = \mathcal{H}_{\mathrm{odd}} + \mathcal{H}_{\mathrm{even}},
 	\label{eq:te1}
