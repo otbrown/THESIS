@@ -7,12 +7,12 @@ In the reference frame, the Hamiltonian for a driven nonlinear cavity is,
 	\mathcal{H}_{\mathrm{ref}} = \omega\hat{a}^{\dagger}\hat{a} + \frac{U}{2}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \Omega_{\uparrow}\hat{a}^{\dagger}\hat{a}^{\dagger} + \Omega_{\downarrow}\hat{a}\hat{a},
 	\label{eq:rot1}
 \end{align}
-where, 
+where,
 \begin{align}
 	\Omega_{\downarrow} &= \frac{1}{\sqrt{2}} \left( \Omega^{*}\mathrm{e}^{i\omega_{L}t} + \tilde{\Omega}^{*}\mathrm{e}^{-i\omega_{L}t} \right), \label{eq:rot2} \\
 	\Omega_{\uparrow} &= \frac{1}{\sqrt{2}} \left(\Omega\mathrm{e}^{-i\omega_{L}t} + \tilde{\Omega}\mathrm{e}^{i\omega_{L}t}\right), \label{eq:rot3}
 \end{align}
-\(\omega\) is the cavity frequency, \(U\) is the interaction strength, \(\omega_{L}\) is the frequency of the drive laser, and \(\hbar = 1\). The drive amplitudes, \(\Omega\) and \(\tilde{\Omega}\), are derived by treating the two relevant energy levels as a dipole undergoing oscillations driven by an electromagnetic field \cite{Fox_Omega}. Our aim is to transform this in to a rotating frame such that the time dependence of the drive terms is eliminated from the Hamiltonian. 
+\(\omega\) is the cavity frequency, \(U\) is the interaction strength, \(\omega_{L}\) is the frequency of the drive laser, and \(\hbar = 1\). The drive amplitudes, \(\Omega\) and \(\tilde{\Omega}\), are derived by treating the two relevant energy levels as a dipole undergoing oscillations driven by an electromagnetic field \cite{Fox_Omega}. Our aim is to transform this in to a rotating frame such that the time dependence of the drive terms is eliminated from the Hamiltonian.
 
 To achieve this the frame must rotate at the frequency of the driving laser. The appropriate transformation is,
 \begin{equation}
@@ -31,7 +31,7 @@ Considering for now just the first term in \cref{eq:rot4} we have,
 	  \hat{V}^{\dagger}\mathcal{H}_{\mathrm{ref}}\hat{V} &= \hat{V}^{\dagger}\left(  \omega\hat{a}^{\dagger}\hat{a} + \frac{U}{2}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \Omega_{\uparrow}\hat{a}^{\dagger}\hat{a}^{\dagger} + \Omega_{\downarrow}\hat{a}\hat{a}, \right)\hat{V}, \notag \\
 	  &= \omega\hat{V}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{V} + \frac{U}{2}\hat{V}^{\dagger}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a}\hat{V} + \Omega_{\uparrow}\hat{V}^{\dagger}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{V} + \Omega_{\downarrow}\hat{V}^{\dagger}\hat{a}\hat{a}\hat{V},
 	  \label{eq:rot7}
-\end{align}	
+\end{align}
 where we will again choose to consider each term separately. In order to do so we must make use of the following relation,
 \begin{equation}
 	\mathrm{e}^{\xi B}A\mathrm{e}^{-\xi B} = A + \sum_{n=1}^{\infty} \frac{\xi^{n}}{n!}\left[B,A\right]_{n},
@@ -52,7 +52,7 @@ which implies that,
 	\hat{a}\hat{a}^{\dagger} &= \hat{a}^{\dagger}\hat{a} + \mathbb{I}, \label{eq:rot11} \\
 	\hat{a}^{\dagger}\hat{a} &= \hat{a}\hat{a}^{\dagger} - \mathbb{I}, \label{eq:rot12}
 \end{align}
-which is helpful for reordering operator chains. 
+which is helpful for reordering operator chains.
 
 Returning then to the first term in \cref{eq:rot7} we find that,
 \begin{align}
@@ -65,16 +65,16 @@ since \(\hat{a}^{\dagger}\hat{a}\) trivially commutes with itself, and we note t
 	\frac{U}{2}\hat{V}^{\dagger}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a}\hat{V} &= \frac{U}{2} \left( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}, \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a}\right] + \mathcal{O}(\omega^{2}t^{2}) \right), \notag \\
 	&= \frac{U}{2}\left( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a}\hat{a}^{\dagger}\hat{a} \right] + \mathcal{O}(\omega^{2}t^{2}) \right), \notag \\
 	&= \frac{U}{2}\left( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}(\hat{a}\hat{a}^{\dagger} - \mathbb{I})\hat{a}\hat{a}^{\dagger}\hat{a} \right] + \mathcal{O}(\omega^{2}t^{2}) \right), \notag \\
-	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\ 
+	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\
 	&\qquad + \mathcal{O}(\omega^{2}t^{2}) \biggr), \notag \\
-	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}(\hat{a}^{\dagger}\hat{a} + \mathbb{I})\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\ 
+	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}(\hat{a}^{\dagger}\hat{a} + \mathbb{I})\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\
 	&\qquad + \mathcal{O}(\omega^{2}t^{2}) \biggr), \notag \\
-	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\ 
+	&= \frac{U}{2}\biggl( \hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} + \frac{i\omega_{L}t}{2}\left[\hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a} - \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} + \hat{a}^{\dagger}\hat{a}\hat{a}^{\dagger}\hat{a} \right] \notag \\
 	&\qquad + \mathcal{O}(\omega^{2}t^{2}) \biggr), \notag \\
 	&= \frac{U}{2}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{a}\hat{a},
 	\label{eq:rot14}
 \end{align}
-so like the on-site energy, the interaction term commutes with rotation operator. We now consider the coherent driving terms beginning with \(\Omega_{\uparrow}\). Using \cref{eq:rot8} we have that,
+so like the on-site energy, the interaction term commutes with the rotation operator. We now consider the coherent driving terms beginning with \(\Omega_{\uparrow}\). Using \cref{eq:rot8} we have that,
 \begin{equation}
 	\Omega_{\uparrow}\hat{V}^{\dagger}\hat{a}^{\dagger}\hat{a}^{\dagger}\hat{V} = \Omega_{\uparrow}\left(\hat{a}^{\dagger}\hat{a}^{\dagger} + \sum_{n=1}^{\infty} \frac{(i\omega_{L}t)^{n}}{2^{n}n!}[\hat{a}^{\dagger}\hat{a}, \hat{a}^{\dagger}\hat{a}^{\dagger}]_{n}\right),
 	\label{eq:rot15}
@@ -144,7 +144,7 @@ where \(J\) is the hopping rate between sites. The rotating frame Hamiltonian is
 where \(\mathcal{H}_{\mathrm{RF},J}\) is the rotating frame hopping term we have yet to find. It is determined using the same procedure as the local terms so,
 \begin{align}
 	\mathcal{H}_{\mathrm{RF},J} &= -J\hat{V}^{\dagger}\left(\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right)\hat{V}, \notag \\
-	&= -J\biggl(\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\ 
+	&= -J\biggl(\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
 	&\qquad + \sum_{n=1}^{\infty} \frac{(i\omega_{L}t)}{2^{n}n!} \left[\hat{a}_{j}^{\dagger}\hat{a}_{j} + \hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}, \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right]_{n}\biggr),
 	\label{eq:rot25}
 \end{align}
@@ -155,22 +155,22 @@ where we note that the only difference to the transform operator is that there i
 \end{equation}
 so that the operators commute unless they are acting on the same site \((j=k)\), in which case the standard relations \cref{eq:rot10,eq:rot11,eq:rot12} apply. With this in mind, we will investigate the first order commutator,
 \begin{align}
-	 &\left[\hat{a}_{j}^{\dagger}\hat{a}_{j} + \hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}, \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right] \notag \\ 
+	 &\left[\hat{a}_{j}^{\dagger}\hat{a}_{j} + \hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}, \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right] \notag \\
 	 &\quad= \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
 	 &\qquad + \hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
 	 &\qquad - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}\hat{a}_{j}^{\dagger}\hat{a}_{j} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1} \notag \\
 	 &\qquad - \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j}^{\dagger}\hat{a}_{j} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}, \notag \\
 	 &\quad= \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
-	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1} \notag \\ 
+	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}, \notag \\
 	 &\quad= \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}(\hat{a}_{j}\hat{a}_{j}^{\dagger} - \mathbb{I})\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} - (\hat{a}_{j}^{\dagger}\hat{a}_{j} + \mathbb{I})\hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
-	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}(\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1} + \mathbb{I})\hat{a}_{j+1} \notag \\ 
+	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}(\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1} + \mathbb{I})\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger}(\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger} - \mathbb{I}), \notag \\
 	 &\quad= \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}^{\dagger}\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}^{\dagger}\hat{a}_{j}\hat{a}_{j}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger} \notag \\
-	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1} \notag \\ 
+	 &\qquad + \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1} \notag \\
 	 &\qquad + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\hat{a}_{j+1}\hat{a}_{j+1}^{\dagger} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}, \notag \\
 	 &\quad= \hat{a}_{j}^{\dagger}\hat{a}_{j+1} - \hat{a}_{j}\hat{a}_{j+1}^{\dagger} - \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}, \notag \\
 	 &\quad= 0,
