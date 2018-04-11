@@ -1,13 +1,13 @@
-In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad fields, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by the word `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will introduce the driven-dissipative Bose-Hubbard model, and physically motivate its terms in two relevant settings, in order to make later chapters more transparent. Then we will discuss what is meant by `open' quantum systems, and how the dynamics of such a system are calculated. Finally we shall discuss how to reformulate these dynamics as a system of coupled linear equations.  
+In this chapter we will consider some of the theoretical background of many-body and open quantum systems. These are rather broad fields, so we shall focus in particular on aspects that are relevant to the research presented later in this thesis. We will begin by considering what is meant by the word `many' in many-body quantum systems, and why this presents such a challenge to physicists. We will introduce the driven-dissipative Bose-Hubbard model, and physically motivate its terms in two relevant settings, in order to make later chapters more transparent. Then we will discuss what is meant by `open' quantum systems, and how the dynamics of such a system are calculated. Finally we shall discuss how to reformulate these dynamics as a system of coupled linear equations.
 
 \section{Many-body quantum physics}
 
 \subsection{How many?}
-Quantum physics has a problem. More than one actually, but the reader may safely assume that the author considers musing on the interpretation of quantum mechanics to be far above his pay-grade, and that he belongs to the ``Shut up and calculate!'' school of thought \cite{Mermin1989}. What hardship then, does quantum mechanics present to those of us interested only in crunching numbers and getting results? 
+Quantum physics has a problem. More than one actually, but the reader may safely assume that the author considers musing on the interpretation of quantum mechanics to be far above his pay-grade, and that he belongs to the ``Shut up and calculate!'' school of thought \cite{Mermin1989}. What hardship then, does quantum mechanics present to those of us interested only in crunching numbers and getting results?
 
-To answer that, let us first step back and consider a classical system. Consider some system of \(N\) components, each of which can be in one of two possible states. In total there are \(2^{N}\) possible configurations of the system, each of which can be \emph{completely} described by an \(N\)-bit string. Furthermore, if we increase \(N\) to \(N+m\), we only need to add \(m\) bits. Even if we change to a system where there are three possible states of each component, although the total state space increases in size to \(3^{N}\), since the system must exist in \emph{one and only one} of those configurations, we can still efficiently represent the system with just \(N\) bits. Mathematical representations of many-body classical systems scale linearly with the size of the system (the number of `bodies'). This does not mean that classical many-body problems are \emph{easy}, just that they get harder only in proportion to the size of the system.  
+To answer that, let us first step back and consider a classical system. Consider some system of \(N\) components, each of which can be in one of two possible states. In total there are \(2^{N}\) possible configurations of the system, each of which can be \emph{completely} described by an \(N\)-bit string. Furthermore, if we increase \(N\) to \(N+m\), we only need to add \(m\) bits. Even if we change to a system where there are three possible states of each component, although the total state space increases in size to \(3^{N}\), since the system must exist in \emph{one and only one} of those configurations, we can still efficiently represent the system with just \(N\) bits. Mathematical representations of many-body classical systems scale linearly with the size of the system (the number of `bodies'). This does not mean that classical many-body problems are \emph{easy}, just that they get harder only in proportion to the size of the system.
 
-Enter quantum mechanics. We may again consider a system of \(N\) components, each of which can be in one of two possible states, meaning there are \(2^{N}\) possible configurations -- so far, so good. However, there is a fundamental principle of quantum mechanics -- the Superposition principle -- that says that if a system may be in one of two states, which we shall label \(|0 \rangle\) and \(|1\rangle\), then it may also be in the state,
+Enter quantum mechanics. We may again consider a system of \(N\) components, each of which can be in one of two possible states, meaning there are \(2^{N}\) possible configurations -- so far, so good. However, there is a fundamental principle of quantum mechanics -- the superposition principle -- that says that if a system may be in one of two states, which we shall label \(|0 \rangle\) and \(|1\rangle\), then it may also be in the state,
 \begin{equation}
 	| \psi \rangle = \alpha |0\rangle + \beta |1\rangle,
 	\label{eq:mbq1-1}
@@ -20,8 +20,8 @@ where \(\alpha\) and \(\beta\) are complex coefficients. This means that we must
 					\end{pmatrix},
 	\label{eq:mbq1-2}
 \end{equation}
-where we have arbitrarily chosen a convention that the first element corresponds to \(|0\rangle\), and the second to \(|1\rangle\). Nevertheless, if all that is required to transition to the quantum regime is to replace \(N\) integers to \(2N\) complex floats, this is not so bad. Unfortunately, the superposition principle applies equally to the composite system. Taking \(N=3\), if \(|\Psi\rangle = |000\rangle\) and \(|\Psi\rangle = |111\rangle\) are valid configurations, so is 
-\begin{equation}  
+where we have arbitrarily chosen a convention that the first element corresponds to \(|0\rangle\), and the second to \(|1\rangle\). Nevertheless, if all that is required to transition to the quantum regime is to replace \(N\) integers to \(2N\) complex floats, this is not so bad. Unfortunately, the superposition principle applies equally to the composite system. Taking \(N=3\), if \(|\Psi\rangle = |000\rangle\) and \(|\Psi\rangle = |111\rangle\) are valid configurations, so is
+\begin{equation}
 	| \Psi \rangle = c_{000}|000 \rangle + c_{111}| 111 \rangle,
 	\label{eq:mbq1-3}
 \end{equation}
@@ -32,7 +32,7 @@ where \(c_{000}\) and \(c_{111}\) are again complex coefficients. In fact, any a
 \end{equation}
 is a valid state, so we must use a vector of 8 complex values to describe the state. More generally, if we have some system of \(N\) quantum components, each of which may be in any combination of \(d\) local states, we require a state vector of \(d^{N}\) complex elements. The representation of the system grows \emph{exponentially} with its size. This scaling problem is the crux of many-body quantum physics \cite{Barnett_MS,NielsenChuang_CS}. To compound the issue, it is also clear that the properties of a many-body system are unlikely to be well predicted by single- or even few-body systems -- it has long been understood that in nature ``more is different'' \cite{Anderson1972}.
 
-\Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the matrix product state technique, described in detail in the next chapter, was designed to defeat. 
+\Cref{tab:mbq1-1} provides some examples of how different objects scale in a system with \(d\) local states, and \(N\) sites. The Hamiltonian is an operator which provides an energy description of a quantum system, and generates unitary (non-dissipative) dynamics, but in fact any operator which acts on the many-body quantum state vector will have the same size. The Liouvillian describes the non-unitary dynamics of a quantum system, and is typically written as a super-operator acting on the density matrix, \(\rho\). In order to solve it numerically we re-write it as a system of linear equations acting on the vectorised density matrix, \(|\rho\rangle\rangle\). Since we are primarily interested in stationary states of dissipative systems -- given by solving \(\hat{L}|\rho_{\mathrm{SS}}\rangle\rangle = 0\) -- it is this \(d^{4N}\) element matrix which concerns us the most. It is precisely this very poor exponential scaling that the matrix product state technique, described in detail in the next chapter, was designed to defeat.
 
 \begin{table}[ht!]
 	\centering
@@ -41,7 +41,7 @@ is a valid state, so we must use a vector of 8 complex values to describe the st
 		Object & Symbol & Size \\
 		\hline
 		State Vector & \(|\Psi\rangle\) & \(d^{N} \times 1\) \\
-		Hamiiltonian & \(\hat{H}\) & \(d^{N} \times d^{N}\) \\
+		Hamiltonian & \(\hat{H}\) & \(d^{N} \times d^{N}\) \\
 		Density Matrix & \(\rho\) & \(d^{N} \times d^{N}\) \\
 		Vectorised Density Matrix & \(|\rho \rangle\rangle\) & \(d^{2N} \times 1\) \\
 		Liouvillian Matrix & \(\hat{L}\) & \(d^{2N} \times d^{2N}\)
@@ -94,16 +94,16 @@ In fact whether the physical origin of the photon loss is absorption or scatteri
 \end{equation}
 where \(p\) is the fraction of initial power remaining in the cavity after one round trip \cite{Siegman_chp11}. This measure includes loss from all possible sources, and can be exceedingly high in optical microcavities (\(>200\) million \cite{Yang2017}). This is important, as it allows us to reasonably neglect these losses \emph{which we cannot control}. Dissipation which we \emph{can} control is introduced through the Purcell effect.
 
-First presented to the American Physical Society by Edward Purcell in 1946 \cite{Purcell1946}, the Purcell effect is the phenomenon in which spontaneous emission is enhanced (or suppressed) by the presence of a resonant cavity \cite{Fox_Purcell}. The \emph{Purcell factor} is the ratio of spontaneous emission rate in the presence of a cavity to the original rate, so a purcell factor greater than one implies an enhancement to the spontaneous emission rate. The Purcell factor is proportional to the Q factor of the cavity, and inversely proportional to its modal volume, so smaller cavities with higher Q factors generate larger Purcell factors. In sum, this means that we can \emph{in principle} envision systems in which we are able to tune the dissipation rate on specific transitions -- a key feature of the system we investigate in reference~\cite{Brown2018}. Naturally fabrication of such a device while possible \cite{Gerard1998}, is undoubtedly challenging.
+First presented to the American Physical Society by Edward Purcell in 1946 \cite{Purcell1946}, the Purcell effect is the phenomenon in which spontaneous emission is enhanced (or suppressed) by the presence of a resonant cavity \cite{Fox_Purcell}. The \emph{Purcell factor} is the ratio of spontaneous emission rate in the presence of a cavity to the original rate, so a Purcell factor greater than one implies an enhancement to the spontaneous emission rate. The Purcell factor is proportional to the Q factor of the cavity, and inversely proportional to its modal volume, so smaller cavities with higher Q factors generate larger Purcell factors. In sum, this means that we can \emph{in principle} envision systems in which we are able to tune the dissipation rate on specific transitions -- a key feature of the system we investigate in reference~\cite{Brown2018}. Naturally fabrication of such a device, while possible \cite{Gerard1998}, is undoubtedly challenging.
 
 Having discussed how light can be trapped in an optical cavity, and how loss rates can be controlled, we are left with four parameters still to be accounted for -- the drive strength \(\Omega\), detuning \(\Delta\), hopping rate \(J\), and interaction strength \(U\).
 
-The physical origin of the drive strength is trivial to consider -- it parameterises the field strength of whatever pump source is used to introduce photons into the system, and is proportional to the amplitude of the incident electromagnetic wave \cite{Fox_Omega}. As noted above \(\Delta = \omega - \omega_{D}\), and in this system \(\omega\) is simply the frequency of the fundamental cavity mode, while \(\omega_{D}\) is the frequency of the pump source. Hopping between cavities (or sites in our lattice) is again easily understood. Confinement perpendicular to the cavity mode is limited and the wavefunction of the trapped light will extend somewhat beyond the cavity boundaries. Placing the cavities in close enough proximity to one another will result in an overlap between the wavefunctions and consequently tunnelling between sites \cite{Hartmann2006,Hartmann2008}. 
+The physical origin of the drive strength is trivial to consider -- it parameterises the field strength of whatever pump source is used to introduce photons into the system, and is proportional to the amplitude of the incident electromagnetic wave \cite{Fox_Omega}. As noted above \(\Delta = \omega - \omega_{D}\), and in this system \(\omega\) is simply the frequency of the fundamental cavity mode, while \(\omega_{D}\) is the frequency of the pump source. Hopping between cavities (or sites in our lattice) is again easily understood. Confinement perpendicular to the cavity mode is limited and the wavefunction of the trapped light will extend somewhat beyond the cavity boundaries. Placing the cavities in close enough proximity to one another will result in an overlap between the wavefunctions and consequently tunnelling between sites \cite{Hartmann2006,Hartmann2008}.
 
 Finally, we must consider how to introduce and control nonlinearity in our cavity array system, and thus define the interaction strength, \(U\). In principle a term of the form \(\hat{a}^{\dagger 2}\hat{a}^{2}\) appears as a result of the optical Kerr effect in certain materials \cite{Kitagawa1986}, however this effect is third order in the electric susceptibility and therefore requires a high intensity electromagnetic field to become a relevant phenomenon \cite{Boyd_KerrNL}. Another way to introduce nonlinearity is by considering cavities which contain atoms with a four-level structure. Such systems can produce large Kerr-like nonlinearities, as first shown by Schmidt and Imamo\u{g}lu \cite{Schmidt1996}. In fact if we move to considering polaritons (which are photon-atom quasiparticles) then we can construct a full Bose-Hubbard Hamiltonian with even stronger nonlinearity, as detailed in reference~\cite{Hartmann2008}.
 
 \subsubsection{Superconducting circuits}
-Having described how our model of interest may be realised in an optical cavity array, we next consider an alternative superconducting circuit implementation. The fundamental building block of this implementation is an LC circuit which is sufficiently small that both the charge in the capacitor and magnetic flux in the inductor become quantised. Resistance in the circuit would mask quantum effects, so it must be cooled to superconducting temperatures -- on the order of tens of millikelvin. In this regime charge is quantised to units of \(2e\) (where \(e\) is the elementary charge) as the electrons form Cooper pairs \cite{Vool2017,Cooper1956}. However, a quantum LC circuit is still just a quantum harmonic oscillator. To introduce anharmonicity, a Josephson junction must be added. Named for Brian David Josephson, who first predicted in 1962 that Cooper pairs could tunnel just as single electrons can, a Josephson junction consists of two superconductors separated by a thin insulating barrier \cite{Josephson1962,Schoelkopf2008}. They were first demonstrated by Anderson and Rowell in 1963 \cite{Anderson1963}. 
+Having described how our model of interest may be realised in an optical cavity array, we next consider an alternative superconducting circuit implementation. The fundamental building block of this implementation is an LC circuit which is sufficiently small that both the charge in the capacitor and magnetic flux in the inductor become quantised. Resistance in the circuit would mask quantum effects, so it must be cooled to superconducting temperatures -- on the order of tens of millikelvin. In this regime charge is quantised to units of \(2e\) (where \(e\) is the elementary charge) as the electrons form Cooper pairs \cite{Vool2017,Cooper1956}. However, a quantum LC circuit is still just a quantum harmonic oscillator. To introduce anharmonicity, a Josephson junction must be added. Named for Brian David Josephson, who first predicted in 1962 that Cooper pairs could tunnel just as single electrons can, a Josephson junction consists of two superconductors separated by a thin insulating barrier \cite{Josephson1962,Schoelkopf2008}. They were first demonstrated by Anderson and Rowell in 1963 \cite{Anderson1963}.
 
 The Hamiltonian of the LCJ circuit shown in \cref{fig:mbq2-2} is,
 \begin{equation}
@@ -151,7 +151,7 @@ Having considered the type of model we are interested in, and shown how it could
 \label{fig:oqs1-1}
 \end{figure}
 
-The study of open quantum systems involves taking a well-behaved closed quantum system, evicting it from the frictionless vacuum every theorist carries in their heart, and embedding it in a noisy environment. The reasons for wanting to do this are obvious -- while the study of energy and number conserving closed quantum systems has lead to many insights, such systems rarely exist. Even a simple pendulum requires consideration of dissipation through friction to describe its real world behaviour.  
+The study of open quantum systems involves taking a well-behaved closed quantum system, evicting it from the frictionless vacuum every theorist carries in their heart, and embedding it in a noisy environment. The reasons for wanting to do this are obvious -- while the study of energy and number conserving closed quantum systems has led to many insights, such systems rarely exist. Even a simple pendulum requires consideration of dissipation through friction to describe its real world behaviour.
 
 In this section we will begin by reminding ourselves of the properties of density matrices, followed by discussion of the Lindblad form master equation, and the approximations inherent to it. Finally, we will discuss some practical details of solving the dynamics of open quantum systems, which will aid in understanding the next chapter on numerical methods.
 
@@ -179,12 +179,12 @@ while the system is time-evolved by applying the operator to both sides of the d
 	\rho (t) &= \hat{U}(t) \rho(0) \hat{U}^{\dagger}(t), \notag \\
 	&= \hat{U}(t) | \Psi(0) \rangle \langle \Psi(0) | \hat{U}^{\dagger}(t),
 	\label{eq:oqs2-6}
-\end{align}  
+\end{align}
 where the time-evolution operator \(\hat{U}(t) = \exp(-i\mathcal{H}t)\), and \(\mathcal{H}\) is the system Hamiltonian. Finally, we can calculate the density matrix of a subsystem of a composite system by calculating the \emph{reduced density matrix},
 \begin{align}
 	\rho^{A} &= \mathrm{Tr}_{B}[\rho^{AB}], \notag \\
 	&= \mathrm{Tr}_{B}\left[ c_{j}|a_{j} \rangle \langle a_{k}|c_{k}^{*} \otimes d_{l}|b_{l} \rangle \langle b_{m}|d_{m}^{*} \right], \notag \\
-	&= \sum_{n,j,k,l,m}\left[ \langle b_{n} | \left( c_{j}c_{k}^{*}d_{l}d_{m}^{*} |a_{j} \rangle \langle a_{k}| \otimes |b_{l} \rangle \langle b_{m}| \right) | b_{n} \rangle \right], \notag \\ 
+	&= \sum_{n,j,k,l,m}\left[ \langle b_{n} | \left( c_{j}c_{k}^{*}d_{l}d_{m}^{*} |a_{j} \rangle \langle a_{k}| \otimes |b_{l} \rangle \langle b_{m}| \right) | b_{n} \rangle \right], \notag \\
 	&= \sum_{n,j,k} \left[ c_{j}c_{k}^{*}|d_{n}|^{2} |a_{j} \rangle \langle a_{k}| \otimes \langle b_{n} | b_{n} \rangle \right], \notag \\
 	&= \sum_{n,j,k} c_{j}c_{k}^{*}|d_{n}|^{2} |a_{j} \rangle \langle a_{k}|,
 	\label{eq:oqs2-7}
@@ -192,7 +192,7 @@ where the time-evolution operator \(\hat{U}(t) = \exp(-i\mathcal{H}t)\), and \(\
 where \(|a_{j} \rangle\) and \(|b_{l} \rangle\) are the basis vectors of the \(A\) and \(B\) subsystems respectively, with corresponding complex amplitudes \(c_{j}\) and \(d_{l}\). The replacement of \(l,m,n\) with the single index \(n\), and removal of the tensor product, follows from the orthogonality condition \(\langle b_{l} | b_{m} \rangle = \delta_{lm}\). This ability to separate out subsystems is invaluable to the study of open quantum systems. The system of interest is considered to be part of a composite system with its environment, so the state of the system of interest can be found by tracing over the environment degrees of freedom.
 
 \subsection{\label{sec:lindblad}Lindblad master equation}
-Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems', or Carmichael's `An Open Systems Approach to Quantum Optics' \cite{BP_TMQME,Carmichael_OSAQO}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it. 
+Throughout our research we will limit ourselves to consideration of master equations of a particular form -- the Lindblad master equation. We will not derive it here, as this can be found in any good text on open quantum systems, such as Breuer and Petruccione's `The Theory of Open Quantum Systems', or Carmichael's `An Open Systems Approach to Quantum Optics' \cite{BP_TMQME,Carmichael_OSAQO}. We shall, however, discuss why the Lindblad form is important, and the approximations that are encoded within it.
 
 The Lindblad master equation, named for G\"{o}ran Lindblad but based on both his work and that of Gorini, Kossakowski, and Sudarshan \cite{Lindblad1976,Gorini1976}, is as follows,
 \begin{equation}
@@ -216,7 +216,7 @@ where \(g\) is the interaction energy in units of frequency (when \(\hbar = 1\))
 	\langle \hat{a}_{E}(t \geq \tau)\hat{a}_{E}^{\dagger}(0) \rangle \approx 0,
 	\label{eq:oqs3-4}
 \end{equation}
-where \(\hat{a}_{E}(t)\) annihilates an excitation in the environment at time \(t\). 
+where \(\hat{a}_{E}(t)\) annihilates an excitation in the environment at time \(t\).
 
 Second, the Markov approximation. This approximation assumes that the environment is very large, and therefore that any excitations from the system move quickly away from the system-environment interaction centre. Equivalently, one can say that the timescale of significant changes in the state of the system should be much longer than the decay of correlations in the environment (\(\tau\) in \cref{eq:oqs3-4}). This means that excitations cannot return from the environment to the system, and the system's future state is dependent only on its current state, not its history. This approximation also clearly relies on interaction between the system and environment being weak, and is therefore wholly consistent with the Born approximation. For this reason the two are often grouped together as the \emph{Born-Markov approximation} \cite{Hartmann_BM,BP_BMS}.
 
@@ -231,11 +231,11 @@ for this we convert the Lindblad into a system of linear equations, which is nam
 	 \mathbf{A}\mathbf{X}\mathbf{B} = \left(\mathbf{B}^{T} \otimes \mathbf{A}\right)\bar{X},
 	 \label{eq:oqs4-2}
 \end{equation}
- where \(\mathbf{A}, \mathbf{B}\) and \(\mathbf{X}\) are matrices, and \(\bar{X}\) is \(\mathbf{X}\) reshaped into a vector \cite{Macedo2013,Roth1934}. 
- 
+ where \(\mathbf{A}, \mathbf{B}\) and \(\mathbf{X}\) are matrices, and \(\bar{X}\) is \(\mathbf{X}\) reshaped into a vector \cite{Macedo2013,Roth1934}.
+
  In this way the master equation \cref{eq:oqs3-1} is reformulated as the Liouvillian matrix,
  \begin{align}
- 	&\hat{L}|\rho \rangle \rangle = \notag \\ 
+ 	&\hat{L}|\rho \rangle \rangle = \notag \\
  	&\quad \left( \mathbb{I} \otimes -i\mathcal{H} + i\mathcal{H}^{T} \otimes \mathbb{I} + \sum_{j} \frac{\gamma_{j}}{2} \left[ \hat{A}_{j}^{*} \otimes 2\hat{A}_{j} - \mathbb{I} \otimes \hat{A}_{j}^{\dagger}\hat{A}_{j} - \hat{A}_{j}^{\dagger}\hat{A}_{j} \otimes \mathbb{I} \right]\right)|\rho\rangle\rangle,
  	\label{eq:oqs4-3}
  \end{align}
@@ -244,4 +244,4 @@ for this we convert the Lindblad into a system of linear equations, which is nam
  	\hat{L} |\rho_{SS} \rangle\rangle = 0,
  	\label{eq:oqs4-4}
  \end{equation}
- which for a small enough system we can solve directly using linear algebra methods. For larger systems, we make use of matrix product states, which will be the main topic of discussion on our next chapter on numerical methods.
+ which for a small enough system we can solve directly using linear algebra methods. For larger systems, we make use of matrix product states, which will be the main topic of discussion in our next chapter on numerical methods.
