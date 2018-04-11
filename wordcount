@@ -1,6 +1,6 @@
 File: include/chapters/Abstract.tex
 Encoding: ascii
-Words in text: 233
+Words in text: 222
 Words in headers: 0
 Words outside text (captions, etc.): 0
 Number of headers: 0
@@ -10,7 +10,7 @@ Number of math displayed: 0
 
 File: include/chapters/Conclusion.tex
 Encoding: ascii
-Words in text: 705
+Words in text: 882
 Words in headers: 0
 Words outside text (captions, etc.): 0
 Number of headers: 0
@@ -20,31 +20,31 @@ Number of math displayed: 0
 
 File: include/chapters/DIM.tex
 Encoding: ascii
-Words in text: 3284
-Words in headers: 29
-Words outside text (captions, etc.): 413
+Words in text: 3295
+Words in headers: 31
+Words outside text (captions, etc.): 415
 Number of headers: 11
 Number of floats/tables/figures: 10
 Number of math inlines: 216
 Number of math displayed: 37
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
-  79+0+0 (0/0/0/0) _top_
+  81+0+0 (0/0/0/0) _top_
   186+1+0 (1/0/0/0) Section: Introduction
   258+2+45 (1/1/37/5) Subsection: The model
   218+2+0 (1/0/16/12) Subsection: Wannier basis
   116+2+0 (1/0/9/2) Section: Non-interacting regime
   242+2+91 (1/2/27/1) Subsection: Dissipation-induced mobility
-  184+3+26 (1/1/13/2) Subsection: Long-range first-order coherences
+  188+5+26 (1/1/13/2) Subsection: Long range first order coherences
   670+8+106 (1/2/43/11) Subsection: Modeling the decay length of the dissipation-induced mobility
-  394+3+73 (1/2/25/1) Section: Strongly interacting regime
+  394+3+75 (1/2/25/1) Section: Strongly interacting regime
   277+2+0 (1/0/16/3) Subsection: MPO design
-  433+3+72 (1/2/26/0) Subsection: Density and coherence
+  438+3+72 (1/2/26/0) Subsection: Density and coherence
   227+1+0 (1/0/4/0) Section: Conclusions
 
 File: include/chapters/DIM_MPO.tex
 Encoding: ascii
-Words in text: 616
+Words in text: 617
 Words in headers: 0
 Words outside text (captions, etc.): 51
 Number of headers: 0
@@ -54,7 +54,7 @@ Number of math displayed: 0
 
 File: include/chapters/DNLCA.tex
 Encoding: ascii
-Words in text: 2276
+Words in text: 2278
 Words in headers: 13
 Words outside text (captions, etc.): 313
 Number of headers: 6
@@ -64,11 +64,11 @@ Number of math displayed: 12
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   228+0+0 (0/0/1/0) _top_
-  604+1+51 (1/1/11/0) Section: Introduction
+  605+1+51 (1/1/11/0) Section: Introduction
   206+2+0 (1/0/21/4) Section: The model
   360+3+80 (1/1/20/2) Section: Small anharmonic system
   451+3+100 (1/3/30/3) Section: Large anharmonic system
-  324+3+82 (1/3/34/3) Section: Large harmonic system
+  325+3+82 (1/3/34/3) Section: Large harmonic system
   103+1+0 (1/0/0/0) Section: Conclusions
 
 File: include/chapters/DNLCA_adelim.tex
@@ -90,7 +90,7 @@ Subcounts:
 
 File: include/chapters/DNLCA_rotframe.tex
 Encoding: ascii
-Words in text: 652
+Words in text: 651
 Words in headers: 4
 Words outside text (captions, etc.): 0
 Number of headers: 2
@@ -100,8 +100,8 @@ Number of math displayed: 26
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   43+0+0 (0/0/0/0) _top_
-  401+2+0 (1/0/18/19) Section: Single cavity
-  208+2+0 (1/0/4/7) Section: Coupled cavities
+  402+2+0 (1/0/18/19) Section: Single cavity
+  206+2+0 (1/0/4/7) Section: Coupled cavities
 
 File: include/chapters/FurtherWork.tex
 Encoding: ascii
@@ -122,7 +122,7 @@ Subcounts:
 
 File: include/chapters/Intro.tex
 Encoding: ascii
-Words in text: 818
+Words in text: 830
 Words in headers: 0
 Words outside text (captions, etc.): 0
 Number of headers: 0
@@ -152,7 +152,7 @@ Subcounts:
 
 File: include/chapters/mpostat.tex
 Encoding: ascii
-Words in text: 6857
+Words in text: 6842
 Words in headers: 93
 Words outside text (captions, etc.): 79
 Number of headers: 87
@@ -166,16 +166,16 @@ Subcounts:
   159+4+0 (1/0/12/0) Subsection: Density matrix product operator
   118+3+0 (1/0/4/0) Subsection: Matrix product operator
   233+3+0 (3/0/21/1) Section: DDMPO
-  653+3+0 (3/0/42/0) Section: PhasedSearch
+  650+3+0 (3/0/42/0) Section: PhasedSearch
   256+3+0 (3/0/30/1) Section: ProdDMPO
-  449+3+0 (3/0/41/0) Section: Stationary
+  446+3+0 (3/0/41/0) Section: Stationary
   253+3+0 (3/0/24/0) Section: ZDMPO
   278+3+0 (3/0/21/0) Section: Can
   175+3+0 (3/0/10/1) Section: DMPOHerm
   179+3+0 (3/0/21/0) Section: DMPOResize
   242+3+0 (3/0/17/0) Section: EffL
   404+3+0 (3/0/25/0) Section: EigenSolver
-  281+3+0 (3/0/27/0) Section: GrowBlock
+  280+3+0 (3/0/27/0) Section: GrowBlock
   91+3+0 (3/0/9/0) Section: TrNorm
   227+3+0 (3/0/18/1) Section: ConvTest
   198+3+0 (3/0/19/0) Section: DMPOCompress
@@ -187,16 +187,16 @@ Subcounts:
   99+3+0 (3/0/5/0) Section: DMPOTrace
   282+3+0 (3/0/13/0) Section: EffLSparse
   144+3+0 (3/0/16/0) Section: FWBase
-  208+3+0 (3/0/21/0) Section: GrowLeft
-  208+3+0 (3/0/21/0) Section: GrowRight
-  218+3+0 (3/0/19/0) Section: LCan
+  207+3+0 (3/0/21/0) Section: GrowLeft
+  207+3+0 (3/0/21/0) Section: GrowRight
+  215+3+0 (3/0/19/0) Section: LCan
   146+3+0 (3/0/6/0) Section: MPOHermProd
-  218+3+0 (3/0/19/0) Section: RCan
+  215+3+0 (3/0/19/0) Section: RCan
   142+3+0 (3/0/7/0) Section: SVDNorm
 
 File: include/chapters/NumericalMethods.tex
 Encoding: ascii
-Words in text: 3146
+Words in text: 3144
 Words in headers: 12
 Words outside text (captions, etc.): 440
 Number of headers: 4
@@ -207,14 +207,14 @@ Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   111+0+0 (0/0/1/0) _top_
   611+3+0 (1/0/11/2) Section: Matrix product states
-  604+5+0 (1/0/13/11) Section: Matrix product representation of operators
-  1441+2+394 (1/5/94/13) Section: Variational search
-  379+2+46 (1/1/11/5) Section: Time evolution
+  603+5+0 (1/0/13/11) Section: Matrix product representation of operators
+  1439+2+394 (1/5/94/13) Section: Variational search
+  380+2+46 (1/1/11/5) Section: Time evolution
 
 Total
-Words in text: 23598
-Words in headers: 191
-Words outside text (captions, etc.): 1737
+Words in text: 23772
+Words in headers: 193
+Words outside text (captions, etc.): 1739
 Number of headers: 127
 Number of floats/tables/figures: 33
 Number of math inlines: 1324
@@ -222,16 +222,16 @@ Number of math displayed: 183
 Files: 12
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
-  233+0+0 (0/0/0/0) File(s) total: include/chapters/Abstract.tex
-  705+0+0 (0/0/3/0) File(s) total: include/chapters/Conclusion.tex
-  3284+29+413 (11/10/216/37) File(s) total: include/chapters/DIM.tex
-  616+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex
-  2276+13+313 (6/8/117/12) File(s) total: include/chapters/DNLCA.tex
+  222+0+0 (0/0/0/0) File(s) total: include/chapters/Abstract.tex
+  882+0+0 (0/0/3/0) File(s) total: include/chapters/Conclusion.tex
+  3295+31+415 (11/10/216/37) File(s) total: include/chapters/DIM.tex
+  617+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex
+  2278+13+313 (6/8/117/12) File(s) total: include/chapters/DNLCA.tex
   685+8+0 (4/0/27/36) File(s) total: include/chapters/DNLCA_adelim.tex
-  652+4+0 (2/0/22/26) File(s) total: include/chapters/DNLCA_rotframe.tex
+  651+4+0 (2/0/22/26) File(s) total: include/chapters/DNLCA_rotframe.tex
   882+8+147 (4/4/53/9) File(s) total: include/chapters/FurtherWork.tex
-  818+0+0 (0/0/0/0) File(s) total: include/chapters/Intro.tex
+  830+0+0 (0/0/0/0) File(s) total: include/chapters/Intro.tex
   3444+24+294 (9/4/121/26) File(s) total: include/chapters/MBQ-OQS.tex
-  6857+93+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
-  3146+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
+  6842+93+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
+  3144+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
 
