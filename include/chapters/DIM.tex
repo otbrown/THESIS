@@ -158,20 +158,20 @@ In the Wannier basis the density decays exponentially from the driven site, and 
 \end{equation}
 in turn allowing one to extract a decay length \(\xi_{i} = |\log_{10}N_{i} - \log_{10}N_{i+1}|^{-1}\). This decay length is shown in \cref{fig:dim2-2} for \(i=4\). Recalling \cref{eq:dim1-22,eq:dim1-23}, as \(\kappa\) decreases, the nonlocal dissipation rates \(\gamma_{l}\) increase, leading to a divergence in the decay length as \(\kappa \rightarrow 0\). In this limit, the \(B\) sublattice dissipation rate tends to zero and the dark state \(\sum_{i} (-1)^{i}W_{i}^{\dagger}|0\rangle = \sum_{i}(-1)^{i}\hat{b}_{i}^{\dagger}|0\rangle\) forms. This dark states extends over the entire lattice, hence the divergence in \(\xi\). The limit \(\kappa \rightarrow \infty\), where the \(A\) sublattice dissipation rate tends to zero, is inaccessible with the driving mechanism we use, as the corresponding dark state \(\sum_{i}(-1)^{i}\hat{a}_{i}^{\dagger}|0\rangle\) would involve contributions from the dispersive band.
 
-\subsection{Long range first-order coherences}
-In the coherently driven system the first-order coherence,
+\subsection{Long range first order coherences}
+In the coherently driven system the first order coherence,
 \begin{equation}
 	g^{(1)}(j,l) = \frac{\langle W_{j}^{\dagger}W_{l} \rangle}{\sqrt{\langle W_{j}^{\dagger}W_{j} \rangle \langle W_{l}^{\dagger}W_{l} \rangle}},
 	\label{eq:dim2-5}
 \end{equation}
-is perfectly correlated with \(g^{(1)}(j,l) = (-1)^{|j-l|}\) as the density matrix is a product of coherent states with alternating phases. Long range first-order coherence therefore exists in spite of the exponentially decaying density profile. This is indicative of a condensate whose extension is the decay length \(\xi\) of the spatial density profile.
+is perfectly correlated with \(g^{(1)}(j,l) = (-1)^{|j-l|}\) as the density matrix is a product of coherent states with alternating phases. Long range first order coherence therefore exists in spite of the exponentially decaying density profile. This is indicative of a condensate whose extension is the decay length \(\xi\) of the spatial density profile.
 
 In order to check that the coherence we find is not simply inherited from the coherent drive, we replace the coherent drive in the Wannier basis (setting \(\Omega_{W} = 0\)) with an incoherent pump in the site basis of the form,
 \begin{equation}
 	\mathcal{L}_{\mathrm{pump}} = \sum_{i}\left[\frac{P_{A,i}}{2}\left(2\hat{a}_{i}^{\dagger}\rho\hat{a}_{i} - \{\hat{a}_{i}\hat{a}_{i}^{\dagger}, \rho\}\right) + \frac{P_{B,i}}{2}\left(2\hat{b}_{i}^{\dagger}\rho\hat{b}_{i} - \{\hat{b}_{i}\hat{b}_{i}^{\dagger}, \rho\}\right) \right],
 	\label{eq:dim2-6}
 \end{equation}
-where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of the \(x = A,B\) sublattice. In fact we pump only the \(B\) sublattice and, as with the coherent drive, we pump only one site, \(i=0\). This driving scheme leads to the density profile shown in \cref{fig:dim2-1}~(c), which also shows exponential decay. The resulting first-order coherences are shown in \cref{fig:dim2-3}, and we see that the dissipation-induced mobility continues to generate significant coherences, even without coherent input. In the Wannier basis the incoherent drive is still localized around site zero, and so suppresses coherence around \(g^{(1)}(0,l)\).
+where \(P_{x,i}\) is the intensity of pump on the \(i^{\mathrm{th}}\) site of the \(x = A,B\) sublattice. In fact we pump only the \(B\) sublattice and, as with the coherent drive, we pump only one site, \(i=0\). This driving scheme leads to the density profile shown in \cref{fig:dim2-1}~(c), which also shows exponential decay. The resulting first order coherences are shown in \cref{fig:dim2-3}, and we see that the dissipation-induced mobility continues to generate significant coherences, even without coherent input. In the Wannier basis the incoherent drive is still localized around site zero, and so suppresses coherence around \(g^{(1)}(0,l)\).
 
 \begin{figure}[ht!]
 \centering
@@ -332,7 +332,7 @@ The steady-state density distribution is shown in \cref{fig:dim3-2}~(a) for a sy
 \caption{\label{fig:dim3-2}(a) Normalized steady-state density of excitations in the Wannier basis for the interacting regime and a single driven Wannier state at \(i=0, \Omega_{W,0} = \gamma_{A},\) and \(\kappa = 0.2\) [c.f. \cref{fig:dim2-1}~(a)]. (b) Fraction of excitations not on the pumped site \(f\) as a function of the dissipation rate asymmetry ratio \(\kappa\) for an interacting system with a cross-Kerr interaction strength \(U_{1}\).}
 \end{figure}
 
-Finally, we considered first-order coherence in the strongly interacting regime. \Cref{fig:dim3-3} shows that, similarly to \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first-order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to non-interacting systems.
+Finally, we considered first order coherence in the strongly interacting regime. \Cref{fig:dim3-3} shows that, similarly to \cref{fig:dim2-3} which showed coherences with an incoherent pump in the non-interacting regime, interactions counteract the buildup of first order coherence. As the density is highest on the pumped site, it is there that interactions are most significant, and coherences most heavily suppressed. Nevertheless, the buildup of coherences between other sites in the system indicates that as a phenomenon, the generation of coherences due to dissipation-induced mobility is not limited to non-interacting systems.
 
 \begin{figure}[ht!]
 \centering
