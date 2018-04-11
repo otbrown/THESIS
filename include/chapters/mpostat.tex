@@ -62,7 +62,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  Input & \\ \hline
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than one. \\
  \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer greater than one. \\
- \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. It is important that the supplied Liouvillian matches the requested calculation variant. If the user requests the Hermitian calculation variant is requested, then the MPO should represent the Hermitian product Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\), or the \lstinline$EigenSolver$ function will throw an error. \\
+ \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. It is important that the supplied Liouvillian matches the requested calculation variant. If the Hermitian calculation variant is requested, then the MPO should represent the Hermitian product Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\), or the \lstinline$EigenSolver$ function will throw an error. \\
  \lstinline$ULTIMATE_THRESHOLD$ & \emph{Double}. The desired final accuracy, as determined by the residual \(|\mathcal{L}\rho|\), or \(|\mathcal{L}^{\dagger}\mathcal{L}\rho|\) in the Hermitian case. The calculation will end and return the results once it crosses this threshold (if it crosses this threshold). \\
  \lstinline$MAX_COMPRESS$ & \emph{Double}. The maximum allowed DMPO matrix dimension, \(\chi\). Should be a positive integer greater than or equal to \(d^{2}\). \\
  \lstinline$VARIANT$ & \emph{String}. Specifies the form and method of the calculation. There are three options: `\lstinline$direct$', `\lstinline$hermitian$', and `\lstinline$primme$'. If `\lstinline$direct$' is supplied, the non-Hermitian Liouvillian \(\mathcal{L}\) is solved using MATLAB's sparse eigensolver, \lstinline$eigs$. If `\lstinline$hermitian$' or `\lstinline$primme$' is supplied, the Hermitian product of the Liouvillian \(\mathcal{L}^{\dagger}\mathcal{L}\) is solved using the \lstinline$eigs$ and PRIMME eigensolvers respectively. Additionally, if `\lstinline$hermitian$' is supplied, but \lstinline$eigs$ fails to find a solution on some site, a second attempt will be made using the PRIMME eigensolver. \\
@@ -120,7 +120,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. Created by filling every site tensor with the complex number \(Z = \frac{1}{\sqrt{2}}(1 + 1i)\). The density matrix product operator is then trace normalised. \\ \hline
  Input & \\ \hline
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than one.  \\
- \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer greater than one. \\
+ \lstinline$LENGTH$ & \emph{Double}. The number of sites in the system, \(N\). Should be a positive integer, greater than one. \\
  \lstinline$COMPRESS$ & \emph{Double}. The maximum size, \(\chi_{\mathrm{max}}\) of the virtual dimensions of the density matrix product state site tensors, \(A^{[n]}\). As in the ground state code, if \lstinline$COMPRESS == 0$, it will be set to \lstinline$Inf$, leaving the density matrix product operator uncompressed. Should be a positive integer either equal to zero, or greater than or equal to \(d^{2}\). If \(0 <\) \lstinline$COMPRESS$ \(< d^{2}\) an error will be thrown. \\
  \hline
  \end{longtabu}
@@ -184,7 +184,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,1]X[4,1]}
  \hline
  Return & \\ \hline
- \lstinline$effectiveLiouv$ & \emph{2 dimensional sparse complex double array}. This very large, sparse, matrix is an effective Liouvillian for that particular site in the system. It is eigensolved, and the eigenvector reshaped to replace the site tensor. The exact dimensions are dependent on the particular matrix dimensions, but it will be largest in the middle of the system where the matrix dimensions approach the maximum allowed, \(\chi\). There the dimensions will be \(\chi^{2}d^{2} \times \chi^{2}d^{2}\). For that reason it is this point in the calculation that places the greatest burden on the available memory. This function is dependent on \lstinline$EffLSparse$. \\ \hline
+ \lstinline$effectiveLiouv$ & \emph{2 dimensional sparse complex double array}. This very large sparse matrix is an effective Liouvillian for that particular site in the system. It is eigensolved, and the eigenvector reshaped to replace the site tensor. The exact dimensions are dependent on the particular matrix dimensions, but it will be largest in the middle of the system where the matrix dimensions approach the maximum allowed, \(\chi\). There the dimensions will be \(\chi^{2}d^{2} \times \chi^{2}d^{2}\). For that reason it is this point in the calculation that places the greatest burden on the available memory. This function is dependent on \lstinline$EffLSparse$. \\ \hline
  Input & \\ \hline
  \lstinline$TARGET$ & \emph{Double}. The site on which the effective Liouvillian is to be formed, should be a positive integer. \\
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. \\
@@ -209,7 +209,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$HERMITIAN$ & \emph{Bool}. Should be true if the Hermitian product of the Liouvillian is being used. \\
  \lstinline$PRIMME$ & \emph{Bool}. Should be true if use of PRIMME is desired. Note that this will only have an impact if \lstinline$HERMITIAN = true$, as PRIMME's eigensolver only operates on Hermitian matrices. If \lstinline$HERMITIAN$ is false, then \lstinline$PRIMME$ should be too, but its value will be ignored. \\
  \lstinline$initVec$ & \emph{1 dimensional complex double array}. An initial guess for the eigenvector -- supplying this improves the stability and speed of the eigensolvers. In general this will be the current site tensor reshaped into a vector. \\
- \lstinline$HERMITICITY_THRESHOLD$ & \emph{Double, optional}. This is an optional argument. If the Hermitian product Liouvillian is being used then the effective Liouvillian should also be Hermitian. That said, it is almost certainly not due to numerical error. This problem is solved by taking the average of the effective Liouvillian and it's Hermitian conjugate, and supplying that to the eigensolving routines. If \lstinline$HERMITICITY_THRESHOLD$ is supplied, the difference \(|\hat{L} - \hat{L}^{\dagger}|\) is calculated and tested against it. If this test is failed it indicates that the MPO supplied to the top-level function is for \(\mathcal{L}\), not \(\mathcal{L}^{\dagger}\mathcal{L}\). If \lstinline$HERMITIAN = false$, this argument will be ignored.  \\
+ \lstinline$HERMITICITY_THRESHOLD$ & \emph{Double, optional}. This is an optional argument. If the Hermitian product Liouvillian is being used then the effective Liouvillian should also be Hermitian. That said, due to numerical error, it almost certainly is not. This problem is solved by taking the average of the effective Liouvillian and its Hermitian conjugate, and supplying that to the eigensolving routines. If \lstinline$HERMITICITY_THRESHOLD$ is supplied, the difference \(|\hat{L} - \hat{L}^{\dagger}|\) is calculated and tested against it. If this test is failed it indicates that the MPO supplied to the top-level function is for \(\mathcal{L}\), not \(\mathcal{L}^{\dagger}\mathcal{L}\). If \lstinline$HERMITIAN = false$, this argument will be ignored.  \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$EigenSolverTest$. Checks that an error is thrown if \\
@@ -222,7 +222,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,1]X[4,1]}
  \hline
  Return & \\ \hline
- \lstinline$updateBlock$ & \emph{3 dimensional complex double array}. Contains the contraction through the network, which comprises of the DMPO, its vector conjugate, and the MPO, up to and including the site specified by \lstinline$site$. If \lstinline$direction$ is `L' the contraction is from site \(1\), if it is `R' the contraction is from site \(N\). \\ \hline
+ \lstinline$updateBlock$ & \emph{3 dimensional complex double array}. Contains the contraction through the network, which comprises the DMPO, its vector conjugate, and the MPO, up to and including the site specified by \lstinline$site$. If \lstinline$direction$ is `L' the contraction is from site \(1\), if it is `R' the contraction is from site \(N\). \\ \hline
  Input & \\ \hline
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator in the standard format. \\
  \lstinline$mpo$ & \emph{\(N \times 1\) cell array}. Liouvillian for the system in matrix product operator form. \\
@@ -270,7 +270,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \paragraph{Testing} \lstinline$ConvTestTest$. Checks that the function does not return true when the input vector contains \lstinline$NaN$ values, or is nearly (but not quite) converged, and that it does correctly return a true value.
 
  \section{DMPOCompress}
- \paragraph{Docstring} This low-level function compresses the virtual dimensions of a density matrix product oeprator, so that they do not exceed the limit \(\chi_{\mathrm{max}}\). A sparse singular value decomposoition is performed at each site which needs to be compressed, and only \(\chi_{\mathrm{max}}\) singular values retained. Only sites whose virtual dimension previously exceeded \(\chi_{\mathrm{max}}\) are affected. This function is interfaced by \lstinline$DMPOResize$.
+ \paragraph{Docstring} This low-level function compresses the virtual dimensions of a density matrix product operator, so that they do not exceed the limit \(\chi_{\mathrm{max}}\). A sparse singular value decomposition is performed at each site which needs to be compressed, and only \(\chi_{\mathrm{max}}\) singular values retained. Only sites whose virtual dimension previously exceeded \(\chi_{\mathrm{max}}\) are affected. This function is interfaced by \lstinline$DMPOResize$.
  \begin{lstlisting}
  function [compDMPO] = DMPOCompress(dmpo, COMPRESS, HILBY, LENGTH) \end{lstlisting}
  \begin{longtabu}{X[1,l]X[4,l]}
@@ -350,7 +350,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$scalar$ & \emph{Complex double}. Some complex (or real) number. \\
  \hline
  \end{longtabu}
- \paragraph{Testing} \lstinline$DMPOScalarDivTest$. Checks that type, size, and shape of the returned density matrix product operator. Checks that \(\mathrm{Tr}[\tilde{\rho}] = \mathrm{Tr}[\rho] / a\), and by sampling elements from the density matrix, that the division has been carried out correctly.
+ \paragraph{Testing} \lstinline$DMPOScalarDivTest$. Checks the type, size, and shape of the returned density matrix product operator. Checks that \(\mathrm{Tr}[\tilde{\rho}] = \mathrm{Tr}[\rho] / a\), and by sampling elements from the density matrix, that the division has been carried out correctly.
 
  \section{DMPOSum}
  \paragraph{Docstring} This low-level function adds two density matrix product operators, which represent the same system, together. Given two density matrix product operators,
@@ -440,7 +440,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
  \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\), in the standard format. \\
  \lstinline$leftBlock$ & \emph{3 dimensional complex double array}. The rank-3 left block tensor for the site \(n\), \(L^{[n]}\). \\
- \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
  \lstinline$OP_COL$ & \emph{Double}. The size of the second virtual dimension of the matrix product operator. Should be a positive integer. \\
@@ -460,7 +460,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
  \lstinline$mpo$ & \emph{6 dimensional complex double array}. The rank-6 tensor matrix product operator for the site \(n\), \(O^{[n]}\), in the standard format. \\
  \lstinline$rightBlock$ & \emph{3 dimensional complex double array}. The rank-3 right block tensor for the site \(n\), \(R^{[n]}\). \\
- \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the first virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of the density matrix product operator. Should be a positive integer. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
  \lstinline$OP_ROW$ & \emph{Double}. The size of the first virtual dimension of the matrix product operator. Should be a positive integer. \\
@@ -481,9 +481,9 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
  \lstinline$nextSiteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n+1\), in the standard format. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
- \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
- \lstinline$COL_SIZE$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
- \lstinline$NEXT_COL$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
+ \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
+ \lstinline$NEXT_COL$ & \emph{Double}. The size of the second virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$LCanTest$. Checks the type, size, and shape of a density matrix product operator, operated on by \lstinline$LCan$. Checks that the left-canonical normalisation condition holds. Checks that the function does not alter the trace, or a sample of the elements of the density matrix.
@@ -515,9 +515,9 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \lstinline$siteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n\), in the standard format. \\
  \lstinline$nextSiteTensor$ & \emph{4 dimensional complex double array}. The density matrix product operator tensor for the site \(n-1\), in the standard format. \\
  \lstinline$HILBY$ & \emph{Double}. The size of the local state space, \(d\). Should be a positive integer, greater than 1. \\
- \lstinline$ROW_SIZE$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
- \lstinline$COL_SIZE$ & \emph{Double}. The size of the the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
- \lstinline$NEXT_ROW$ & \emph{Double}. The size of the the first virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
+ \lstinline$ROW_SIZE$ & \emph{Double}. The size of the first virtual dimension of \lstinline$siteTensor$. Should be a positive integer.  \\
+ \lstinline$COL_SIZE$ & \emph{Double}. The size of the second virtual dimension of \lstinline$siteTensor$. Should be a positive integer. \\
+ \lstinline$NEXT_ROW$ & \emph{Double}. The size of the first virtual dimension of \lstinline$nextSiteTensor$. Should be a positive integer. \\
  \hline
  \end{longtabu}
  \paragraph{Testing} \lstinline$RCanTest$. Checks the type, size, and shape of a density matrix product operator, operated on by \lstinline$RCan$. Checks that the right-canonical normalisation condition holds. Checks that the function does not alter the trace, or a sample of the elements of the density matrix.
@@ -529,7 +529,7 @@ The matrix product operator is also an \(N \times 1\) cell array. Each cell cont
  \begin{longtabu}{X[1,l]X[4,l]}
  \hline
  Return & \\ \hline
- \lstinline$normDMPO$ & \emph{\(N \times 1\) cell array}. A vector normalised density matrix product operator in the standard format. \\ \hline
+ \lstinline$normDMPO$ & \emph{\(N \times 1\) cell array}. A vector normalised density matrix product operator, in the standard format. \\ \hline
  Input & \\ \hline
  \lstinline$dmpo$ & \emph{\(N \times 1\) cell array}. A density matrix product operator, in the standard format. \\
  \hline
