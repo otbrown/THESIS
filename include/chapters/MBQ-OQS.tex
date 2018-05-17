@@ -5,7 +5,7 @@ In this chapter we will consider some of the theoretical background of many-body
 \subsection{How many?}
 Quantum physics has a problem. More than one actually, but the reader may safely assume that the author considers musing on the interpretation of quantum mechanics to be far above his pay-grade, and that he belongs to the ``Shut up and calculate!'' school of thought \cite{Mermin1989}. What hardship then, does quantum mechanics present to those of us interested only in crunching numbers and getting results?
 
-To answer that, let us first step back and consider a classical system. Consider some system of \(N\) components, each of which can be in one of two possible states. In total there are \(2^{N}\) possible configurations of the system, each of which can be \emph{completely} described by an \(N\)-bit string. Furthermore, if we increase \(N\) to \(N+m\), we only need to add \(m\) bits. Even if we change to a system where there are three possible states of each component, although the total state space increases in size to \(3^{N}\), since the system must exist in \emph{one and only one} of those configurations, we can still efficiently represent the system with just \(N\) bits. Mathematical representations of many-body classical systems scale linearly with the size of the system (the number of `bodies'). This does not mean that classical many-body problems are \emph{easy}, just that they get harder only in proportion to the size of the system.
+To answer that, let us first step back and consider a classical system. Consider some system of \(N\) components, each of which can be in one of two possible states. In total there are \(2^{N}\) possible configurations of the system, each of which can be \emph{completely} described by an \(N\)-bit string. Furthermore, if we increase \(N\) to \(N+m\), we only need to add \(m\) bits. Even if we change to a system where there are three possible states of each component, although the total state space increases in size to \(3^{N}\), since the system must exist in \emph{one and only one} of those configurations, we can still efficiently represent the system with just \(N\) digits. Mathematical representations of many-body classical systems scale linearly with the size of the system (the number of `bodies'). This does not mean that classical many-body problems are \emph{easy}, just that they get harder only in proportion to the size of the system.
 
 Enter quantum mechanics. We may again consider a system of \(N\) components, each of which can be in one of two possible states, meaning there are \(2^{N}\) possible configurations -- so far, so good. However, there is a fundamental principle of quantum mechanics -- the superposition principle -- that says that if a system may be in one of two states, which we shall label \(|0 \rangle\) and \(|1\rangle\), then it may also be in the state,
 \begin{equation}
@@ -161,7 +161,7 @@ The state vector suffices for describing a quantum system which is known to be i
 	\rho = \sum_{j} p_{j} |\psi_{j} \rangle \langle \psi_{j}|,
 	\label{eq:oqs2-1}
 \end{equation}
-where \(p_{j} = |c_{j}|^{2}\) is the probability of finding the system in the state \(|\psi_{j}\rangle\), and \(c_{j}\) is the complex amplitude as in \cref{eq:mbq1-4} \cite{NielsenChuang_DM}. A valid density matrix has three important properties,
+where \(p_{j} = |c_{j}|^{2}\) is the probability of finding the system in the state \(|\psi_{j}\rangle\) \cite{NielsenChuang_DM}. A valid density matrix has three important properties,
 \begin{align}
 	\mathrm{Tr}[\rho] &= 1, \label{eq:oqs2-2} \\
 	\rho &= \rho^{\dagger}, \label{eq:oqs2-3} \\
@@ -226,7 +226,7 @@ The above section explains how we generate the dynamics of the density matrix, b
 	\frac{\mathrm{d}}{\mathrm{d}t}\rho_{SS} = 0,
 	\label{eq:oqs4-1}
 \end{equation}
-for this we convert the Lindblad into a system of linear equations, which is named the Liouvillian after its classical counterpart. The Lindblad is a \emph{superoperator}, acting on the density matrix from both the left and the right. In order to rephrase the dynamics as a system of coupled linear equations, we shall make use of the following property of matrix products,
+for this we convert the Lindbladian into a system of linear equations, which is named the Liouvillian after its classical counterpart. The Lindbladian is a \emph{superoperator}, acting on the density matrix from both the left and the right. In order to rephrase the dynamics as a system of coupled linear equations, we shall make use of the following property of matrix products,
 \begin{equation}
 	 \mathbf{A}\mathbf{X}\mathbf{B} = \left(\mathbf{B}^{T} \otimes \mathbf{A}\right)\bar{X},
 	 \label{eq:oqs4-2}

@@ -1,7 +1,7 @@
 In this chapter we present some initial work on a promising project begun right at the very end of my PhD, which it is hoped the group will eventually bring to fruition.
 
 \section{Biased chain}
-In recent work a biased spin chain, where the excited state on each site has a lower energy level than the excited state on all preceding sites, was used as a model to describe the quantum dynamics of a photocell \cite{Fruchtman2016}. This investigation however only considered the subspace in which there is a single excitation in the system. We are interested in considering a similar system in which many excitations exist. In particular, we are interested in the transport properties of such a system -- in the previous work the system was considered as a quantum heat engine where work is extracted through the drain on the last site \cite{Dorfman2013}. Consequently the question of how to maximise the current from pump to drain is an interesting one. We are also interested in it more generally as a system which may exhibit incoherent transport, as we were in reference~\cite{Owen2017}. The system (excluding the dissipator) is sketched in \cref{fig:fw1-1}.
+In recent work a biased spin chain, where the excited state on each site has a lower energy level than the excited state on all preceding sites, was used as a model to describe the quantum dynamics of a chain of photocells \cite{Fruchtman2016}. This investigation however only considered the subspace in which there is a single excitation in the system. We are interested in considering a similar system in which many excitations exist. In particular, we are interested in the transport properties of such a system -- in the previous work the system was considered as a quantum heat engine where work is extracted through the drain on the last site \cite{Dorfman2013}. Consequently the question of how to maximise the current from pump to drain is an interesting one. We are also interested in it more generally as a system which may exhibit incoherent transport, as we were in reference~\cite{Owen2017}. The system (excluding the dissipator) is sketched in \cref{fig:fw1-1}.
 
 \begin{figure}[ht!]
 	\centering
@@ -20,7 +20,7 @@ where the system Hamiltonian
 	\mathcal{H}_{S} = \sum_{j}^{N}\left[ -j \Delta E \hat{a}_{j}^{\dagger}\hat{a}_{j} + t\left( \hat{a}_{j}^{\dagger}\hat{a}_{j+1} + \hat{a}_{j}\hat{a}_{j+1}^{\dagger}\right)\right],
 	\label{eq:fw1-1}
 \end{equation}
-where \(\Delta E\) is the bias energy, and \(t\) is the hopping rate between sites. Each of the sites in this system is coupled to an independent environment. Each environment is approximated as a set of harmonic oscillators,
+and where \(\Delta E\) is the bias energy, and \(t\) is the hopping rate between sites. Each of the sites in this system is coupled to an independent environment. Each environment is approximated as a set of harmonic oscillators,
 \begin{equation}
 	\mathcal{H}_{E} = \sum_{j,k} \omega\hat{b}_{j,k}^{\dagger}\hat{b}_{j,k},
 	\label{eq:fw1-3}
