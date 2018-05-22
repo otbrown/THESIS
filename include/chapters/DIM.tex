@@ -41,7 +41,13 @@ If we take the limit \(t' \rightarrow \sqrt{2}t\) we find,
 	E_{k} = \omega_{0} + t \cos k \pm (t\cos k + 2t),
 	\label{eq:dim1-7}
 \end{equation}
-which yields a flat lower band at \(E_{0} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k} = \omega_{0} + 2t + 2t\cos k\). This is the geometrically frustrated regime, in which the kinetic energy of the flat band is quenched. We can most easily represent (and investigate) the system in this frustrated state using Wannier states.
+which yields a flat lower band at \(E_{k,-} = \omega_{0} - 2t\) and a \(2t\) gap to the dispersive band, \(E_{k,+} = \omega_{0} + 2t + 2t\cos k\). This is the geometrically frustrated regime, in which the kinetic energy of the flat band is quenched. We can most easily represent (and investigate) the system in this frustrated state using Wannier states. The Wannier bands are pictured in \cref{fig:dim1-2}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{\figpath/WannierBands}
+	\caption{\label{fig:dim1-2}A schematic diagram of the Wannier flat and dispersive bands. A gap of \(2t\) exists between the flat band, and the lowest energy point of the dispersive band.}
+\end{figure}
 
 \subsection{Wannier basis}
 The Wannier basis is an orthogonal set of states defined by the summation of Bloch states for individual bands in a lattice \cite{Wannier1937}. For a sufficiently large band gap, \(2t \gg g_{k,i}^{a},g_{k_,i}^{b},w_{A},w_{B}\), where \(g_{k,i}^{a(b)}\) is the coupling strength between the A(B) sublattice and the environment, we can neglect the dispersive band. In which case the tight-binding bosonic operators can then be expressed as,
@@ -272,8 +278,6 @@ In principle the nonlocal terms in \cref{eq:dim1-17} extend infinitely across th
 \begin{table}[ht!]
 	\centering
 	\begin{tabu}{ll|ll}
-		\\
-		\\
 		\firsthline \hline
 		\(\{j',l',m'\}\) & \(U^{\mathrm{eff},A}_{j',l',m'} / U_{A}\) & \(\{j',l',m'\}\) & \(U^{\mathrm{eff},B}_{j',l',m'} / U_{B}\) \\
 		\hline
