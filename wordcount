@@ -10,7 +10,7 @@ Number of math displayed: 0
 
 File: include/chapters/Conclusion.tex
 Encoding: ascii
-Words in text: 882
+Words in text: 880
 Words in headers: 0
 Words outside text (captions, etc.): 0
 Number of headers: 0
@@ -20,18 +20,18 @@ Number of math displayed: 0
 
 File: include/chapters/DIM.tex
 Encoding: ascii
-Words in text: 3295
+Words in text: 3303
 Words in headers: 31
-Words outside text (captions, etc.): 415
+Words outside text (captions, etc.): 442
 Number of headers: 11
-Number of floats/tables/figures: 10
-Number of math inlines: 216
+Number of floats/tables/figures: 11
+Number of math inlines: 217
 Number of math displayed: 37
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   81+0+0 (0/0/0/0) _top_
   186+1+0 (1/0/0/0) Section: Introduction
-  258+2+45 (1/1/37/5) Subsection: The model
+  266+2+72 (1/2/38/5) Subsection: The model
   218+2+0 (1/0/16/12) Subsection: Wannier basis
   116+2+0 (1/0/9/2) Section: Non-interacting regime
   242+2+91 (1/2/27/1) Subsection: Dissipation-induced mobility
@@ -54,19 +54,19 @@ Number of math displayed: 0
 
 File: include/chapters/DNLCA.tex
 Encoding: ascii
-Words in text: 2278
+Words in text: 2433
 Words in headers: 13
-Words outside text (captions, etc.): 313
+Words outside text (captions, etc.): 366
 Number of headers: 6
-Number of floats/tables/figures: 8
-Number of math inlines: 117
+Number of floats/tables/figures: 9
+Number of math inlines: 124
 Number of math displayed: 12
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   228+0+0 (0/0/1/0) _top_
   605+1+51 (1/1/11/0) Section: Introduction
   206+2+0 (1/0/21/4) Section: The model
-  360+3+80 (1/1/20/2) Section: Small anharmonic system
+  515+3+133 (1/2/27/2) Section: Small anharmonic system
   451+3+100 (1/3/30/3) Section: Large anharmonic system
   325+3+82 (1/3/34/3) Section: Large harmonic system
   103+1+0 (1/0/0/0) Section: Conclusions
@@ -105,7 +105,7 @@ Subcounts:
 
 File: include/chapters/FurtherWork.tex
 Encoding: ascii
-Words in text: 882
+Words in text: 885
 Words in headers: 8
 Words outside text (captions, etc.): 147
 Number of headers: 4
@@ -115,14 +115,14 @@ Number of math displayed: 9
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   32+0+0 (0/0/0/0) _top_
-  155+2+47 (1/1/4/0) Section: Biased chain
-  246+2+0 (1/0/21/8) Subsection: The model
+  157+2+47 (1/1/4/0) Section: Biased chain
+  247+2+0 (1/0/21/8) Subsection: The model
   289+2+100 (1/3/27/1) Subsection: Initial results
   160+2+0 (1/0/1/0) Subsection: Next steps
 
 File: include/chapters/Intro.tex
 Encoding: ascii
-Words in text: 830
+Words in text: 823
 Words in headers: 0
 Words outside text (captions, etc.): 0
 Number of headers: 0
@@ -132,12 +132,12 @@ Number of math displayed: 0
 
 File: include/chapters/MBQ-OQS.tex
 Encoding: ascii
-Words in text: 3444
+Words in text: 3479
 Words in headers: 24
 Words outside text (captions, etc.): 294
 Number of headers: 9
 Number of floats/tables/figures: 4
-Number of math inlines: 121
+Number of math inlines: 120
 Number of math displayed: 26
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
@@ -146,8 +146,8 @@ Subcounts:
   631+2+0 (1/1/33/4) Subsection: How many?
   1645+9+188 (3/2/55/9) Subsection: Driven-dissipative Bose-Hubbard model
   133+3+106 (1/1/2/0) Section: \label{sec:OQS}Open quantum systems
-  316+2+0 (1/0/15/5) Subsection: Density matrix
-  423+3+0 (1/0/10/4) Subsection: \label{sec:lindblad}Lindblad master equation
+  307+2+0 (1/0/14/5) Subsection: Density matrix
+  467+3+0 (1/0/10/4) Subsection: \label{sec:lindblad}Lindblad master equation
   169+2+0 (1/0/6/4) Subsection: The Liouvillian
 
 File: include/chapters/mpostat.tex
@@ -196,42 +196,42 @@ Subcounts:
 
 File: include/chapters/NumericalMethods.tex
 Encoding: ascii
-Words in text: 3144
+Words in text: 3143
 Words in headers: 12
 Words outside text (captions, etc.): 440
 Number of headers: 4
 Number of floats/tables/figures: 6
-Number of math inlines: 130
+Number of math inlines: 131
 Number of math displayed: 31
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   111+0+0 (0/0/1/0) _top_
   611+3+0 (1/0/11/2) Section: Matrix product states
   603+5+0 (1/0/13/11) Section: Matrix product representation of operators
-  1439+2+394 (1/5/94/13) Section: Variational search
+  1438+2+394 (1/5/95/13) Section: Variational search
   380+2+46 (1/1/11/5) Section: Time evolution
 
 Total
-Words in text: 23772
+Words in text: 23963
 Words in headers: 193
-Words outside text (captions, etc.): 1739
+Words outside text (captions, etc.): 1819
 Number of headers: 127
-Number of floats/tables/figures: 33
-Number of math inlines: 1324
+Number of floats/tables/figures: 35
+Number of math inlines: 1332
 Number of math displayed: 183
 Files: 12
 Subcounts:
   text+headers+captions (#headers/#floats/#inlines/#displayed)
   222+0+0 (0/0/0/0) File(s) total: include/chapters/Abstract.tex
-  882+0+0 (0/0/3/0) File(s) total: include/chapters/Conclusion.tex
-  3295+31+415 (11/10/216/37) File(s) total: include/chapters/DIM.tex
+  880+0+0 (0/0/3/0) File(s) total: include/chapters/Conclusion.tex
+  3303+31+442 (11/11/217/37) File(s) total: include/chapters/DIM.tex
   617+0+51 (0/0/75/0) File(s) total: include/chapters/DIM_MPO.tex
-  2278+13+313 (6/8/117/12) File(s) total: include/chapters/DNLCA.tex
+  2433+13+366 (6/9/124/12) File(s) total: include/chapters/DNLCA.tex
   685+8+0 (4/0/27/36) File(s) total: include/chapters/DNLCA_adelim.tex
   651+4+0 (2/0/22/26) File(s) total: include/chapters/DNLCA_rotframe.tex
-  882+8+147 (4/4/53/9) File(s) total: include/chapters/FurtherWork.tex
-  830+0+0 (0/0/0/0) File(s) total: include/chapters/Intro.tex
-  3444+24+294 (9/4/121/26) File(s) total: include/chapters/MBQ-OQS.tex
+  885+8+147 (4/4/53/9) File(s) total: include/chapters/FurtherWork.tex
+  823+0+0 (0/0/0/0) File(s) total: include/chapters/Intro.tex
+  3479+24+294 (9/4/120/26) File(s) total: include/chapters/MBQ-OQS.tex
   6842+93+79 (87/1/560/6) File(s) total: include/chapters/mpostat.tex
-  3144+12+440 (4/6/130/31) File(s) total: include/chapters/NumericalMethods.tex
+  3143+12+440 (4/6/131/31) File(s) total: include/chapters/NumericalMethods.tex
 
